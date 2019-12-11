@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/gradientbg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="71.0dp"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/ımageView1"
+        android:layout_marginTop="20.0dp" />
+    <TextView
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:gravity="center_horizontal"
+        android:text="SOSİ'ye"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:layout_marginTop="38.5dp" />
+    <TextView
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:gravity="center_horizontal"
+        android:text="ÜYE OLUN"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+    <LinearLayout
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout4"
+        android:layout_marginTop="15.5dp">
+        <LinearLayout
+            android:layout_marginRight="10dp"
+            android:background="@drawable/hesapolusturinputbg"
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="50.0dp"
+            android:id="@+id/linearLayout1">
+            <ImageView
+                android:tint="#fff"
+                android:padding="5dp"
+                android:src="@drawable/user"
+                android:layout_width="30.5dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ımageView2"
+                android:layout_marginLeft="15.0dp" />
+            <EditText
+                android:textSize="12dp"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:textColor="#11122E"
+                android:hint="Adınız"
+                android:textColorHint="#fff"
+                android:layout_marginLeft="0.0dp"
+                android:layout_marginRight="0.0dp"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText1" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/hesapolusturinputbg"
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="50.0dp"
+            android:id="@+id/linearLayout1">
+            <ImageView
+                android:tint="#fff"
+                android:padding="5dp"
+                android:src="@drawable/user"
+                android:layout_width="30.5dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ımageView2"
+                android:layout_marginLeft="15.0dp" />
+            <EditText
+                android:textSize="12dp"
+                android:paddingLeft="15dp"
+                android:background="@null"
+                android:textColor="#11122E"
+                android:hint="Soyadınız"
+                android:textColorHint="#fff"
+                android:layout_marginLeft="0.0dp"
+                android:layout_marginRight="0.0dp"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText1" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/hesapolusturinputbg"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dp"
+        android:id="@+id/linearLayout2">
+        <ImageView
+            android:tint="#fff"
+            android:padding="5dp"
+            android:src="@drawable/mail"
+            android:layout_width="30.5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ımageView2"
+            android:layout_marginLeft="15.0dp" />
+        <EditText
+            android:textSize="12dp"
+            android:paddingLeft="15dp"
+            android:background="@null"
+            android:textColor="#11122E"
+            android:hint="Email Adresiniz"
+            android:textColorHint="#fff"
+            android:layout_marginLeft="0.0dp"
+            android:layout_marginRight="0.0dp"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editText2" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/hesapolusturinputbg"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dp"
+        android:id="@+id/linearLayout2">
+        <ImageView
+            android:tint="#fff"
+            android:padding="5dp"
+            android:src="@drawable/lock"
+            android:layout_width="30.5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ımageView2"
+            android:layout_marginLeft="15.0dp" />
+        <EditText
+            android:textSize="12dp"
+            android:paddingLeft="15dp"
+            android:background="@null"
+            android:textColor="#11122E"
+            android:hint="Şifreniz"
+            android:textColorHint="#fff"
+            android:layout_marginLeft="0.0dp"
+            android:layout_marginRight="0.0dp"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editText2" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/hesapolusturinputbg"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dp"
+        android:id="@+id/linearLayout2">
+        <ImageView
+            android:tint="#fff"
+            android:padding="5dp"
+            android:src="@drawable/lock"
+            android:layout_width="30.5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ımageView2"
+            android:layout_marginLeft="15.0dp" />
+        <EditText
+            android:textSize="12dp"
+            android:paddingLeft="15dp"
+            android:background="@null"
+            android:textColor="#11122E"
+            android:hint="Şifrenizi Tekrar Girin"
+            android:textColorHint="#fff"
+            android:layout_marginLeft="0.0dp"
+            android:layout_marginRight="0.0dp"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editText2" />
+    </LinearLayout>
+    <Button
+        android:layout_marginTop="50dp"
+        android:textColor="#fff"
+        android:background="@drawable/buttonbg2"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:text="HEMEN HESAP OLUŞTUR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1" />
+</LinearLayout>

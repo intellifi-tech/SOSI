@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+     android:background="@drawable/gradientbg"
+     android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/circlePageIndicator1"
+        android:layout_marginBottom="28.5dp" />
+    <android.support.v4.view.ViewPager
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewPager1"
+        android:layout_above="@+id/circlePageIndicator1" />
+
+</RelativeLayout>
