@@ -57,19 +57,14 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relativeLayout3" >
-        <android.support.v7.widget.RecyclerView
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_below="@+id/relativeLayout2"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+        android:id="@+id/relativeLayout3">
+        <FrameLayout
+            android:layout_above="@+id/linearLayout1"
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/linearLayout1"
-            android:id="@+id/recyclerView1" />
+            android:id="@+id/conteinerview"/>
         <LinearLayout
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
@@ -77,7 +72,7 @@
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout1" >
+            android:id="@+id/linearLayout1">
             <Button
                 android:textColor="#fff"
                 android:background="@drawable/gradientbg_raunded"
@@ -87,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/button1" />
-             <Button
+            <Button
                 android:textColor="#fff"
                 android:background="@drawable/gradientbg_raunded"
                 android:layout_marginLeft="50dp"
@@ -97,7 +92,7 @@
                 android:text="Yeni Şablon"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/button1" />
+                android:id="@+id/button2" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -96,10 +96,13 @@
     <Compile Include="IsletmeProfiliOlustur\LogoYukleBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\ProfilOlustuBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\SektorSecBaseActivity.cs" />
+    <Compile Include="MainPage\GrafikIslemeDurumFragment.cs" />
     <Compile Include="MainPage\MainPageBaseActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Splashh\Splash.cs" />
+    <Compile Include="YeniSablonOlustur\Bilgilendirme\InformationBaseActivity.cs" />
+    <Compile Include="YeniSablonOlustur\YeniSablonOlusturBaseActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\loading1.json" />
@@ -109,6 +112,8 @@
     <AndroidAsset Include="Assets\success1.json" />
     <AndroidAsset Include="Assets\patlangec1.json" />
     <AndroidAsset Include="Assets\header2.json" />
+    <AndroidAsset Include="Assets\isleniyor2.json" />
+    <AndroidAsset Include="Assets\isleniyor1.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -1900,9 +1905,34 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\GrafikIslemeDurum.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\male_avatar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\YeniSablonOlusturBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\InformationBaseAcivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\InformationFragmentParca.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\pizzaimg1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\pizzaimg2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

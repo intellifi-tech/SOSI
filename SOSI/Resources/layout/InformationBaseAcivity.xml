@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@drawable/profileheaderbg"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="102.5dp"
+        android:id="@+id/relativeLayout1" >
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout2" >
+            <ImageButton
+                android:tint="#fff"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/arrow_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/ımageButton1" />
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:text="Bilgilendirme"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/textView1" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textColor="#686868"
+        android:gravity="center"
+        android:text="Fotoğraf yüklemeye geçmeden önce;"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1"
+        android:layout_marginTop="14.5dp"
+        android:layout_marginBottom="17.5dp" />
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/relativeLayout3">
+        <RelativeLayout
+            android:layout_above="@+id/circlePageIndicator1"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/relativeLayout4" >
+        <android.support.v4.view.ViewPager
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager1" />
+            <ImageButton
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:elevation="5dp"
+                android:background="@drawable/beyazbadge"
+                android:src="@drawable/chevrons_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/ımageButton2" />
+            <ImageButton
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:elevation="5dp"
+                android:background="@drawable/beyazbadge"
+                android:src="@drawable/chevrons_right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/ımageButton3" />
+        </RelativeLayout>
+        <dk.ostebaronen.droid.viewpagerindicator.CirclePageIndicator
+            android:layout_above="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/circlePageIndicator1"
+            android:layout_marginBottom="10.5dp" />
+        <Button
+            android:layout_alignParentBottom="true"
+            android:textColor="#fff"
+            android:background="@drawable/gradientbg_raunded"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Örnek Çalışmalar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/button1" />
+    </RelativeLayout>
+</LinearLayout>
