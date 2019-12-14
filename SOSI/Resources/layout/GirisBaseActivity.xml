@@ -101,14 +101,14 @@
             android:id="@+id/editText2" />
     </LinearLayout>
      <Button
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:textColor="#fff"
         android:background="@drawable/buttonbg2"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:text="GİRİŞ YAP"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/button1" />
     <LinearLayout
         android:layout_marginTop="12.0dp"

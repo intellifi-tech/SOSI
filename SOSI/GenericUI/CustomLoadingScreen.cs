@@ -17,38 +17,30 @@ namespace SOSI.GenericUI
 {
     public class CustomLoadingScreen : Android.Support.V7.App.AppCompatDialogFragment
     {
-        #region Tanitim
-        string Des1;
-        TextView DesText;
-        ProgressBar progresss;
-        Typeface normall, boldd;
-        #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            
+
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
             base.OnActivityCreated(savedInstanceState);
-            Dialog.Window.Attributes.WindowAnimations = Resource.Style.action_sheet_animation;
+            //Dialog.Window.SetBackgroundDrawableResource(Android.Resource.Color.Transparent);
+            // Dialog.Window.Attributes.WindowAnimations = Resource.Style.action_sheet_animation;
         }
-        
-        public CustomLoadingScreen(string Des2)
+
+        public CustomLoadingScreen()
         {
-            Des1 = Des2;
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View rootView = inflater.Inflate(Resource.Layout.CustomLoadingScreen, container, false);
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
-            //Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.CenterVertical);
-            DesText = rootView.FindViewById<TextView>(Resource.Id.textView1);
-            DesText.Text = Des1;
-            progresss = rootView.FindViewById<ProgressBar>(Resource.Id.progressBar1);
-            progresss.ProgressBackgroundTintList = ColorStateList.ValueOf(Color.Black);
-            boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
-            normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
-            DesText.SetTypeface(normall, TypefaceStyle.Normal);
+            Dialog.Window.SetDimAmount(0);
             return rootView;
+        }
+        public override void OnStart()
+        {
+            base.OnStart();
+            ShowLoading.CustomLoadingScreen1 = this;
         }
     }
 
@@ -56,25 +48,23 @@ namespace SOSI.GenericUI
     {
         public static CustomLoadingScreen CustomLoadingScreen1 { get; set; }
         public static Context BaseContext { get; set; }
-        public static void Show(Context context,string Des,bool Cancelable = false)
+        public static void Show(Context context, bool Cancelable = false)
         {
             ((Android.Support.V7.App.AppCompatActivity)context).RunOnUiThread(() => {
                 BaseContext = context;
-                CustomLoadingScreen1 = new CustomLoadingScreen(Des);
+                CustomLoadingScreen1 = new CustomLoadingScreen();
                 CustomLoadingScreen1.Cancelable = Cancelable;
                 try
                 {
                     CustomLoadingScreen1.Show(((Android.Support.V7.App.AppCompatActivity)BaseContext).SupportFragmentManager, "CustomLoadingScreen1");
-
                 }
-                catch 
+                catch
                 {
                 }
             });
         }
         public static void Hide()
         {
-
             ((Android.Support.V7.App.AppCompatActivity)BaseContext).RunOnUiThread(() => {
                 try
                 {

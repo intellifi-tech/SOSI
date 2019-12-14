@@ -49,7 +49,7 @@
         android:layout_weight="60"
         android:id="@+id/ımageView1" />
     <TextView
-        android:textColor="#1E203E"
+        android:textColor="#fff"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:gravity="center"

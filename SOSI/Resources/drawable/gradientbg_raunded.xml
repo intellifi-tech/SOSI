@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item>
     <shape>
@@ -7,6 +7,8 @@
           android:startColor="#00A1FF"
           android:endColor="#c800b3"
           android:type="linear" />
+      <corners
+          android:radius="200dp"/>
     </shape>
   </item>
 </selector>

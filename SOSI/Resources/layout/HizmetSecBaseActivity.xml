@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000"
+        android:text="2. Adım"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1" >
+        <View
+            android:background="@drawable/gradientbg_raunded"
+            android:layout_weight="50"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:id="@+id/view1" />
+        <View
+            android:layout_weight="50"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:id="@+id/view1" />
+    </LinearLayout>
+    <TextView
+        android:gravity="center"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000"
+        android:text="Hizmet"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <TextView
+        android:textColor="#686868"
+        android:gravity="center"
+        android:text="İşletmenizde hangi hizmetleri veriyorsunuz?"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginTop="5.0dp" />
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout1" >
+        <android.support.v7.widget.RecyclerView
+            android:background="#f5f5f5"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button1"
+            android:id="@+id/recyclerView1"
+            android:layout_marginTop="12.0dp" />
+        <Button
+            android:background="@drawable/gradientbg"
+            android:layout_alignParentBottom="true"
+            android:textColor="#fff"
+            android:text="Devam Et"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/button1" />
+    </RelativeLayout>
+</LinearLayout>

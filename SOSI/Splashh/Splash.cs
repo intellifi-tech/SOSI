@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using SOSI.AppIntro;
 using SOSI.GenericClass;
+using SOSI.IsletmeProfiliOlustur;
 
 namespace SOSI.Splashh
 {
@@ -35,7 +36,7 @@ namespace SOSI.Splashh
             //Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
             await Task.Delay(2000); // Simulate a bit of startup work.
             //Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
-            StartActivity(new Intent(Application.Context, typeof(AppIntroBaseActivity)));
+            StartActivity(new Intent(Application.Context, typeof(AppIntroBaseActivity)));//AppIntroBaseActivity
             this.Finish();
         }
         async void HazirlikYap()
@@ -46,7 +47,7 @@ namespace SOSI.Splashh
             });
             this.RunOnUiThread(delegate ()
             {
-                StartActivity(typeof(AppIntroBaseActivity));
+                StartActivity(typeof(ProfilOlustuBaseActivity));//AppIntroBaseActivity
             });
             //var Kullanici = DataBase.USER_INFO_GETIR();
 

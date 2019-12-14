@@ -12,6 +12,7 @@ using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
 using SOSI.GenericClass;
+using SOSI.IsletmeProfiliOlustur;
 
 namespace SOSI.GirisKayit
 {
@@ -45,7 +46,8 @@ namespace SOSI.GirisKayit
 
         private void GirisButton_Click(object sender, EventArgs e)
         {
-            //StartActivity(typeof(MainPageBaseActivity));
+            this.StartActivity(typeof(SektorSecBaseActivity));
+            //OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_right);
             this.Finish();
         }
 
