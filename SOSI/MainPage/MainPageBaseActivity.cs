@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using Refractored.Controls;
 using SOSI.GenericClass;
+using SOSI.Paketler;
+using SOSI.TamamlanmisSablonlar;
 using SOSI.YeniSablonOlustur;
 
 namespace SOSI.MainPage
@@ -21,6 +23,7 @@ namespace SOSI.MainPage
         CircleImageView IsletmeLogo;
         Android.Support.V4.App.FragmentTransaction ft;
         Button HazirSablonlar, YeniSablonOlustur;
+        ImageButton PaketAl;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,18 +33,27 @@ namespace SOSI.MainPage
             IsletmeLogo = FindViewById<CircleImageView>(Resource.Id.profile_image);
             HazirSablonlar = FindViewById<Button>(Resource.Id.button1);
             YeniSablonOlustur = FindViewById<Button>(Resource.Id.button2);
+            PaketAl = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            PaketAl.Click += PaketAl_Click;
             HazirSablonlar.Click += HazirSablonlar_Click;
             YeniSablonOlustur.Click += YeniSablonOlustur_Click;
         }
 
+        private void PaketAl_Click(object sender, EventArgs e)
+        {
+            var PaketlerDialogFragment1 = new PaketlerDialogFragment();
+            PaketlerDialogFragment1.Show(this.SupportFragmentManager, "PaketlerDialogFragment1");
+        }
+
         private void YeniSablonOlustur_Click(object sender, EventArgs e)
         {
-            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+            var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
+            PaylasimSayisiDialogFragment1.Show(this.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }
 
         private void HazirSablonlar_Click(object sender, EventArgs e)
         {
-            
+            StartActivity(typeof(TamamlanmisSablonlarBaseActivity));
         }
 
         protected override void OnStart()

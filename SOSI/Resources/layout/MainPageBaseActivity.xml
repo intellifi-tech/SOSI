@@ -40,6 +40,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView1" />
+                <ImageButton
+                    android:layout_marginTop="39dp"
+                    android:layout_alignParentRight="true"
+                    android:tint="#fff"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/diamond"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/ımageButton1" />
             </RelativeLayout>
      </com.github.florent37.shapeofview.shapes.ArcView>
         <refractored.controls.CircleImageView

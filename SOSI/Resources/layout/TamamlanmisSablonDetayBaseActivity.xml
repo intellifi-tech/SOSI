@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@drawable/profileheaderbg"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="102.5dp"
+        android:id="@+id/relativeLayout1" >
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout2" >
+            <ImageButton
+                android:tint="#fff"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/arrow_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/ımageButton1" />
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:text="Paylaşım Detayı"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/textView1" />
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp">
+                <ImageButton
+                    android:tint="#fff"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/edit_1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/ımageButton2" />
+                <ImageButton
+                    android:tint="#fff"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/send"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/ımageButton3" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginBottom="15dp"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout3">
+        <ScrollView
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button1"
+            android:id="@+id/scrollView1" >
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout1" >
+                <LinearLayout
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        android:minWidth="25px"
+                        android:minHeight="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linearLayout2" >
+                        <TextView
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:background="@drawable/gradientbg_raunded"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="#fff"
+                            android:text="Normal Post"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView2" />
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#686868"
+                            android:text="1 Ocak, 14:00"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView3" />
+                    </LinearLayout>
+                <com.ebr163.bifacialview.view.BifacialView
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:arrowColor="#fff"
+                    app:arrowCornerRadius="2dp"
+                    app:arrowFill="true"
+                    app:arrowStrokeWidth="3dp"
+                    app:arrowWidth="27dp"
+                    app:arrowHeight="41dp"
+                    app:arrowMargin="10dp"
+                    app:arrowVisibility="true"
+                    app:delimiterWidth="3dp"
+                    app:touchMode="delimiter"
+                    app:drawableLeft="@mipmap/pizzaimg2"
+                    app:drawableRight="@mipmap/pizzaimg3"
+                    app:leftText="before"
+                    app:rightText="after"
+                    app:textColor="@android:color/transparent"
+                    app:textSize="20sp"
+                    app:delimiterPadding="20dp"/>
+                 <TextView
+                    android:layout_marginTop="10dp"
+                     android:textColor="#686868"
+                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+                     android:textAppearance="?android:attr/textAppearanceSmall"
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:id="@+id/textView3" />
+            </LinearLayout>
+          </ScrollView>
+        <Button
+            android:layout_alignParentBottom="true"
+            android:textColor="#fff"
+            android:background="@drawable/gradientbg_raunded"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Paylaş"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/button1" />
+    </RelativeLayout>
+</LinearLayout>

@@ -30,21 +30,13 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#fff"
                 android:gravity="center"
-                android:text="Yeni Şablon"
+                android:text="Tamamlanmış Şablon"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="25px"
                 android:minHeight="25px"
                 android:id="@+id/textView1" />
-            <ImageButton
-                android:layout_alignParentRight="true"
-                android:tint="#fff"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/info"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/ımageButton2" />
         </RelativeLayout>
     </RelativeLayout>
     <TextView
@@ -52,7 +44,7 @@
         android:layout_marginRight="15dp"
         android:textColor="#686868"
         android:gravity="center"
-        android:text="1 aylık paylaşım için lütfen ** adet fotoğraf yükleyin ve isimlerini girin;"
+        android:text="Grafik çalışmaları tamamlanmış görselere tıklayarak paylaşabilir veya detaylarını inceleyebilirsiniz."
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,11 +54,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp" />
     <RelativeLayout
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/relativeLayout3">
         <android.support.v7.widget.RecyclerView
             android:layout_below="@+id/relativeLayout2"
@@ -77,15 +69,5 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/button1"
             android:id="@+id/recyclerView1" />
-        <Button
-            android:layout_alignParentBottom="true"
-            android:textColor="#fff"
-            android:background="@drawable/gradientbg_raunded"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:text="Şablonu Gönder"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/button1" />
     </RelativeLayout>
 </LinearLayout>

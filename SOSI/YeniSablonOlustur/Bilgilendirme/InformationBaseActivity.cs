@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using SOSI.GenericClass;
+using SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma;
 
 namespace SOSI.YeniSablonOlustur.Bilgilendirme
 {
@@ -22,6 +23,7 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
         ViewPager viewpager;
         protected IPageIndicator _indicator;
         ImageButton Ileri, Geri;
+        Button OrnekCalismalar;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -30,6 +32,8 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
             dinamikStatusBarColor.SetFullScreen(this);
             Ileri = FindViewById<ImageButton>(Resource.Id.ımageButton3);
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            OrnekCalismalar = FindViewById<Button>(Resource.Id.button1);
+            OrnekCalismalar.Click += OrnekCalismalar_Click;
             Ileri.Click += Ileri_Click;
             Geri.Click += Geri_Click;
             viewpager = FindViewById<ViewPager>(Resource.Id.viewPager1);
@@ -44,6 +48,11 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
             ((CirclePageIndicator)_indicator).FillColor = Color.Transparent;
             ((CirclePageIndicator)_indicator).StrokeColor = Color.ParseColor("#00A1FF");
             ((CirclePageIndicator)_indicator).StrokeWidth = 3f;
+        }
+
+        private void OrnekCalismalar_Click(object sender, EventArgs e)
+        {
+            this.StartActivity(typeof(OrnekCalismaBaseActivity));
         }
 
         private void Geri_Click(object sender, EventArgs e)

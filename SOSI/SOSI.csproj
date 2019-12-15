@@ -98,10 +98,19 @@
     <Compile Include="IsletmeProfiliOlustur\SektorSecBaseActivity.cs" />
     <Compile Include="MainPage\GrafikIslemeDurumFragment.cs" />
     <Compile Include="MainPage\MainPageBaseActivity.cs" />
+    <Compile Include="Paketler\PaketlerDialogFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Splashh\Splash.cs" />
+    <Compile Include="TamamlanmisSablonlar\SablonDetay\RevizeGonderBaseActivity.cs" />
+    <Compile Include="TamamlanmisSablonlar\SablonDetay\SablonDetayBaseActivity.cs" />
+    <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonRecyclerviewAdepter.cs" />
+    <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonlarBaseActivity.cs" />
     <Compile Include="YeniSablonOlustur\Bilgilendirme\InformationBaseActivity.cs" />
+    <Compile Include="YeniSablonOlustur\Bilgilendirme\OrnekCalisma\OrnekCalismaRecyclerviewAdepter.cs" />
+    <Compile Include="YeniSablonOlustur\Bilgilendirme\OrnekCalisma\OrnekCalismaBaseActivity.cs" />
+    <Compile Include="YeniSablonOlustur\GorselYukleRecyclerviewAdepter.cs" />
+    <Compile Include="YeniSablonOlustur\PaylasimSayisiDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\YeniSablonOlusturBaseActivity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -151,11 +160,17 @@
     <PackageReference Include="Karamunting.Android.Florent37.ShapeOfView">
       <Version>1.3.2</Version>
     </PackageReference>
+    <PackageReference Include="Karamunting.Android.Pavel163.BifacialView">
+      <Version>1.3.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Refractored.Controls.CircleImageView">
       <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.CreditCardView">
+      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Annotations">
       <Version>28.0.0.3</Version>
@@ -1934,6 +1949,58 @@
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\pizzaimg2.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\OrnekCalismalarBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\OrnekCalismalarCustomCardView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\pizzaimg3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PaylasimSayisiSecDialogFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\paketgradientbg_rounded.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\YeniSablonGorselYukleCardView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TamamlanmisSablonlarBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TamamlanmisSablonDetayBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TamamlanmisSablonlarCustomCardView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RevizeGonderBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PaketlerDialogFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
