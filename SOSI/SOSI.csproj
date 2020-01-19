@@ -92,8 +92,11 @@
     <Compile Include="GirisKayit\HesapOlusturActivity.cs" />
     <Compile Include="GirisKayit\HosgeldinActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\HizmetSecBaseActivity.cs" />
+    <Compile Include="IsletmeProfiliOlustur\IsletmeProfiliBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\KurumsalRenkSecBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\LogoYukleBaseActivity.cs" />
+    <Compile Include="IsletmeProfiliOlustur\KurumsalRenkRecyclerviewAdepter.cs" />
+    <Compile Include="IsletmeProfiliOlustur\StringRecyclerviewAdepter.cs" />
     <Compile Include="IsletmeProfiliOlustur\ProfilOlustuBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\SektorSecBaseActivity.cs" />
     <Compile Include="MainPage\GrafikIslemeDurumFragment.cs" />
@@ -123,6 +126,7 @@
     <AndroidAsset Include="Assets\header2.json" />
     <AndroidAsset Include="Assets\isleniyor2.json" />
     <AndroidAsset Include="Assets\isleniyor1.json" />
+    <AndroidAsset Include="Assets\ColorList.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -2000,7 +2004,21 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\IsletmeProfiliBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\StringCardView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\KurumsalRenkCardView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

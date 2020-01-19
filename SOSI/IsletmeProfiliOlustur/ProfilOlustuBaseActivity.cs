@@ -12,6 +12,7 @@ using Android.Widget;
 using Com.Airbnb.Lottie;
 using SOSI.GenericClass;
 using SOSI.MainPage;
+using static SOSI.IsletmeProfiliOlustur.IsletmeProfiliBaseActivity;
 
 namespace SOSI.IsletmeProfiliOlustur
 {
@@ -37,6 +38,7 @@ namespace SOSI.IsletmeProfiliOlustur
             DevamEtButton.Visibility = ViewStates.Invisible;
             Baslik.Visibility = ViewStates.Invisible;
             Acikalama.Visibility = ViewStates.Invisible;
+            Acikalama.Text = IsletmeBilgileri.IsletmeAdi + "\n" + "İşletme profiliniz oluşturuldu. Şimdi sosyal medya hesaplarınız için biraz grafik çalışalım!";
             DevamEtButton.Click += DevamEtButton_Click;
         }
 

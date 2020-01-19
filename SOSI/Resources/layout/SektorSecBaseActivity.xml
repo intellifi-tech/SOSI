@@ -87,16 +87,7 @@
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/button1"
             android:id="@+id/recyclerView1"
             android:layout_marginTop="12.0dp" />
-        <Button
-            android:background="@drawable/gradientbg"
-            android:layout_alignParentBottom="true"
-            android:textColor="#fff"
-            android:text="Devam Et"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/button1" />
     </RelativeLayout>
 </LinearLayout>

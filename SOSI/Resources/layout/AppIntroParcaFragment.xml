@@ -63,7 +63,7 @@
         android:background="@drawable/buttonbg2"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:text="Devam Et"
+        android:text="ÜCRETSİZ BAŞLA!"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/button1"

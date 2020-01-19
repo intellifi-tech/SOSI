@@ -46,7 +46,7 @@ namespace SOSI.GirisKayit
 
         private void GirisButton_Click(object sender, EventArgs e)
         {
-            this.StartActivity(typeof(SektorSecBaseActivity));
+            this.StartActivity(typeof(IsletmeProfiliBaseActivity));
             //OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_right);
             this.Finish();
         }

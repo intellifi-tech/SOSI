@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+     android:background="@drawable/gradientbg"
+     android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/viewPager1"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:background="@drawable/gradientbg"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1" >
+    <Button
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="#fff"
+            android:text="GERİ"
+            android:layout_weight="50"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:id="@+id/button2" />
+    <Button
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="#fff"
+            android:text="İLERİ"
+            android:layout_weight="50"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:id="@+id/button1" />
+</LinearLayout>
+</RelativeLayout>
