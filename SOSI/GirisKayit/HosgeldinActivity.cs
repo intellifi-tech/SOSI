@@ -10,25 +10,27 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using SOSI.GenericClass;
+using SOSI.IsletmeProfiliOlustur;
 
 namespace SOSI.GirisKayit
 {
     [Activity(Label = "SOSI")]
     public class HosgeldinActivity : Android.Support.V7.App.AppCompatActivity
     {
-        Button TesteBasla;
+        Button DevamEt;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.HosgeldinActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
             dinamikStatusBarColor.SetFullScreen(this);
-            TesteBasla = FindViewById<Button>(Resource.Id.button1);
-            TesteBasla.Click += TesteBasla_Click;
+            DevamEt = FindViewById<Button>(Resource.Id.button1);
+            DevamEt.Click += DevamEt_Click;
         }
 
-        private void TesteBasla_Click(object sender, EventArgs e)
+        private void DevamEt_Click(object sender, EventArgs e)
         {
+            this.StartActivity(typeof(IsletmeProfiliBaseActivity));
             this.Finish();
         }
     }

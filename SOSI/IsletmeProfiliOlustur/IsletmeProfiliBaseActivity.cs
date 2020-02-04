@@ -13,8 +13,12 @@ using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
+using Refractored.Controls;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
+using SOSI.WebServicee;
+using static SOSI.IsletmeProfiliOlustur.ProfilOlustuBaseActivity;
 
 namespace SOSI.IsletmeProfiliOlustur
 {
@@ -24,6 +28,7 @@ namespace SOSI.IsletmeProfiliOlustur
         ViewPager viewpager;
         RelativeLayout Transformiew;
         Button IlerButton, GeriButton;
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -54,11 +59,91 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             else
             {
-                ((LogoFragment)fragments[3]).IsletmeAdiniGetir();
-                this.StartActivity(typeof(ProfilOlustuBaseActivity));
-                OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
-                this.Finish();
+                if (!EsksikVarmi())
+                {
+                    IsletmeBilgileriDTOOlustur();
+                }
+
+                //((LogoFragment)fragments[3]).IsletmeAdiniGetir();
+                
             }
+        }
+
+        void IsletmeBilgileriDTOOlustur()
+        {
+            ShowLoading.Show(this);
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                string jsonString = "";
+                this.RunOnUiThread(delegate ()
+                {
+                    KayitIcinIsletmeBilgileri kayitIcinIsletmeBilgileri = new KayitIcinIsletmeBilgileri()
+                    {
+                        companyColor = ((KurumsalRenkFragment)fragments[0]).GetSeletedColor(),
+                        logoPath = ((LogoFragment)fragments[0]).GetCompanyLogoPath(),
+                        name = ((LogoFragment)fragments[0]).GetCompanyName(),
+                        sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
+                        serviceAreaId = ((HizmetFragment)fragments[0]).GetSeletedHizmetID(),
+                    };
+                    jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
+                    IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;
+                });
+                 
+                WebService webService = new WebService();
+                var Donus = webService.ServisIslem("company-informations", jsonString);
+                if (Donus != "Hata")
+                {
+                    ShowLoading.Hide();
+                    this.RunOnUiThread(delegate ()
+                    {
+                        this.StartActivity(typeof(ProfilOlustuBaseActivity));
+                        OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
+                        this.Finish();
+                    });
+                }
+                else
+                {
+                    this.RunOnUiThread(delegate ()
+                    {
+                        Toast.MakeText(this, "Bir sorun oluştu lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        ShowLoading.Hide();
+                    });
+                    
+                }
+                
+            })).Start();
+        }
+
+        bool EsksikVarmi()
+        {
+            if (((SeoktorFragment)fragments[0]).GetSeletedSectorID() == "null")
+            {
+                Toast.MakeText(this, "Lütfen Sektör Seçin", ToastLength.Long).Show();
+                return false;
+            }
+            else if(((HizmetFragment)fragments[0]).GetSeletedHizmetID() == "null")
+            {
+                Toast.MakeText(this, "Lütfen Hizmet Alanını Seçin", ToastLength.Long).Show();
+                return false;
+            }
+            else if (((KurumsalRenkFragment)fragments[0]).GetSeletedColor() == "null")
+            {
+                Toast.MakeText(this, "Lütfen Kurumsal Rekginizi Seçin", ToastLength.Long).Show();
+                return false;
+            }
+            else if (((LogoFragment)fragments[0]).GetCompanyName() == "null")
+            {
+                Toast.MakeText(this, "Lütfen İşletme Adınızı Yazın", ToastLength.Long).Show();
+                return false;
+            }
+            else if (((LogoFragment)fragments[0]).GetCompanyLogoPath() == "null")
+            {
+                Toast.MakeText(this, "Lütfen İşletmenizin Logosunu Yükleyin", ToastLength.Long).Show();
+                return false;
+            }
+
+
+            return false;
         }
 
         Android.Support.V4.App.Fragment[] fragments;
@@ -93,16 +178,21 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             viewpager.SetPageTransformer(true, new IntroTransformer(Transformiew));
         }
-
-
-        public static class IsletmeBilgileri
+        public class KayitIcinIsletmeBilgileri
         {
-            public static string IsletmeAdi { get; set; }
+            public string companyColor { get; set; }
+            public string id { get; set; }
+            public string logoPath { get; set; }
+            public string name { get; set; }
+            public string sectorId { get; set; }
+            public string serviceAreaId { get; set; }
         }
-
+       
         public class StringDTO
         {
-            public string Metin { get; set; }
+            public string name { get; set; }
+            public string id { get; set; }
+            public string sectorId { get; set; }//Sadece Listesi Hizmetler DTO sunda geliyor
             public bool IsSelect { get; set; }
         }
 
@@ -154,26 +244,48 @@ namespace SOSI.IsletmeProfiliOlustur
                 })).Start();
                 return view;
             }
+            public override void OnStart()
+            {
+                base.OnStart();
+                ShowLoading.Show(this.Activity);
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                {
+                    SektorleriGetir();
+
+                })).Start();
+            }
             void SektorleriGetir()
             {
-                for (int i = 0; i < 20; i++)
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("sectors");
+                if (Donus!=null)
                 {
-                    SektorList.Add(new StringDTO() { 
-                        IsSelect=false,
-                        Metin = "Lorem Impus Sit Dolor Amed"
-                    });
+                    SektorList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<StringDTO>>(Donus.ToString());
+                    if (SektorList.Count>0)
+                    {
+                        this.Activity.RunOnUiThread(delegate
+                        {
+                            mViewAdapter = new StringRecyclerViewAdapter(SektorList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                            mRecyclerView.HasFixedSize = true;
+                            mLayoutManager = new LinearLayoutManager(this.Activity);
+                            mRecyclerView.SetLayoutManager(mLayoutManager);
+                            mRecyclerView.SetAdapter(mViewAdapter);
+                            mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                        });
+                    }
+                    else
+                    {
+                        Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        return;
+                    }
                 }
-                this.Activity.RunOnUiThread(delegate
+                else
                 {
-                    mViewAdapter = new StringRecyclerViewAdapter(SektorList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
-                    mRecyclerView.HasFixedSize = true;
-                    mLayoutManager = new LinearLayoutManager(this.Activity);
-                    mRecyclerView.SetLayoutManager(mLayoutManager);
-                    mRecyclerView.SetAdapter(mViewAdapter);
-                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                });
+                    Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                    return;
+                }
+                ShowLoading.Hide();
             }
-
             private void MViewAdapter_ItemClick(object sender, object[] e)
             {
                 if (SektorList.Count > 0)
@@ -185,9 +297,18 @@ namespace SOSI.IsletmeProfiliOlustur
                 }
             }
 
-            public override void OnStart()
+            public string GetSeletedSectorID()
             {
-                base.OnStart();
+                var SecilenSektor = SektorList.FindAll(item => item.IsSelect == true);
+
+                if (SecilenSektor.Count > 0)
+                {
+                    return SecilenSektor.Last().id;
+                }
+                else
+                {
+                    return "null";
+                }
             }
         }
         public class HizmetFragment : Android.Support.V4.App.Fragment
@@ -196,7 +317,7 @@ namespace SOSI.IsletmeProfiliOlustur
             RecyclerView mRecyclerView;
             RecyclerView.LayoutManager mLayoutManager;
             StringRecyclerViewAdapter mViewAdapter;
-            List<StringDTO> SektorList = new List<StringDTO>();
+            List<StringDTO> HizmetList = new List<StringDTO>();
             public HizmetFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -205,47 +326,78 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 View view = inflater.Inflate(Resource.Layout.HizmetSecBaseActivity, container, false);
                 mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView1);
-                new System.Threading.Thread(new System.Threading.ThreadStart(async delegate
-                {
-                    await Task.Run(async delegate {
-                        await Task.Delay(1000);
-                        SektorleriGetir();
-                    });
-                })).Start();
                 return view;
 
             }
-            void SektorleriGetir()
+            public override void OnStart()
             {
-                for (int i = 0; i < 20; i++)
+                base.OnStart();
+
+                ShowLoading.Show(this.Activity);
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
-                    SektorList.Add(new StringDTO()
+                    HizmetleriGetir();
+
+                })).Start();
+            }
+            void HizmetleriGetir()
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("service-areas");
+                if (Donus != null)
+                {
+                    HizmetList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<StringDTO>>(Donus.ToString());
+                    if (HizmetList.Count > 0)
                     {
-                        IsSelect = false,
-                        Metin = "Lorem Impus Sit Dolor Amed"
-                    });
+                        this.Activity.RunOnUiThread(delegate
+                        {
+                            mViewAdapter = new StringRecyclerViewAdapter(HizmetList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                            mRecyclerView.HasFixedSize = true;
+                            mLayoutManager = new LinearLayoutManager(this.Activity);
+                            mRecyclerView.SetLayoutManager(mLayoutManager);
+                            mRecyclerView.SetAdapter(mViewAdapter);
+                            mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                        });
+                    }
+                    else
+                    {
+                        Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        return;
+                    }
                 }
-                this.Activity.RunOnUiThread(delegate
+                else
                 {
-                    mViewAdapter = new StringRecyclerViewAdapter(SektorList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
-                    mRecyclerView.HasFixedSize = true;
-                    mLayoutManager = new LinearLayoutManager(this.Activity);
-                    mRecyclerView.SetLayoutManager(mLayoutManager);
-                    mRecyclerView.SetAdapter(mViewAdapter);
-                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                });
+                    Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                    return;
+                }
+                ShowLoading.Hide();
             }
 
             private void MViewAdapter_ItemClick(object sender, object[] e)
             {
-                if (SektorList.Count > 0)
+                if (HizmetList.Count > 0)
                 {
-                    SektorList.ForEach(item => item.IsSelect = false);
-                    SektorList[(int)e[0]].IsSelect = true;
-                    mViewAdapter.mData = SektorList;
+                    HizmetList.ForEach(item => item.IsSelect = false);
+                    HizmetList[(int)e[0]].IsSelect = true;
+                    mViewAdapter.mData = HizmetList;
                     mViewAdapter.NotifyDataSetChanged();
                 }
             }
+
+            public string GetSeletedHizmetID()
+            {
+                var SecilenSektor = HizmetList.FindAll(item => item.IsSelect == true);
+
+                if (SecilenSektor.Count > 0)
+                {
+                    return SecilenSektor.Last().id;
+                }
+                else
+                {
+                    return "null";
+                }
+            }
+
         }
         public class KurumsalRenkFragment : Android.Support.V4.App.Fragment
         {
@@ -318,11 +470,29 @@ namespace SOSI.IsletmeProfiliOlustur
                     mViewAdapter.NotifyDataSetChanged();
                 }
             }
+
+            public string GetSeletedColor()
+            {
+                var SecilenSektor = KurumsalRenkDTO1.FindAll(item => item.IsSelect == true);
+
+                if (SecilenSektor.Count > 0)
+                {
+                    return SecilenSektor.Last().hexString;
+                }
+                else
+                {
+                    return "null";
+                }
+            }
         }
         public class LogoFragment : Android.Support.V4.App.Fragment
         {
             IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity1;
             EditText IsletmeAdi;
+            CircleImageView circleImageView;
+            ImageButton LogoYukleButton;
+            byte[] SecilenGoruntuByte;
+            string LogoPath;
             public LogoFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -331,11 +501,64 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 View view = inflater.Inflate(Resource.Layout.LogoSecBaseActivity, container, false);
                 IsletmeAdi = view.FindViewById<EditText>(Resource.Id.editText1);
+                circleImageView = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
+                LogoYukleButton = view.FindViewById<ImageButton>(Resource.Id.logoyuklebutton);
+                LogoYukleButton.Click += LogoYukleButton_Click;
                 return view;
             }
-            public void IsletmeAdiniGetir()
+
+            private void LogoYukleButton_Click(object sender, EventArgs e)
             {
-                IsletmeBilgileri.IsletmeAdi = IsletmeAdi.Text;
+                var Intent = new Intent();
+                Intent.SetType("image/*");
+                Intent.SetAction(Intent.ActionGetContent);
+                StartActivityForResult(Intent.CreateChooser(Intent, "Logo Seç"), 444);
+            }
+
+            public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+            {
+                base.OnActivityResult(requestCode, resultCode, data);
+                if ((requestCode == 444) && (resultCode == (int)Android.App.Result.Ok) && (data != null))
+                {
+                    Android.Net.Uri uri = data.Data;
+                    using (var inputStream = this.Activity.ContentResolver.OpenInputStream(uri))
+                    {
+                        using (var streamReader = new System.IO.StreamReader(inputStream))
+                        {
+                            var bytes = default(byte[]);
+                            using (var memstream = new System.IO.MemoryStream())
+                            {
+                                streamReader.BaseStream.CopyTo(memstream);
+                                bytes = memstream.ToArray();
+                                SecilenGoruntuByte = bytes;
+                                circleImageView.SetImageURI(uri);
+                            }
+                        }
+                    }
+                }
+            }
+            public string GetCompanyName()
+            {
+                if (!String.IsNullOrEmpty(IsletmeAdi.Text.Trim()))
+                {
+                    return IsletmeAdi.Text.Trim();
+                }
+                else
+                {
+                    return "null";
+                }
+            }
+
+            public string GetCompanyLogoPath()
+            {
+                if (!String.IsNullOrEmpty(LogoPath))
+                {
+                    return LogoPath;
+                }
+                else
+                {
+                    return "null";
+                }
             }
         }
     }

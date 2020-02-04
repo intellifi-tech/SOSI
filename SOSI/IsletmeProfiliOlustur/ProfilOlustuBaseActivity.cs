@@ -78,5 +78,10 @@ namespace SOSI.IsletmeProfiliOlustur
             animationView2.PlayAnimation();
             
         }
+        public class IsletmeAdiClass
+        {
+            public static string IsletmeAdi { get; set; }
+        }
     }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#fff"
     android:layout_width="match_parent"
@@ -81,14 +82,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/editText1" />
-            <ImageView
-                android:scaleType="centerInside"
-                android:layout_centerInParent="true"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:id="@+id/ımageButton1" />
+             <refractored.controls.CircleImageView
+                   android:layout_centerInParent="true"
+                   android:id="@+id/profile_image"
+                   android:layout_width="200dp"
+                   android:layout_height="200dp"
+                   app:civ_border_width="7dp"
+                   app:civ_border_color="#C404B6"/>
             <ImageButton
-                android:padding="20dp"
+                android:padding="50dp"
                 android:tint="#fff"
                 android:background="@drawable/gradientbg_raunded"
                 android:scaleType="centerInside"
@@ -96,7 +98,7 @@
                 android:src="@mipmap/addimageimg1"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:id="@+id/ımageButton1" />
+                android:id="@+id/logoyuklebutton" />
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

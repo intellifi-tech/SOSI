@@ -10,8 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using SOSI.AppIntro;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.GirisKayit;
 using SOSI.IsletmeProfiliOlustur;
+using SOSI.MainPage;
 
 namespace SOSI.Splashh
 {
@@ -33,34 +36,31 @@ namespace SOSI.Splashh
         }
         async void SimulateStartup()
         {
-            //Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
-            await Task.Delay(2000); // Simulate a bit of startup work.
-            //Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
-            StartActivity(new Intent(Application.Context, typeof(AppIntroBaseActivity)));//AppIntroBaseActivity
-            this.Finish();
+            await Task.Delay(2000);
+            HazirlikYap();
+            
         }
         async void HazirlikYap()
         {
-            //new DataBase();
-            await Task.Run(() => {
-                Task.Delay(2000);
-            });
             this.RunOnUiThread(delegate ()
             {
-                StartActivity(typeof(ProfilOlustuBaseActivity));//AppIntroBaseActivity
-            });
-            //var Kullanici = DataBase.USER_INFO_GETIR();
+                var Kullanici = DataBase.MEMBER_DATA_GETIR();
 
-            //if (Kullanici.Count > 0)
-            //{
-            //    StartActivity(typeof(AnaMenuBaseActivitty));
-            //}
-            //else
-            //{
-            //    //StartActivity(typeof(AnaMenuBaseActivitty));
-            //    //return;
-            //    StartActivity(typeof(LoginBaseActivty));
-            //}
+                if (Kullanici.Count > 0)
+                {
+                    StartActivity(typeof(MainPageBaseActivity));//AppIntroBaseActivity
+                    this.Finish();
+                }
+                else
+                {
+                    //StartActivity(typeof(AnaMenuBaseActivitty));
+                    //return;
+                    StartActivity(typeof(GirisBaseActivity));
+                    this.Finish();
+                }
+                
+            });
+            
         }
     }
 }
