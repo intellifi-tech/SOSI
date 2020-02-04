@@ -57,7 +57,7 @@ namespace SOSI.IsletmeProfiliOlustur
             StringRecyclerViewHolder viewholder = holder as StringRecyclerViewHolder;
             HolderForAnimation = holder as StringRecyclerViewHolder;
             var item = mData[position];
-            viewholder.Metin.Text = item.Metin;
+            viewholder.Metin.Text = item.name;
             if (item.IsSelect)
             {
                 viewholder.Tick.Visibility = ViewStates.Visible;

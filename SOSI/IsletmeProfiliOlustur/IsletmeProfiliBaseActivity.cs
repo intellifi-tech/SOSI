@@ -15,6 +15,7 @@ using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using Refractored.Controls;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.WebServicee;
@@ -77,7 +78,7 @@ namespace SOSI.IsletmeProfiliOlustur
                 string jsonString = "";
                 this.RunOnUiThread(delegate ()
                 {
-                    KayitIcinIsletmeBilgileri kayitIcinIsletmeBilgileri = new KayitIcinIsletmeBilgileri()
+                    COMPANY_INFORMATION kayitIcinIsletmeBilgileri = new COMPANY_INFORMATION()
                     {
                         companyColor = ((KurumsalRenkFragment)fragments[0]).GetSeletedColor(),
                         logoPath = ((LogoFragment)fragments[0]).GetCompanyLogoPath(),
@@ -96,9 +97,13 @@ namespace SOSI.IsletmeProfiliOlustur
                     ShowLoading.Hide();
                     this.RunOnUiThread(delegate ()
                     {
-                        this.StartActivity(typeof(ProfilOlustuBaseActivity));
-                        OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
-                        this.Finish();
+                        var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
+                        if (DataBase.COMPANY_INFORMATION_EKLE(Icerik))
+                        {
+                            this.StartActivity(typeof(ProfilOlustuBaseActivity));
+                            OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
+                            this.Finish();
+                        }
                     });
                 }
                 else
@@ -177,15 +182,6 @@ namespace SOSI.IsletmeProfiliOlustur
             {
             }
             viewpager.SetPageTransformer(true, new IntroTransformer(Transformiew));
-        }
-        public class KayitIcinIsletmeBilgileri
-        {
-            public string companyColor { get; set; }
-            public string id { get; set; }
-            public string logoPath { get; set; }
-            public string name { get; set; }
-            public string sectorId { get; set; }
-            public string serviceAreaId { get; set; }
         }
        
         public class StringDTO

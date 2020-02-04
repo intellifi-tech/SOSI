@@ -51,4 +51,16 @@ namespace SOSI.DataBasee
         public string API_TOKEN { get; set; }
         public string password { get; set; }
     }
+
+    public class COMPANY_INFORMATION
+    {
+        [PrimaryKey, AutoIncrement]
+        public int localid { get; set; }
+        public string companyColor { get; set; }
+        public string id { get; set; }
+        public string logoPath { get; set; }
+        public string name { get; set; }
+        public string sectorId { get; set; }
+        public string serviceAreaId { get; set; }
+    }
 }

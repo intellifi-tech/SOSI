@@ -30,6 +30,7 @@ namespace SOSI.DataBasee
         {
             var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
             conn.CreateTable<MEMBER_DATA>();
+            conn.CreateTable<COMPANY_INFORMATION>();
             conn.Close();
         }
 
@@ -101,5 +102,72 @@ namespace SOSI.DataBasee
         }
         #endregion
 
+        #region COMPANY_INFORMATION
+        public static bool COMPANY_INFORMATION_EKLE(COMPANY_INFORMATION GelenDoluTablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Insert(GelenDoluTablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                var aa = Ex.Message;
+                return false;
+            }
+        }
+        public static List<COMPANY_INFORMATION> COMPANY_INFORMATION_GETIR()
+        {
+            Atla:
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                var gelenler = conn.Query<COMPANY_INFORMATION>("Select * From COMPANY_INFORMATION");
+                conn.Close();
+                return gelenler;
+            }
+            catch (Exception Ex)
+            {
+                goto Atla;
+                var aa = Ex.Message;
+                return null;
+            }
+
+        }
+        public static bool COMPANY_INFORMATION_TEMIZLE()
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Query<MEMBER_DATA>("Delete From COMPANY_INFORMATION");
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        public static bool COMPANY_INFORMATION_Guncelle(COMPANY_INFORMATION Tablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Update(Tablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        #endregion
     }
 }

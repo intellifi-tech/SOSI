@@ -40,7 +40,7 @@ namespace SOSI.Splashh
             HazirlikYap();
             
         }
-        async void HazirlikYap()
+        void HazirlikYap()
         {
             this.RunOnUiThread(delegate ()
             {
@@ -48,8 +48,18 @@ namespace SOSI.Splashh
 
                 if (Kullanici.Count > 0)
                 {
-                    StartActivity(typeof(MainPageBaseActivity));//AppIntroBaseActivity
-                    this.Finish();
+                    var SirketBilgileri = DataBase.COMPANY_INFORMATION_GETIR();
+                    if (SirketBilgileri.Count>0)
+                    {
+                        StartActivity(typeof(MainPageBaseActivity));//AppIntroBaseActivity
+                        this.Finish();
+                    }
+                    else
+                    {
+                        StartActivity(typeof(IsletmeProfiliBaseActivity));//IsletmeProfiliBaseActivity
+                        this.Finish();
+                    }
+                    
                 }
                 else
                 {
