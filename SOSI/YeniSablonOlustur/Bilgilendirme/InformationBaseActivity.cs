@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using SOSI.GenericClass;
+using SOSI.WebServicee;
 using SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma;
 
 namespace SOSI.YeniSablonOlustur.Bilgilendirme
@@ -24,6 +25,7 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
         protected IPageIndicator _indicator;
         ImageButton Ileri, Geri;
         Button OrnekCalismalar;
+        List<HowToUseInfomationDTO> HowToUseInfomationDTO1 = new List<HowToUseInfomationDTO>();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -68,56 +70,60 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
         Android.Support.V4.App.Fragment[] fragments;
         void viepageratama()
         {
-            var ss1 = new InformationFragmentParca("Ürünlerinizi ortalama 15-20cm mesafeden çekin.", 1);
-            var ss2 = new InformationFragmentParca("Fotoğraflarınızda altın oran kanununa mümkün olduğunca dikkat edin.", 1);
-            var ss3 = new InformationFragmentParca("Portre modunu sıklıkla kullanın.", 1);
-            var ss4 = new InformationFragmentParca("Ters ışıkta fotoğraflar çekmemeye dikkat edin.", 1);
-            var ss5 = new InformationFragmentParca("Ürününüzü görüntülerken arka planda işletmenizden detaylar ekleyin.", 1);
-            var ss6 = new InformationFragmentParca("Örnek fotoğraflarımızdan esinlenin", 1);
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("how-to-uses");
+            if (Donus != null)
+            {
+                HowToUseInfomationDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<HowToUseInfomationDTO>>(Donus.ToString());
+                if (HowToUseInfomationDTO1.Count>0)
+                {
+                    fragments = new Android.Support.V4.App.Fragment[HowToUseInfomationDTO1.Count];
+                    for (int i = 0; i < HowToUseInfomationDTO1.Count; i++)
+                    {
+                        fragments[i] = new InformationFragmentParca(HowToUseInfomationDTO1[i]);
+                    }
+                }
 
-            //Fragment array
-            fragments = new Android.Support.V4.App.Fragment[]
-            {
-                ss1,
-                ss2,
-                ss3,
-                ss4,
-                ss5,
-                ss6,
-
-            };
-            //Tab title array
-            var titles = CharSequence.ArrayFromStringArray(new[] {
-               "s1",
-               "s2",
-               "s3",
-            });
-            try
-            {
-                viewpager.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, titles);
+                var titelssss = new string[HowToUseInfomationDTO1.Count];
+                var titles = CharSequence.ArrayFromStringArray(titelssss);
+                try
+                {
+                    this.RunOnUiThread(delegate () {
+                        viewpager.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, titles);
+                    });
+                }
+                catch
+                {
+                }
             }
-            catch
-            {
-            }
+            
+        }
+        void GetInformationList()
+        {
+           
+        }
+        public class HowToUseInfomationDTO
+        {
+            public string id { get; set; }
+            public string imagePath { get; set; }
+            public string text { get; set; }
         }
         public class InformationFragmentParca : Android.Support.V4.App.Fragment
         {
-            string Metin1;
-            int imageid;
+            
             TextView MetinText1;
             ImageView imageview;
-            public InformationFragmentParca(string metin1, int gelenimageid)
+            HowToUseInfomationDTO HowToUseInfomationDTO1;
+            public InformationFragmentParca(HowToUseInfomationDTO HowToUseInfomationDTO11)
             {
-                Metin1 = metin1;
-                imageid = gelenimageid;
-               
+                HowToUseInfomationDTO1 = HowToUseInfomationDTO11;
             }
             public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
             {
                 View view = inflater.Inflate(Resource.Layout.InformationFragmentParca, container, false);
                 imageview = view.FindViewById<ImageView>(Resource.Id.ımageView1);
                 MetinText1 = view.FindViewById<TextView>(Resource.Id.textView1);
-                MetinText1.Text = Metin1;
+                MetinText1.Text = HowToUseInfomationDTO1.text;
                 return view;
             }
         }
