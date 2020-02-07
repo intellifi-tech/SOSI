@@ -45,6 +45,8 @@ namespace SOSI.GirisKayit
             GirisButton.Click += GirisButton_Click;
             SifremiUnuttum.Click += SifremiUnuttum_Click;
             UyeOlText.Click += UyeOlText_Click;
+            MailText.Text = "mesut1@intellifi.tech";
+            SifreText.Text = "qwer1234";
         }
 
         private void UyeOlText_Click(object sender, EventArgs e)

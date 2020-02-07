@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
+using SOSI.WebServicee;
 
 namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
 {
@@ -48,25 +49,24 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
 
         void OrnekCalismalariGetir()
         {
-            for (int i = 0; i < 20; i++)
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("examples");
+            if (Donus != null)
             {
-                favorilerRecyclerViewDataModels.Add(new OrnekCalismaDTO());
+                favorilerRecyclerViewDataModels = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrnekCalismaDTO>>(Donus.ToString());
+                if (favorilerRecyclerViewDataModels.Count > 0)
+                {
+                    this.RunOnUiThread(delegate
+                    {
+                        mViewAdapter = new OrnekCalismaRecyclerViewAdapter(favorilerRecyclerViewDataModels, (Android.Support.V7.App.AppCompatActivity)this);
+                        mRecyclerView.HasFixedSize = true;
+                        mLayoutManager = new LinearLayoutManager(this);
+                        mRecyclerView.SetLayoutManager(mLayoutManager);
+                        mRecyclerView.SetAdapter(mViewAdapter);
+                        ShowLoading.Hide();
+                    });
+                }
             }
-            this.RunOnUiThread(delegate
-            {
-                mViewAdapter = new OrnekCalismaRecyclerViewAdapter(favorilerRecyclerViewDataModels, (Android.Support.V7.App.AppCompatActivity)this);
-                mRecyclerView.HasFixedSize = true;
-                mLayoutManager = new LinearLayoutManager(this);
-                mRecyclerView.SetLayoutManager(mLayoutManager);
-                mRecyclerView.SetAdapter(mViewAdapter);
-                //mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                ShowLoading.Hide();
-            });
-        }
-
-        private void MViewAdapter_ItemClick(object sender, object[] e)
-        {
-            
         }
 
         private void Geri_Click(object sender, EventArgs e)
@@ -76,7 +76,10 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
 
         public class OrnekCalismaDTO
         {
-
+            public string afterImagePath { get; set; }
+            public string beforeImagePath { get; set; }
+            public string id { get; set; }
+            public string text { get; set; }
         }
     }
 }

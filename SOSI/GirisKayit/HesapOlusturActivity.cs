@@ -40,6 +40,14 @@ namespace SOSI.GirisKayit
             SifreText = FindViewById<EditText>(Resource.Id.editText4);
             SifreTekrarText = FindViewById<EditText>(Resource.Id.editText5);
             KayitOlButton.Click += KayitOlButton_Click;
+
+            AdText.Text = "Mesut";
+            SoyadText.Text = "Polat";
+            inputmail.Text = "mesut1@intellifi.tech";
+            SifreText.Text = "qwer1234";
+            SifreTekrarText.Text = "qwer1234";
+
+
         }
 
         private void KayitOlButton_Click(object sender, EventArgs e)

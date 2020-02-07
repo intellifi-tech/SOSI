@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textColor="#000"
+        android:gravity="center"
+        android:text="Henüz Hiç Paylaşım Şablonuna Sahip Değilsiniz"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
+    <TextView
+        android:textColor="#686868"
+        android:gravity="center"
+        android:text="Hemen Yeni bir tane oluşturmak ister misiniz?"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1"
+        android:layout_marginTop="5.0dp"
+        android:layout_marginBottom="17.5dp" />
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout1">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_centerInParent="true"
+            android:id="@+id/animation_view1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_fileName="isleniyor1.json"
+            app:lottie_loop="true"
+            android:layout_above="@+id/button2"
+            app:lottie_autoPlay="true" />
+        <Button
+                android:layout_alignParentBottom="true"
+                android:textColor="#fff"
+                android:background="@drawable/gradientbg_raunded"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Yeni Şablon"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/button2" />
+    </RelativeLayout>
+</LinearLayout>

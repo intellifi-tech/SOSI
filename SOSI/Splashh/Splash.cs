@@ -26,6 +26,7 @@ namespace SOSI.Splashh
             base.OnCreate(savedInstanceState);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
             dinamikStatusBarColor.SetFullScreen(this);
+            new DataBase();
             SetContentView(Resource.Layout.Splash);
         }
         protected override void OnResume()
@@ -65,7 +66,7 @@ namespace SOSI.Splashh
                 {
                     //StartActivity(typeof(AnaMenuBaseActivitty));
                     //return;
-                    StartActivity(typeof(GirisBaseActivity));
+                    StartActivity(typeof(AppIntroBaseActivity));
                     this.Finish();
                 }
                 

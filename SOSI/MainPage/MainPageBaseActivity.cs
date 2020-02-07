@@ -10,10 +10,12 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Refractored.Controls;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.Paketler;
 using SOSI.TamamlanmisSablonlar;
 using SOSI.YeniSablonOlustur;
+using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 
 namespace SOSI.MainPage
 {
@@ -60,7 +62,8 @@ namespace SOSI.MainPage
         {
             base.OnStart();
             IsletmeLogo.BringToFront();
-            GetIslemeDurumFragment();
+            var CompanyInfo = DataBase.COMPANY_INFORMATION_GETIR()[0];
+            new SetImageHelper().SetImage(this, IsletmeLogo, CompanyInfo.logoPath);
         }
         void GetIslemeDurumFragment()
         {
@@ -71,6 +74,15 @@ namespace SOSI.MainPage
             ft.Replace(Resource.Id.conteinerview, ZaplaBaseFragment1);//
             ft.Commit();
         }
+        void GetSablonYokFragment()
+        {
+            ClearFragment();
+            HazirlananSablonYokBaseFragment HazirlananSablonYokBaseFragment1 = new HazirlananSablonYokBaseFragment();
+            ft = this.SupportFragmentManager.BeginTransaction();
+            ft.AddToBackStack(null);
+            ft.Replace(Resource.Id.conteinerview, HazirlananSablonYokBaseFragment1);//
+            ft.Commit();
+        }
         void ClearFragment()
         {
             foreach (var item in SupportFragmentManager.Fragments)
@@ -78,7 +90,6 @@ namespace SOSI.MainPage
                 SupportFragmentManager.BeginTransaction().Remove(item).Commit();
             }
         }
-
         public override void OnBackPressed()
         {
             this.Finish();

@@ -24,7 +24,7 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/linearLayout1">
             <com.ebr163.bifacialview.view.BifacialView
-                android:id="@+id/view"
+                android:id="@+id/bifacialvieww"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_centerInParent="true"
