@@ -6660,43 +6660,46 @@ namespace SOSI
 			public const int useLogo = 2131230990;
 			
 			// aapt resource value: 0x7F08010F
-			public const int view = 2131230991;
+			public const int videoView1 = 2131230991;
 			
 			// aapt resource value: 0x7F080110
-			public const int view1 = 2131230992;
+			public const int view = 2131230992;
 			
 			// aapt resource value: 0x7F080111
-			public const int viewPager1 = 2131230993;
+			public const int view1 = 2131230993;
 			
 			// aapt resource value: 0x7F080112
-			public const int view_offset_helper = 2131230994;
+			public const int viewPager1 = 2131230994;
 			
 			// aapt resource value: 0x7F080113
-			public const int visible = 2131230995;
+			public const int view_offset_helper = 2131230995;
 			
 			// aapt resource value: 0x7F080114
-			public const int webview = 2131230996;
+			public const int visible = 2131230996;
 			
 			// aapt resource value: 0x7F080115
-			public const int withText = 2131230997;
+			public const int webview = 2131230997;
 			
 			// aapt resource value: 0x7F080116
-			public const int wrap_content = 2131230998;
+			public const int withText = 2131230998;
 			
 			// aapt resource value: 0x7F080117
-			public const int ımageButton1 = 2131230999;
+			public const int wrap_content = 2131230999;
 			
 			// aapt resource value: 0x7F080118
-			public const int ımageButton2 = 2131231000;
+			public const int ımageButton1 = 2131231000;
 			
 			// aapt resource value: 0x7F080119
-			public const int ımageButton3 = 2131231001;
+			public const int ımageButton2 = 2131231001;
 			
 			// aapt resource value: 0x7F08011A
-			public const int ımageView1 = 2131231002;
+			public const int ımageButton3 = 2131231002;
 			
 			// aapt resource value: 0x7F08011B
-			public const int ımageView2 = 2131231003;
+			public const int ımageView1 = 2131231003;
+			
+			// aapt resource value: 0x7F08011C
+			public const int ımageView2 = 2131231004;
 			
 			static Id()
 			{
@@ -7119,43 +7122,52 @@ namespace SOSI
 			public const int Saat_Secim = 2131427427;
 			
 			// aapt resource value: 0x7F0B0064
-			public const int SektorSecBaseActivity = 2131427428;
+			public const int SablonIcerikleriBaseActivity = 2131427428;
 			
 			// aapt resource value: 0x7F0B0065
-			public const int select_dialog_item_material = 2131427429;
+			public const int SablonIcerikleriListCardItem = 2131427429;
 			
 			// aapt resource value: 0x7F0B0066
-			public const int select_dialog_multichoice_material = 2131427430;
+			public const int SektorSecBaseActivity = 2131427430;
 			
 			// aapt resource value: 0x7F0B0067
-			public const int select_dialog_singlechoice_material = 2131427431;
+			public const int select_dialog_item_material = 2131427431;
 			
 			// aapt resource value: 0x7F0B0068
-			public const int Splash = 2131427432;
+			public const int select_dialog_multichoice_material = 2131427432;
 			
 			// aapt resource value: 0x7F0B0069
-			public const int StringCardView = 2131427433;
+			public const int select_dialog_singlechoice_material = 2131427433;
 			
 			// aapt resource value: 0x7F0B006A
-			public const int support_simple_spinner_dropdown_item = 2131427434;
+			public const int Splash = 2131427434;
 			
 			// aapt resource value: 0x7F0B006B
-			public const int TamamlanmisSablonDetayBaseActivity = 2131427435;
+			public const int StringCardView = 2131427435;
 			
 			// aapt resource value: 0x7F0B006C
-			public const int TamamlanmisSablonlarBaseActivity = 2131427436;
+			public const int support_simple_spinner_dropdown_item = 2131427436;
 			
 			// aapt resource value: 0x7F0B006D
-			public const int TamamlanmisSablonlarCustomCardView = 2131427437;
+			public const int TamamlanmisSablonDetayBaseActivity = 2131427437;
 			
 			// aapt resource value: 0x7F0B006E
-			public const int view_creditcard = 2131427438;
+			public const int TamamlanmisSablonlarBaseActivity = 2131427438;
 			
 			// aapt resource value: 0x7F0B006F
-			public const int YeniSablonGorselYukleCardView = 2131427439;
+			public const int TamamlanmisSablonlarCustomCardView = 2131427439;
 			
 			// aapt resource value: 0x7F0B0070
-			public const int YeniSablonOlusturBaseActivity = 2131427440;
+			public const int TamamlanmisSablonlarSablonListItem = 2131427440;
+			
+			// aapt resource value: 0x7F0B0071
+			public const int view_creditcard = 2131427441;
+			
+			// aapt resource value: 0x7F0B0072
+			public const int YeniSablonGorselYukleCardView = 2131427442;
+			
+			// aapt resource value: 0x7F0B0073
+			public const int YeniSablonOlusturBaseActivity = 2131427443;
 			
 			static Layout()
 			{

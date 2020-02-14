@@ -111,6 +111,7 @@
     <Compile Include="Splashh\Splash.cs" />
     <Compile Include="TamamlanmisSablonlar\SablonDetay\RevizeGonderBaseActivity.cs" />
     <Compile Include="TamamlanmisSablonlar\SablonDetay\SablonDetayBaseActivity.cs" />
+    <Compile Include="TamamlanmisSablonlar\SablonIcerikleri\SablonIcerikleriBaseActivity.cs" />
     <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonRecyclerviewAdepter.cs" />
     <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonlarBaseActivity.cs" />
     <Compile Include="WebServices\WebService.cs" />
@@ -2037,6 +2038,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\HazirlananSablonYokBaseFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TamamlanmisSablonlarSablonListItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SablonIcerikleriBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SablonIcerikleriListCardItem.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

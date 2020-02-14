@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:background="#fff"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+	<android.support.v7.widget.CardView
+        app:cardBackgroundColor="#fff"
+		android:id="@+id/card_view"
+		android:layout_width="match_parent"
+		app:cardElevation="0dp"
+		android:layout_height="wrap_content"
+		app:cardUseCompatPadding="false"
+		app:cardPreventCornerOverlap="false">
+	<LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linearLayout1" >
+    <TextView
+		 android:textColor="#000"
+         android:text="Ocak 2020"
+         android:textAppearance="?android:attr/textAppearanceMedium"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/textView1" />
+    <TextView
+          android:textColor="#7F7F7F"
+          android:layout_marginTop="5dp"
+          android:text="25 İçerik"
+          android:textAppearance="?android:attr/textAppearanceSmall"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/textView2" />
+    <TextView
+          android:textColor="#1E8E3E"
+          android:textStyle="italic"
+          android:gravity="right"
+          android:text="Tamamlandı"
+          android:textAppearance="?android:attr/textAppearanceSmall"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/textView3" />
+    <View
+          android:layout_marginTop="5dp"      
+          android:background="#d2d2d2"      
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"
+          android:id="@+id/view1" />
+	</LinearLayout>
+	</android.support.v7.widget.CardView>
+</LinearLayout>

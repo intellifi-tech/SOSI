@@ -10,9 +10,12 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.TamamlanmisSablonlar.SablonDetay;
+using SOSI.WebServicee;
+using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
 namespace SOSI.TamamlanmisSablonlar
 {
@@ -24,6 +27,8 @@ namespace SOSI.TamamlanmisSablonlar
         RecyclerView.LayoutManager mLayoutManager;
         TamamlanmisSablonRecyclerViewAdapter mViewAdapter;
         List<TamamlanmisSablonDTO> TamamlanmisSablonDTO1 = new List<TamamlanmisSablonDTO>();
+        MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,88 +49,38 @@ namespace SOSI.TamamlanmisSablonlar
         protected override void OnStart()
         {
             base.OnStart();
-            GetItemss();
+            SonTamamlanmisSablonuGetir();
         }
-
-        void GetItemss()
+        void SonTamamlanmisSablonuGetir()
         {
-            #region Genislik Alır
-            int width = 0;
-            int height = 0;
-
-            mRecyclerView.Post(() =>
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("templates/user/"+ Me.id);
+            if (Donus!=null)
             {
-                width = mRecyclerView.Width;
-                height = mRecyclerView.Height;
-                var Genislik = (width / 3);
-
-                CreateGiftList();
-
-                mViewAdapter = new TamamlanmisSablonRecyclerViewAdapter(TamamlanmisSablonDTO1, this, Genislik);
-                mRecyclerView.SetAdapter(mViewAdapter);
-                mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                //mRecyclerView.AddItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.Horizontal));
-                //mRecyclerView.AddItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.Vertical));
-                var layoutManager = new GridLayoutManager(this, 3);
-                mRecyclerView.SetLayoutManager(layoutManager);
-            });
-
-            #endregion
+                TamamlanmisSablonDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TamamlanmisSablonDTO>>(Donus.ToString());
+                if (TamamlanmisSablonDTO1.Count>0)
+                {
+                    mViewAdapter = new TamamlanmisSablonRecyclerViewAdapter(TamamlanmisSablonDTO1, this);
+                    mRecyclerView.SetAdapter(mViewAdapter);
+                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                    var layoutManager = new LinearLayoutManager(this);
+                    mRecyclerView.SetLayoutManager(layoutManager);
+                }
+            }
         }
-        DinamikAdresSec DinamikActionSheet1;
-        List<Buttons_Image_DataModels> Butonlarr = new List<Buttons_Image_DataModels>();
+        
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
-            Butonlarr = new List<Buttons_Image_DataModels>();
-
-            Butonlarr.Add(new Buttons_Image_DataModels()
-            {
-                Button_Text = "Paylaş",
-                Button_Image = Resource.Drawable.share_2
-            });
-            Butonlarr.Add(new Buttons_Image_DataModels()
-            {
-                Button_Text = "Görüntüle",
-                Button_Image = Resource.Drawable.eye
-            });
-            Butonlarr.Add(new Buttons_Image_DataModels()
-            {
-                Button_Text = "Revize Gönder",
-                Button_Image = Resource.Drawable.send
-            });
-
-            DinamikActionSheet1 = new DinamikAdresSec(Butonlarr, "İşlemle Seç", "Bu görsel ile ne yapmak istersin?.", Buton_Click);
-            DinamikActionSheet1.Show(this.SupportFragmentManager, "DinamikActionSheet1");
+            SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;
+            this.StartActivity(typeof(RevizeGonderBaseActivity));
         }
-        private void Buton_Click(object sender, EventArgs e)
-        {
-            var Index = (int)((Button)sender).Tag;
-            if (Index == 0)
-            {
-               
-
-            }
-            else if (Index == 1)
-            {
-                this.StartActivity(typeof(SablonDetayBaseActivity));
-            }
-            else if (Index == Butonlarr.Count - 1)
-            {
-                this.StartActivity(typeof(RevizeGonderBaseActivity));
-            }
-            DinamikActionSheet1.Dismiss();
-        }
-
-        void CreateGiftList()
-        {
-            for (int i = 0; i < 25; i++)
-            {
-                TamamlanmisSablonDTO1.Add(new TamamlanmisSablonDTO());
-            }
-        }
+    
         public class TamamlanmisSablonDTO
         {
-
+            public bool? complete { get; set; }
+            public string id { get; set; }
+            public int mediaCount { get; set; }
+            public string userId { get; set; }
         }
     }
 }

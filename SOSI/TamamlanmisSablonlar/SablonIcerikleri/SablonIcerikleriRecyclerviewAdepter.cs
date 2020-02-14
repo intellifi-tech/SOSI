@@ -12,15 +12,15 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Java.Util;
-using static SOSI.TamamlanmisSablonlar.TamamlanmisSablonlarBaseActivity;
+using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
-namespace SOSI.TamamlanmisSablonlar
+namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
 {
-    class TamamlanmisSablonRecyclerViewHolder : RecyclerView.ViewHolder
+    class SablonIcerikleriRecyclerViewHolder : RecyclerView.ViewHolder
     {
 
         TextView AyText, IcerikSayisiText, TamamlanmaText;
-        public TamamlanmisSablonRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
+        public SablonIcerikleriRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
         {
 
             AyText = itemView.FindViewById<TextView>(Resource.Id.textView1);
@@ -29,13 +29,13 @@ namespace SOSI.TamamlanmisSablonlar
             itemView.Click += (sender, e) => listener(new object[] { base.Position,itemView });
         }
     }
-    class TamamlanmisSablonRecyclerViewAdapter : RecyclerView.Adapter/*, ValueAnimator.IAnimatorUpdateListener*/
+    class SablonIcerikleriRecyclerViewAdapter : RecyclerView.Adapter/*, ValueAnimator.IAnimatorUpdateListener*/
     {
-        private List<TamamlanmisSablonDTO> mData = new List<TamamlanmisSablonDTO>();
+        private List<SablonIcerikleriDTO> mData = new List<SablonIcerikleriDTO>();
         AppCompatActivity BaseActivity;
         public event EventHandler<object[]> ItemClick;
         
-        public TamamlanmisSablonRecyclerViewAdapter(List<TamamlanmisSablonDTO> GelenData, AppCompatActivity GelenContex)
+        public SablonIcerikleriRecyclerViewAdapter(List<SablonIcerikleriDTO> GelenData, AppCompatActivity GelenContex)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
@@ -52,23 +52,23 @@ namespace SOSI.TamamlanmisSablonlar
                 return mData.Count;
             }
         }
-        TamamlanmisSablonRecyclerViewHolder HolderForAnimation;
+        SablonIcerikleriRecyclerViewHolder HolderForAnimation;
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            TamamlanmisSablonRecyclerViewHolder viewholder = holder as TamamlanmisSablonRecyclerViewHolder;
-            HolderForAnimation = holder as TamamlanmisSablonRecyclerViewHolder;
+            SablonIcerikleriRecyclerViewHolder viewholder = holder as SablonIcerikleriRecyclerViewHolder;
+            HolderForAnimation = holder as SablonIcerikleriRecyclerViewHolder;
            
         }
         
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
-            View v = inflater.Inflate(Resource.Layout.TamamlanmisSablonlarSablonListItem, parent, false);
+            View v = inflater.Inflate(Resource.Layout.SablonIcerikleriListCardItem, parent, false);
             //var paramss = v.LayoutParameters;
             //paramss.Height = Genislikk;
             //paramss.Width = Genislikk;
             //v.LayoutParameters = paramss;
-            return new TamamlanmisSablonRecyclerViewHolder(v, OnClick);
+            return new SablonIcerikleriRecyclerViewHolder(v, OnClick);
         }
 
         void OnClick(object[] Icerik)

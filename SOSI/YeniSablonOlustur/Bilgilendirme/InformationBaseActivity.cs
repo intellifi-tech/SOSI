@@ -98,10 +98,7 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
             }
             
         }
-        void GetInformationList()
-        {
-           
-        }
+      
         public class HowToUseInfomationDTO
         {
             public string id { get; set; }
