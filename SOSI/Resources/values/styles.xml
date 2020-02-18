@@ -47,12 +47,12 @@
 
   <style name="TextLabel" parent="TextAppearance.AppCompat">
     <!-- Hint color and label color in FALSE state -->
-    <item name="android:textColorHint">#FFFFFF</item>
+    <item name="android:textColorHint">#c800b3</item>
     <item name="android:textSize">20sp</item>
     <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-    <item name="colorAccent">#FFFFFF</item>
-    <item name="colorControlNormal">#FFFFFF</item>
-    <item name="colorControlActivated">#FFFFFF</item>
+    <item name="colorAccent">#c800b3</item>
+    <item name="colorControlNormal">#c800b3</item>
+    <item name="colorControlActivated">#c800b3</item>
   </style>
 
   <style name="dialog_animation">

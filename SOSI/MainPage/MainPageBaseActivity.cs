@@ -14,6 +14,7 @@ using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.Paketler;
 using SOSI.TamamlanmisSablonlar;
+using SOSI.WebServicee;
 using SOSI.YeniSablonOlustur;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 
@@ -64,11 +65,36 @@ namespace SOSI.MainPage
             IsletmeLogo.BringToFront();
             var CompanyInfo = DataBase.COMPANY_INFORMATION_GETIR()[0];
             new SetImageHelper().SetImage(this, IsletmeLogo, CompanyInfo.logoPath);
+            SablonKontrol();
         }
-        void GetIslemeDurumFragment()
+
+        void SablonKontrol()
+        {
+            WebService webService = new WebService();
+            var Me = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus = webService.OkuGetir("templates/user/" + Me.id);
+            if (Donus!=null)
+            {
+                var SablonlarDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SablonlarDTO>>(Donus.ToString());
+                if (SablonlarDTO1.Count > 0)
+                {
+                    GetIslemeDurumFragment(SablonlarDTO1[SablonlarDTO1.Count-1]);
+                }
+                else
+                {
+                    GetSablonYokFragment();
+                }
+            }
+            else
+            {
+                GetSablonYokFragment();
+            }
+        }
+
+        void GetIslemeDurumFragment(SablonlarDTO SonSablon)
         {
             ClearFragment();
-            GrafikIslemeDurumFragment ZaplaBaseFragment1 = new GrafikIslemeDurumFragment();
+            GrafikIslemeDurumFragment ZaplaBaseFragment1 = new GrafikIslemeDurumFragment(SonSablon);
             ft = this.SupportFragmentManager.BeginTransaction();
             ft.AddToBackStack(null);
             ft.Replace(Resource.Id.conteinerview, ZaplaBaseFragment1);//
@@ -82,6 +108,7 @@ namespace SOSI.MainPage
             ft.AddToBackStack(null);
             ft.Replace(Resource.Id.conteinerview, HazirlananSablonYokBaseFragment1);//
             ft.Commit();
+            HazirSablonlar.Visibility = YeniSablonOlustur.Visibility = ViewStates.Gone;
         }
         void ClearFragment()
         {
@@ -93,6 +120,13 @@ namespace SOSI.MainPage
         public override void OnBackPressed()
         {
             this.Finish();
+        }
+        public class SablonlarDTO
+        {
+            public bool complete { get; set; }
+            public string id { get; set; }
+            public int mediaCount { get; set; }
+            public string userId { get; set; }
         }
     }
 }

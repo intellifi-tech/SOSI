@@ -26,7 +26,7 @@ namespace SOSI.IsletmeProfiliOlustur
     [Activity(Label = "SOSI")]
     public class IsletmeProfiliBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
-        ViewPager viewpager;
+        public ViewPager viewpager;
         RelativeLayout Transformiew;
         Button IlerButton, GeriButton;
         
@@ -60,7 +60,7 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             else
             {
-                if (!EsksikVarmi())
+                if (EsksikVarmi())
                 {
                     IsletmeBilgileriDTOOlustur();
                 }
@@ -72,7 +72,6 @@ namespace SOSI.IsletmeProfiliOlustur
 
         void IsletmeBilgileriDTOOlustur()
         {
-            ShowLoading.Show(this);
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 string jsonString = "";
@@ -80,42 +79,39 @@ namespace SOSI.IsletmeProfiliOlustur
                 {
                     COMPANY_INFORMATION kayitIcinIsletmeBilgileri = new COMPANY_INFORMATION()
                     {
-                        companyColor = ((KurumsalRenkFragment)fragments[0]).GetSeletedColor(),
-                        logoPath = ((LogoFragment)fragments[0]).GetCompanyLogoPath(),
-                        name = ((LogoFragment)fragments[0]).GetCompanyName(),
+                        companyColor = ((KurumsalRenkFragment)fragments[2]).GetSeletedColor(),
+                        logoPath = "https://avatars3.githubusercontent.com/u/49305818?s=200&v=4",//((LogoFragment)fragments[3]).GetCompanyLogoPath()
+                        name = ((LogoFragment)fragments[3]).GetCompanyName(),
                         sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
-                        serviceAreaId = ((HizmetFragment)fragments[0]).GetSeletedHizmetID(),
+                        serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
                     };
                     jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
                     IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;
-                });
-                 
-                WebService webService = new WebService();
-                var Donus = webService.ServisIslem("company-informations", jsonString);
-                if (Donus != "Hata")
-                {
-                    ShowLoading.Hide();
-                    this.RunOnUiThread(delegate ()
+                    WebService webService = new WebService();
+                    var Donus = webService.ServisIslem("company-informations", jsonString);
+                    if (Donus != "Hata")
                     {
-                        var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
-                        if (DataBase.COMPANY_INFORMATION_EKLE(Icerik))
+                        this.RunOnUiThread(delegate ()
                         {
-                            this.StartActivity(typeof(ProfilOlustuBaseActivity));
-                            OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
-                            this.Finish();
-                        }
-                    });
-                }
-                else
-                {
-                    this.RunOnUiThread(delegate ()
+                            var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
+                            if (DataBase.COMPANY_INFORMATION_EKLE(Icerik))
+                            {
+                                this.StartActivity(typeof(ProfilOlustuBaseActivity));
+                                OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
+                                this.Finish();
+                            }
+                        });
+                    }
+                    else
                     {
-                        Toast.MakeText(this, "Bir sorun oluştu lütfen tekrar deneyin.", ToastLength.Long).Show();
-                        ShowLoading.Hide();
-                    });
-                    
-                }
-                
+                        this.RunOnUiThread(delegate ()
+                        {
+                            Toast.MakeText(this, "Bir sorun oluştu lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        });
+
+                    }
+                });
+
             })).Start();
         }
 
@@ -126,29 +122,30 @@ namespace SOSI.IsletmeProfiliOlustur
                 Toast.MakeText(this, "Lütfen Sektör Seçin", ToastLength.Long).Show();
                 return false;
             }
-            else if(((HizmetFragment)fragments[0]).GetSeletedHizmetID() == "null")
+            else if(((HizmetFragment)fragments[1]).GetSeletedHizmetID() == "null")
             {
                 Toast.MakeText(this, "Lütfen Hizmet Alanını Seçin", ToastLength.Long).Show();
                 return false;
             }
-            else if (((KurumsalRenkFragment)fragments[0]).GetSeletedColor() == "null")
+            else if (((KurumsalRenkFragment)fragments[2]).GetSeletedColor() == "null")
             {
                 Toast.MakeText(this, "Lütfen Kurumsal Rekginizi Seçin", ToastLength.Long).Show();
                 return false;
             }
-            else if (((LogoFragment)fragments[0]).GetCompanyName() == "null")
+            else if (((LogoFragment)fragments[3]).GetCompanyName() == "null")
             {
                 Toast.MakeText(this, "Lütfen İşletme Adınızı Yazın", ToastLength.Long).Show();
                 return false;
             }
-            else if (((LogoFragment)fragments[0]).GetCompanyLogoPath() == "null")
+            else if (((LogoFragment)fragments[3]).GetCompanyLogoPath() == null)
             {
                 Toast.MakeText(this, "Lütfen İşletmenizin Logosunu Yükleyin", ToastLength.Long).Show();
                 return false;
             }
-
-
-            return false;
+            else
+            {
+                return true;
+            }
         }
 
         Android.Support.V4.App.Fragment[] fragments;
@@ -184,6 +181,12 @@ namespace SOSI.IsletmeProfiliOlustur
             viewpager.SetPageTransformer(true, new IntroTransformer(Transformiew));
         }
        
+        public void SektorSecildiHizmetleriGuncelle(string SektorID)
+        {
+            ((HizmetFragment)fragments[1]).HizmetleriGetir(SektorID);
+        }
+
+
         public class StringDTO
         {
             public string name { get; set; }
@@ -243,12 +246,14 @@ namespace SOSI.IsletmeProfiliOlustur
             public override void OnStart()
             {
                 base.OnStart();
-                ShowLoading.Show(this.Activity);
-                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                if (mViewAdapter == null)
                 {
-                    SektorleriGetir();
+                    new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                    {
+                        SektorleriGetir();
+                    })).Start();
+                }
 
-                })).Start();
             }
             void SektorleriGetir()
             {
@@ -271,16 +276,22 @@ namespace SOSI.IsletmeProfiliOlustur
                     }
                     else
                     {
-                        Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
-                        return;
+                        this.Activity.RunOnUiThread(delegate
+                        {
+                            Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                            return;
+                        });
+                        
                     }
                 }
                 else
                 {
-                    Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
-                    return;
+                    this.Activity.RunOnUiThread(delegate
+                    {
+                        Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        return;
+                    });
                 }
-                ShowLoading.Hide();
             }
             private void MViewAdapter_ItemClick(object sender, object[] e)
             {
@@ -290,6 +301,7 @@ namespace SOSI.IsletmeProfiliOlustur
                     SektorList[(int)e[0]].IsSelect = true;
                     mViewAdapter.mData = SektorList;
                     mViewAdapter.NotifyDataSetChanged();
+                    IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
                 }
             }
 
@@ -313,7 +325,9 @@ namespace SOSI.IsletmeProfiliOlustur
             RecyclerView mRecyclerView;
             RecyclerView.LayoutManager mLayoutManager;
             StringRecyclerViewAdapter mViewAdapter;
+            List<StringDTO> HizmetList_Hepsi = new List<StringDTO>();
             List<StringDTO> HizmetList = new List<StringDTO>();
+ 
             public HizmetFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -328,45 +342,98 @@ namespace SOSI.IsletmeProfiliOlustur
             public override void OnStart()
             {
                 base.OnStart();
-
-                ShowLoading.Show(this.Activity);
                 new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
-                    HizmetleriGetir();
+                    HizmetleriGetir("");
 
                 })).Start();
             }
-            void HizmetleriGetir()
+            public void HizmetleriGetir(string SektorID)
             {
-                WebService webService = new WebService();
-                var Donus = webService.OkuGetir("service-areas");
-                if (Donus != null)
+                if (string.IsNullOrEmpty(SektorID))
                 {
-                    HizmetList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<StringDTO>>(Donus.ToString());
-                    if (HizmetList.Count > 0)
+                    WebService webService = new WebService();
+                    var Donus = webService.OkuGetir("service-areas");
+                    if (Donus != null)
                     {
-                        this.Activity.RunOnUiThread(delegate
-                        {
-                            mViewAdapter = new StringRecyclerViewAdapter(HizmetList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
-                            mRecyclerView.HasFixedSize = true;
-                            mLayoutManager = new LinearLayoutManager(this.Activity);
-                            mRecyclerView.SetLayoutManager(mLayoutManager);
-                            mRecyclerView.SetAdapter(mViewAdapter);
-                            mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                        });
+                        HizmetList_Hepsi = Newtonsoft.Json.JsonConvert.DeserializeObject<List<StringDTO>>(Donus.ToString());
+                        //if (HizmetList_Hepsi.Count > 0)
+                        //{
+                        //    this.Activity.RunOnUiThread(delegate
+                        //    {
+                        //        mViewAdapter = new StringRecyclerViewAdapter(HizmetList_Hepsi, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                        //        mRecyclerView.HasFixedSize = true;
+                        //        mLayoutManager = new LinearLayoutManager(this.Activity);
+                        //        mRecyclerView.SetLayoutManager(mLayoutManager);
+                        //        mRecyclerView.SetAdapter(mViewAdapter);
+                        //        mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                        //    });
+                        //}
+                        //else
+                        //{
+                        //    this.Activity.RunOnUiThread(delegate
+                        //    {
+                        //        Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                        //        return;
+                        //    });
+                        //}
                     }
                     else
                     {
-                        Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
-                        return;
+                        this.Activity.RunOnUiThread(delegate
+                        {
+                            Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                            return;
+                        });
                     }
                 }
                 else
                 {
-                    Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
-                    return;
+                    if (HizmetList_Hepsi.Count > 0)
+                    {
+                        HizmetList = HizmetList_Hepsi.FindAll(item => item.sectorId == SektorID);
+                        this.Activity.RunOnUiThread(delegate ()
+                        {
+                            if (HizmetList.Count > 0)
+                            {
+
+                                if (mViewAdapter != null)
+                                {
+                                    if (mViewAdapter.mData.Count > 0)
+                                    {
+                                        mViewAdapter.mData = HizmetList;
+                                        mViewAdapter.NotifyDataSetChanged();
+                                    }
+                                }
+                                else
+                                {
+                                    mViewAdapter = new StringRecyclerViewAdapter(HizmetList_Hepsi, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                                    mRecyclerView.HasFixedSize = true;
+                                    mLayoutManager = new LinearLayoutManager(this.Activity);
+                                    mRecyclerView.SetLayoutManager(mLayoutManager);
+                                    mRecyclerView.SetAdapter(mViewAdapter);
+                                    mViewAdapter.ItemClick -= MViewAdapter_ItemClick;
+                                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                                }
+                                IsletmeProfiliBaseActivity1.viewpager.SetCurrentItem(IsletmeProfiliBaseActivity1.viewpager.CurrentItem + 1, true);
+                            }
+                            else
+                            {
+                                mViewAdapter = null;
+                                mRecyclerView.SetAdapter(mViewAdapter);
+                                mRecyclerView.HasFixedSize = true;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        this.Activity.RunOnUiThread(delegate
+                        {
+                            Toast.MakeText(this.Activity, "Hizmetler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
+                            return;
+                        });
+                    }
                 }
-                ShowLoading.Hide();
             }
 
             private void MViewAdapter_ItemClick(object sender, object[] e)
@@ -488,7 +555,7 @@ namespace SOSI.IsletmeProfiliOlustur
             CircleImageView circleImageView;
             ImageButton LogoYukleButton;
             byte[] SecilenGoruntuByte;
-            string LogoPath;
+            Android.Net.Uri LogoPath;
             public LogoFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -500,6 +567,7 @@ namespace SOSI.IsletmeProfiliOlustur
                 circleImageView = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
                 LogoYukleButton = view.FindViewById<ImageButton>(Resource.Id.logoyuklebutton);
                 LogoYukleButton.Click += LogoYukleButton_Click;
+                circleImageView.Click += LogoYukleButton_Click;
                 return view;
             }
 
@@ -528,6 +596,8 @@ namespace SOSI.IsletmeProfiliOlustur
                                 bytes = memstream.ToArray();
                                 SecilenGoruntuByte = bytes;
                                 circleImageView.SetImageURI(uri);
+                                LogoYukleButton.Visibility = ViewStates.Gone;
+                                LogoPath = uri;
                             }
                         }
                     }
@@ -545,15 +615,15 @@ namespace SOSI.IsletmeProfiliOlustur
                 }
             }
 
-            public string GetCompanyLogoPath()
+            public Android.Net.Uri GetCompanyLogoPath()
             {
-                if (!String.IsNullOrEmpty(LogoPath))
+                if (!String.IsNullOrEmpty(LogoPath.ToString()))
                 {
                     return LogoPath;
                 }
                 else
                 {
-                    return "null";
+                    return null;
                 }
             }
         }

@@ -43,7 +43,7 @@ namespace SOSI.GirisKayit
 
             AdText.Text = "Mesut";
             SoyadText.Text = "Polat";
-            inputmail.Text = "mesut1@intellifi.tech";
+            inputmail.Text = "mesut3@intellifi.tech";
             SifreText.Text = "qwer1234";
             SifreTekrarText.Text = "qwer1234";
 

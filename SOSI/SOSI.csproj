@@ -112,6 +112,7 @@
     <Compile Include="TamamlanmisSablonlar\SablonDetay\RevizeGonderBaseActivity.cs" />
     <Compile Include="TamamlanmisSablonlar\SablonDetay\SablonDetayBaseActivity.cs" />
     <Compile Include="TamamlanmisSablonlar\SablonIcerikleri\SablonIcerikleriBaseActivity.cs" />
+    <Compile Include="TamamlanmisSablonlar\SablonIcerikleri\SablonIcerikleriRecyclerviewAdepter.cs" />
     <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonRecyclerviewAdepter.cs" />
     <Compile Include="TamamlanmisSablonlar\TamamlanmisSablonlarBaseActivity.cs" />
     <Compile Include="WebServices\WebService.cs" />
@@ -135,6 +136,7 @@
     <AndroidAsset Include="Assets\ColorList.json" />
     <AndroidAsset Include="Assets\sablonyok2.json" />
     <AndroidAsset Include="Assets\sablonyok1.json" />
+    <AndroidAsset Include="Assets\done1.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />

@@ -155,7 +155,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@mipmap/male_avatar"
-            app:civ_border_width="5dp"
+            app:civ_border_width="0dp"
             app:civ_border_color="#fff"
             android:layout_marginTop="50.0dp" />
     </RelativeLayout>

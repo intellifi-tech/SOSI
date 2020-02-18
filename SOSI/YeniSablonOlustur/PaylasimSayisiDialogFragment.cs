@@ -17,7 +17,10 @@ using Android.Views;
 using Android.Widget;
 using Java.IO;
 using Newtonsoft.Json;
+using Refractored.Controls;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
+using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 
 namespace SOSI.YeniSablonOlustur
 {
@@ -26,7 +29,8 @@ namespace SOSI.YeniSablonOlustur
         #region Tanimlamlar
         Button DevamEt;
         CardView PlusCard, GoldCard, PlatinumCard;
-        #endregion  
+        CircleImageView IsletmeLogo;
+        #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
@@ -52,6 +56,7 @@ namespace SOSI.YeniSablonOlustur
             PlusCard= view.FindViewById<CardView>(Resource.Id.card_view1);
             GoldCard = view.FindViewById<CardView>(Resource.Id.card_view2);
             PlatinumCard = view.FindViewById<CardView>(Resource.Id.card_view3);
+            IsletmeLogo = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
             PlusCard.Tag = 0;
             GoldCard.Tag = 1;
             PlatinumCard.Tag = 2;
@@ -60,9 +65,11 @@ namespace SOSI.YeniSablonOlustur
             GoldCard.Click += PlusCard_Click;
             PlatinumCard.Click += PlusCard_Click;
             MarginleriSifirla(1);
+            var CompanyInfo = DataBase.COMPANY_INFORMATION_GETIR()[0];
+            new SetImageHelper().SetImage(this.Activity, IsletmeLogo, CompanyInfo.logoPath);
             return view;
         }
-
+        
         private void PlusCard_Click(object sender, EventArgs e)
         {
             MarginleriSifirla((int)((CardView)sender).Tag);

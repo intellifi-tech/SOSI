@@ -9,12 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using SOSI.AppIntro;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GirisKayit;
 using SOSI.IsletmeProfiliOlustur;
 using SOSI.MainPage;
+using SOSI.WebServicee;
 
 namespace SOSI.Splashh
 {
@@ -52,11 +54,13 @@ namespace SOSI.Splashh
                     var SirketBilgileri = DataBase.COMPANY_INFORMATION_GETIR();
                     if (SirketBilgileri.Count>0)
                     {
+                        
                         StartActivity(typeof(MainPageBaseActivity));//AppIntroBaseActivity
                         this.Finish();
                     }
                     else
                     {
+                       // SetDumyData();
                         StartActivity(typeof(IsletmeProfiliBaseActivity));//IsletmeProfiliBaseActivity
                         this.Finish();
                     }
@@ -73,5 +77,29 @@ namespace SOSI.Splashh
             });
             
         }
+        void SetDumyData()
+        {
+            return;
+            for (int i = 0; i < 20; i++)
+            {
+                RootObject rootObject = new RootObject()
+                {
+                    name = "Test Hizmet Alanı "+(i+1).ToString(),
+                    sectorId = "5e46ce99410df8000102cdc7"
+                };
+                WebService webService = new WebService();
+                string jsonString = JsonConvert.SerializeObject(rootObject);
+                var Donus = webService.ServisIslem("service-areas", jsonString);
+            }
+            
+        }
+        public class RootObject
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public string sectorId { get; set; }
+        }
     }
+    
+    
 }

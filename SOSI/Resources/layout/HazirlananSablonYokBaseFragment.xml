@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:textColor="#000"
         android:gravity="center"
         android:text="Henüz Hiç Paylaşım Şablonuna Sahip Değilsiniz"
@@ -38,7 +41,7 @@
             android:id="@+id/animation_view1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:lottie_fileName="isleniyor1.json"
+            app:lottie_fileName="sablonyok2.json"
             app:lottie_loop="true"
             android:layout_above="@+id/button2"
             app:lottie_autoPlay="true" />

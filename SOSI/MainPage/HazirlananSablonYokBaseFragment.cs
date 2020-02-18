@@ -10,24 +10,30 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using SOSI.YeniSablonOlustur;
 
 namespace SOSI.MainPage
 {
     public class HazirlananSablonYokBaseFragment : Android.Support.V4.App.Fragment
     {
+        Button YeniSablonButton;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
             View vieww =  inflater.Inflate(Resource.Layout.HazirlananSablonYokBaseFragment, container, false);
-
+            YeniSablonButton = vieww.FindViewById<Button>(Resource.Id.button2);
+            YeniSablonButton.Click += YeniSablonButton_Click;
             return vieww;
+        }
+
+        private void YeniSablonButton_Click(object sender, EventArgs e)
+        {
+            var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
+            PaylasimSayisiDialogFragment1.Show(this.Activity.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }
     }
 }
