@@ -70,6 +70,17 @@ namespace SOSI.YeniSablonOlustur
             MarginleriSifirla(1);
             var CompanyInfo = DataBase.COMPANY_INFORMATION_GETIR()[0];
             new SetImageHelper().SetImage(this.Activity, IsletmeLogo, CompanyInfo.logoPath);
+            //DataBase.YUKLENECEK_SABLON_TEMIZLE();
+            if (ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+            {
+                var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+                if (DevamEdenSablonVarmi.Count > 0)
+                {
+                    YuklenecekMediaCountHelper.Countt = DevamEdenSablonVarmi[0].maxMediaCount;
+                    this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                }
+            }
             return view;
         }
         
@@ -90,25 +101,34 @@ namespace SOSI.YeniSablonOlustur
             }
             else
             {
-                RequestPermissions(new String[] { Android.Manifest.Permission.Camera, Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage }, 111);
+                RequestPermissions(new String[] {Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage }, 111);
             }
         }
         void YuklemeSayfasiniAc()
         {
-            if (SecilenPaketTag == 0)
+            var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+            if (DevamEdenSablonVarmi.Count > 0)
             {
-                YuklenecekMediaCountHelper.Countt = 10;
-                this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
-            }
-            else if (SecilenPaketTag == 1)
-            {
-                YuklenecekMediaCountHelper.Countt = 15;
+                YuklenecekMediaCountHelper.Countt = DevamEdenSablonVarmi[0].maxMediaCount;
                 this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
             }
             else
             {
-                YuklenecekMediaCountHelper.Countt = 25;
-                this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                if (SecilenPaketTag == 0)
+                {
+                    YuklenecekMediaCountHelper.Countt = 10;
+                    this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                }
+                else if (SecilenPaketTag == 1)
+                {
+                    YuklenecekMediaCountHelper.Countt = 15;
+                    this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                }
+                else
+                {
+                    YuklenecekMediaCountHelper.Countt = 25;
+                    this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                }
             }
         }
 

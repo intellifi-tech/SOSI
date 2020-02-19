@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.Graphics;
 using Android.Media;
 using Android.OS;
@@ -80,6 +81,9 @@ namespace SOSI.YeniSablonOlustur
                 {
                     viewholder.VideoVieww.Visibility = ViewStates.Visible;
                     viewholder.GorselImageView.SetImageBitmap(null);
+                    //var mediaUrii = Android.Net.Uri.Parse(item.MediaUri.Path);
+                    //var aaaa = new Java.IO.File(mediaUrii.Path);
+                    //var bbb = Android.Net.Uri.FromFile(aaaa);
                     viewholder.VideoVieww.SetVideoURI(item.MediaUri);
                     viewholder.VideoVieww.SeekTo(1);
                 }
@@ -89,7 +93,7 @@ namespace SOSI.YeniSablonOlustur
                 }
             }
         }
-        
+      
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);

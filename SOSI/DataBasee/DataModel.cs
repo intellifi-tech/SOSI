@@ -63,4 +63,15 @@ namespace SOSI.DataBasee
         public string sectorId { get; set; }
         public string serviceAreaId { get; set; }
     }
+
+    public class YUKLENECEK_SABLON
+    {
+        [PrimaryKey, AutoIncrement]
+        public int localid { get; set; }
+        public string MediaUri { get; set; }
+        public bool isVideo { get; set; }
+        public bool isUploaded { get; set; }
+        public int position { get; set; }
+        public int maxMediaCount { get; set; }
+    }
 }

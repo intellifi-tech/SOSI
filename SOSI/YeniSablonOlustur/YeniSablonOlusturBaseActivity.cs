@@ -14,6 +14,7 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.YeniSablonOlustur.Bilgilendirme;
 
@@ -95,7 +96,7 @@ namespace SOSI.YeniSablonOlustur
             {
                 var Intent = new Intent();
                 Intent.SetType("image/*");
-                Intent.SetAction(Intent.ActionGetContent);
+                Intent.SetAction(Intent.ActionOpenDocument);
                 StartActivityForResult(Intent.CreateChooser(Intent, "Resim Yükle"), 444);
                 cevap.Dispose();
             });
@@ -124,7 +125,6 @@ namespace SOSI.YeniSablonOlustur
 
             return ssBuilder;
         }
-
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Android.App.Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -135,6 +135,7 @@ namespace SOSI.YeniSablonOlustur
                 SablonDTO1[SonSecilenItem].isVideo = false;
                 mViewAdapter.mData = SablonDTO1;
                 mViewAdapter.NotifyItemChanged(SonSecilenItem);
+                SaveMediaLocalDB(SablonDTO1[SonSecilenItem], SonSecilenItem);
             }
             else if ((requestCode == 555) && resultCode == Android.App.Result.Ok && (data != null))
             {
@@ -143,9 +144,47 @@ namespace SOSI.YeniSablonOlustur
                 SablonDTO1[SonSecilenItem].isVideo = true;
                 mViewAdapter.mData = SablonDTO1;
                 mViewAdapter.NotifyItemChanged(SonSecilenItem);
+                SaveMediaLocalDB(SablonDTO1[SonSecilenItem], SonSecilenItem);
             }
         }
 
+        void SaveMediaLocalDB(SablonDTO gelenicerik, int positionn)
+        {
+            var DahaOnceEklenenVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+            if (DahaOnceEklenenVarmi.Count > 0)
+            {
+                var BuPosizyondavarmi = DahaOnceEklenenVarmi.FindAll(item => item.position == positionn);
+                if (BuPosizyondavarmi.Count > 0)
+                {
+                    BuPosizyondavarmi[0].isVideo = gelenicerik.isVideo;
+                    BuPosizyondavarmi[0].isUploaded = false;
+                    BuPosizyondavarmi[0].MediaUri = gelenicerik.MediaUri.Path;
+                    DataBase.YUKLENECEK_SABLON_Guncelle(BuPosizyondavarmi[0]);
+                }
+                else
+                {
+                    DataBase.YUKLENECEK_SABLON_EKLE(new YUKLENECEK_SABLON()
+                    {
+                        isUploaded = false,
+                        isVideo = gelenicerik.isVideo,
+                        maxMediaCount = YuklenecekMediaCountHelper.Countt,
+                        MediaUri = gelenicerik.MediaUri.Path,
+                        position = positionn
+                    });
+                }
+            }
+            else
+            {
+                DataBase.YUKLENECEK_SABLON_EKLE(new YUKLENECEK_SABLON()
+                {
+                    isUploaded = false,
+                    isVideo = gelenicerik.isVideo,
+                    maxMediaCount = YuklenecekMediaCountHelper.Countt,
+                    MediaUri = gelenicerik.MediaUri.Path,
+                    position = positionn
+                });
+            }
+        }
 
         void CreateGiftList()
         {
@@ -153,6 +192,26 @@ namespace SOSI.YeniSablonOlustur
             {
                 SablonDTO1.Add(new SablonDTO());
             }
+
+            var DahaOnceEklenenVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+            for (int i = 0; i < DahaOnceEklenenVarmi.Count; i++)
+            {
+                Android.Net.Uri.Builder Builderr = new Android.Net.Uri.Builder();
+                Android.Net.Uri newUri;
+                if (DahaOnceEklenenVarmi[i].isVideo)
+                {
+                    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("media").EncodedAuthority("media").Build();
+                }
+                else
+                {
+                    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("com.android.providers.media.documents").EncodedAuthority("com.android.providers.media.documents").Build();
+                }
+                
+                SablonDTO1[DahaOnceEklenenVarmi[i].position].MediaUri = newUri;
+                SablonDTO1[DahaOnceEklenenVarmi[i].position].isVideo = DahaOnceEklenenVarmi[i].isVideo;
+            }
+
+
         }
         private void InformationButton_Click(object sender, EventArgs e)
         {
