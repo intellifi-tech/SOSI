@@ -29,7 +29,7 @@ namespace SOSI.YeniSablonOlustur
         RecyclerView.LayoutManager mLayoutManager;
         GorselYukleRecyclerViewAdapter mViewAdapter;
         List<SablonDTO> SablonDTO1 = new List<SablonDTO>();
-
+        Button GonderButton;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,6 +38,8 @@ namespace SOSI.YeniSablonOlustur
             dinamikStatusBarColor.SetFullScreen(this);
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             InformationButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            GonderButton = FindViewById<Button>(Resource.Id.button1);
+            GonderButton.Click += GonderButton_Click;
             AciklamaText = FindViewById<TextView>(Resource.Id.textView2);
             AciklamaText.Text = "1 aylık paylaşım için lütfen " + YuklenecekMediaCountHelper.Countt + " adet içerik yükleyin.";
             Geri.Click += Geri_Click;
@@ -46,6 +48,21 @@ namespace SOSI.YeniSablonOlustur
 
             mRecyclerView.HasFixedSize = true;
         }
+
+        private void GonderButton_Click(object sender, EventArgs e)
+        {
+            var HepsiOkeymi = SablonDTO1.FindAll(item => item.MediaUri == null);
+            if (HepsiOkeymi.Count > 0)
+            {
+                Toast.MakeText(this, "Lütfen tüm içerik alanlarını doldurun", ToastLength.Long).Show();
+                return;
+            }
+            else
+            {
+                //Gönderme İşlemini Başlat
+            }
+        }
+
         bool Actinmi = false;
         protected override void OnStart()
         {
@@ -213,6 +230,7 @@ namespace SOSI.YeniSablonOlustur
 
 
         }
+
         private void InformationButton_Click(object sender, EventArgs e)
         {
             this.StartActivity(typeof(InformationBaseActivity));
