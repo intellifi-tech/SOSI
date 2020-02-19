@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -21,6 +23,7 @@ using Refractored.Controls;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
+using static SOSI.YeniSablonOlustur.YeniSablonOlusturBaseActivity;
 
 namespace SOSI.YeniSablonOlustur
 {
@@ -78,19 +81,35 @@ namespace SOSI.YeniSablonOlustur
         int SecilenPaketTag = 1;
         private void DevamEt_Click(object sender, EventArgs e)
         {
+
+            if (ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+            {
+
+                YuklemeSayfasiniAc();
+            }
+            else
+            {
+                RequestPermissions(new String[] { Android.Manifest.Permission.Camera, Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage }, 111);
+            }
+        }
+        void YuklemeSayfasiniAc()
+        {
             if (SecilenPaketTag == 0)
             {
+                YuklenecekMediaCountHelper.Countt = 10;
                 this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
             }
             else if (SecilenPaketTag == 1)
             {
+                YuklenecekMediaCountHelper.Countt = 15;
                 this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
             }
             else
             {
+                YuklenecekMediaCountHelper.Countt = 25;
                 this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
             }
-            
         }
 
         void MarginleriSifirla(int Tagg)
