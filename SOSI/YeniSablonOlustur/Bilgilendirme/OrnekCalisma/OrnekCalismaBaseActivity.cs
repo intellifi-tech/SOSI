@@ -66,6 +66,21 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
                         ShowLoading.Hide();
                     });
                 }
+                else
+                {
+                    this.RunOnUiThread(delegate
+                    {
+                        ShowLoading.Hide();
+                    });
+
+                }
+            }
+            else
+            {
+                this.RunOnUiThread(delegate
+                {
+                    ShowLoading.Hide();
+                });
             }
         }
 

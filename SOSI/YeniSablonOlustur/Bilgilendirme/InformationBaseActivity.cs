@@ -39,17 +39,10 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
             Ileri.Click += Ileri_Click;
             Geri.Click += Geri_Click;
             viewpager = FindViewById<ViewPager>(Resource.Id.viewPager1);
-            viepageratama();
             _indicator = FindViewById<CirclePageIndicator>(Resource.Id.circlePageIndicator1);
-            _indicator.SetViewPager(viewpager);
-            ((CirclePageIndicator)_indicator).Snap = true;
-            var density = Resources.DisplayMetrics.Density;
-            //((CirclePageIndicator)_indicator).SetBackgroundColor(Color.Argb(255, 204, 204, 204));
-            ((CirclePageIndicator)_indicator).Radius = 5 * density;
-            ((CirclePageIndicator)_indicator).PageColor = Color.ParseColor("#00A1FF");
-            ((CirclePageIndicator)_indicator).FillColor = Color.Transparent;
-            ((CirclePageIndicator)_indicator).StrokeColor = Color.ParseColor("#00A1FF");
-            ((CirclePageIndicator)_indicator).StrokeWidth = 3f;
+            viepageratama();
+            
+           
         }
 
         private void OrnekCalismalar_Click(object sender, EventArgs e)
@@ -82,18 +75,29 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme
                     {
                         fragments[i] = new InformationFragmentParca(HowToUseInfomationDTO1[i]);
                     }
-                }
-
-                var titelssss = new string[HowToUseInfomationDTO1.Count];
-                var titles = CharSequence.ArrayFromStringArray(titelssss);
-                try
-                {
-                    this.RunOnUiThread(delegate () {
-                        viewpager.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, titles);
-                    });
-                }
-                catch
-                {
+                    var titelssss = new string[HowToUseInfomationDTO1.Count];
+                    var titles = CharSequence.ArrayFromStringArray(titelssss);
+                    try
+                    {
+                        this.RunOnUiThread(delegate () {
+                            if (fragments.Length > 0)
+                            {
+                                viewpager.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, titles);
+                                _indicator.SetViewPager(viewpager);
+                                ((CirclePageIndicator)_indicator).Snap = true;
+                                var density = Resources.DisplayMetrics.Density;
+                                //((CirclePageIndicator)_indicator).SetBackgroundColor(Color.Argb(255, 204, 204, 204));
+                                ((CirclePageIndicator)_indicator).Radius = 5 * density;
+                                ((CirclePageIndicator)_indicator).PageColor = Color.ParseColor("#00A1FF");
+                                ((CirclePageIndicator)_indicator).FillColor = Color.Transparent;
+                                ((CirclePageIndicator)_indicator).StrokeColor = Color.ParseColor("#00A1FF");
+                                ((CirclePageIndicator)_indicator).StrokeWidth = 3f;
+                            }
+                        });
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             
