@@ -20,7 +20,7 @@ using SOSI.WebServicee;
 
 namespace SOSI.Splashh
 {
-    [Activity(Label = "SOSI",MainLauncher =true)]
+    [Activity(Label = "Contento",MainLauncher =true)]
     public class Splash : Android.Support.V7.App.AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -60,7 +60,7 @@ namespace SOSI.Splashh
                     }
                     else
                     {
-                       // SetDumyData();
+                        //SetDumyData();
                         StartActivity(typeof(IsletmeProfiliBaseActivity));//IsletmeProfiliBaseActivity
                         this.Finish();
                     }
@@ -79,13 +79,12 @@ namespace SOSI.Splashh
         }
         void SetDumyData()
         {
-            return;
             for (int i = 0; i < 20; i++)
             {
                 RootObject rootObject = new RootObject()
                 {
-                    name = "Test Hizmet Alanı "+(i+1).ToString(),
-                    sectorId = "5e46ce99410df8000102cdc7"
+                    name = "Hizmet Alanı "+(i+1).ToString(),
+                    sectorId = "5e5cd4e995fe130001957bb0"
                 };
                 WebService webService = new WebService();
                 string jsonString = JsonConvert.SerializeObject(rootObject);

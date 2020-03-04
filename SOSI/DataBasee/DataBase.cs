@@ -32,6 +32,7 @@ namespace SOSI.DataBasee
             conn.CreateTable<MEMBER_DATA>();
             conn.CreateTable<COMPANY_INFORMATION>();
             conn.CreateTable<YUKLENECEK_SABLON>();
+            conn.CreateTable<GUNCEL_SABLON>();
             conn.Close();
         }
 
@@ -222,6 +223,74 @@ namespace SOSI.DataBasee
 
         }
         public static bool YUKLENECEK_SABLON_Guncelle(YUKLENECEK_SABLON Tablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Update(Tablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        #endregion
+
+        #region YUKLENECEK_SABLON
+        public static bool GUNCEL_SABLON_EKLE(GUNCEL_SABLON GelenDoluTablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Insert(GelenDoluTablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                var aa = Ex.Message;
+                return false;
+            }
+        }
+        public static List<GUNCEL_SABLON> GUNCEL_SABLON_GETIR()
+        {
+            Atla:
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                var gelenler = conn.Query<GUNCEL_SABLON>("Select * From GUNCEL_SABLON");
+                conn.Close();
+                return gelenler;
+            }
+            catch (Exception Ex)
+            {
+                goto Atla;
+                var aa = Ex.Message;
+                return null;
+            }
+
+        }
+        public static bool GUNCEL_SABLON_TEMIZLE()
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Query<YUKLENECEK_SABLON>("Delete From GUNCEL_SABLON");
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        public static bool GUNCEL_SABLON_Guncelle(GUNCEL_SABLON Tablo)
         {
             try
             {

@@ -14,7 +14,7 @@ using SOSI.IsletmeProfiliOlustur;
 
 namespace SOSI.GirisKayit
 {
-    [Activity(Label = "SOSI")]
+    [Activity(Label = "Contento")]
     public class HosgeldinActivity : Android.Support.V7.App.AppCompatActivity
     {
         Button DevamEt;

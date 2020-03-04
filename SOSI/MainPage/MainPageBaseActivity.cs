@@ -76,7 +76,9 @@ namespace SOSI.MainPage
             if (Donus!=null)
             {
                 var SablonlarDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SablonlarDTO>>(Donus.ToString());
-                if (SablonlarDTO1.Count > 0)
+                var YuklenecekMedialar = DataBase.YUKLENECEK_SABLON_GETIR();
+                YuklenecekMedialar = YuklenecekMedialar.FindAll(item => item.isUploaded == false);
+                if (SablonlarDTO1.Count > 0 && YuklenecekMedialar.Count <= 0)
                 {
                     GetIslemeDurumFragment(SablonlarDTO1[SablonlarDTO1.Count-1]);
                 }

@@ -73,5 +73,16 @@ namespace SOSI.DataBasee
         public bool isUploaded { get; set; }
         public int position { get; set; }
         public int maxMediaCount { get; set; }
+        public string aciklama { get; set; }
+    }
+
+    public class GUNCEL_SABLON
+    {
+        [PrimaryKey, AutoIncrement]
+        public int localid { get; set; }
+        public bool complete { get; set; }
+        public string id { get; set; }
+        public int mediaCount { get; set; }
+        public string userId { get; set; }
     }
 }

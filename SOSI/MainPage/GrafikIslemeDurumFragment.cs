@@ -54,12 +54,15 @@ namespace SOSI.MainPage
                 medyaIcerikleriDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MedyaIcerikleriDTO>>(Donus.ToString());
                 var Total = medyaIcerikleriDTOs.Count;
                 var Tamamlanan = medyaIcerikleriDTOs.FindAll(item => item.processed == true).Count;
-                if (Total == Tamamlanan)//Bitti
+                if (Tamamlanan != 0)
                 {
-                    BaslikText.Text = "Paylaşım Şablonu Tamamlandı!";
-                    AciklamaText.Text = "Tamamlanan şablonlar sayfasına giderek paylaşımlarınızı inceleyebilirsiniz.";
-                    lottieAnimationView.SetAnimation("done1.json");
-                    lottieAnimationView.PlayAnimation();
+                    if (Total == Tamamlanan)//Bitti
+                    {
+                        BaslikText.Text = "Paylaşım Şablonu Tamamlandı!";
+                        AciklamaText.Text = "Tamamlanan şablonlar sayfasına giderek paylaşımlarınızı inceleyebilirsiniz.";
+                        lottieAnimationView.SetAnimation("done1.json");
+                        lottieAnimationView.PlayAnimation();
+                    }
                 }
 
                 CounterText.Text = Tamamlanan.ToString() + "/" + Total.ToString();

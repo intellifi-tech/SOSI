@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="460dp">
+    <LinearLayout
+        android:background="@drawable/popupbg1"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="316.5dp"
+        android:id="@+id/linearLayout1">
+        <TextView
+            android:textColor="#3E3E42"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:text="Bu içerik için bize iletmek istediğiniz detaylar varsa lütfen aşağıdaki alana yazın."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:layout_marginTop="10.0dp"
+            android:layout_marginBottom="12.0dp" />
+        <EditText
+            android:textColor="#000"
+            android:gravity="top"
+            android:hint="İletmek istediğiniz detaylar..."
+            android:backgroundTint="@android:color/transparent"
+            android:inputType="textMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="223.5dp"
+            android:id="@+id/editText1" />
+    </LinearLayout>
+    <Button
+        android:layout_marginBottom="10dp"
+        android:textColor="#fff"
+        android:background="@drawable/gradientbg_raunded"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Kaydet"
+        android:layout_width="202.0dp"
+        android:layout_height="50dp"
+        android:id="@+id/button1" />
+</RelativeLayout>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Android.App;
@@ -77,10 +78,12 @@ namespace SOSI.IsletmeProfiliOlustur
                 string jsonString = "";
                 this.RunOnUiThread(delegate ()
                 {
+                    var logopath = OnceLogoyuYule();
+
                     COMPANY_INFORMATION kayitIcinIsletmeBilgileri = new COMPANY_INFORMATION()
                     {
                         companyColor = ((KurumsalRenkFragment)fragments[2]).GetSeletedColor(),
-                        logoPath = "https://avatars3.githubusercontent.com/u/49305818?s=200&v=4",//((LogoFragment)fragments[3]).GetCompanyLogoPath()
+                        logoPath = logopath,
                         name = ((LogoFragment)fragments[3]).GetCompanyName(),
                         sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
                         serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
@@ -113,6 +116,82 @@ namespace SOSI.IsletmeProfiliOlustur
                 });
 
             })).Start();
+        }
+        string OnceLogoyuYule()
+        {
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0];
+            byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
+            MediaUploadDTO MediaUploadDTO1 = new MediaUploadDTO()
+            {
+                mediaCount = 0,
+                postText = "",
+                templateId = "0",
+                video = false,
+                userId = MeID.id,
+                processed = false,
+            };
+
+            string jsonString = JsonConvert.SerializeObject(MediaUploadDTO1);
+            var client = new RestSharp.RestClient("http://46.45.185.15:9003/api/template-medias");
+            client.Timeout = -1;
+            var request = new RestSharp.RestRequest(RestSharp.Method.POST);
+            request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddHeader("Authorization", "Bearer " + MeID.API_TOKEN);
+            request.AddParameter("templateMedia", jsonString);
+            request.AddFile("photo", mediabyte, "sosi_company_logo.png");
+            RestSharp.IRestResponse response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.Unauthorized &&
+                response.StatusCode != HttpStatusCode.InternalServerError &&
+                response.StatusCode != HttpStatusCode.BadRequest &&
+                response.StatusCode != HttpStatusCode.Forbidden &&
+                response.StatusCode != HttpStatusCode.MethodNotAllowed &&
+                response.StatusCode != HttpStatusCode.NotAcceptable &&
+                response.StatusCode != HttpStatusCode.RequestTimeout &&
+                response.StatusCode != HttpStatusCode.NotFound)
+            {
+                var jsonobj = response.Content;
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<MediaUploadDTO>(jsonobj.ToString());
+                if (Icerik != null)
+                {
+                    return Icerik.beforeMediaPath;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public byte[] ConvertImageToByte(Android.Net.Uri uri)
+        {
+            Stream stream = ContentResolver.OpenInputStream(uri);
+            byte[] byteArray;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                byteArray = memoryStream.ToArray();
+            }
+            return byteArray;
+        }
+
+        public class MediaUploadDTO
+        {
+            public string afterMediaPath { get; set; }
+            public string beforeMediaPath { get; set; }
+            public string id { get; set; }
+            public int mediaCount { get; set; }
+            public string postText { get; set; }
+            public bool processed { get; set; }
+            public string shareDateTime { get; set; }
+            public string templateId { get; set; }
+            public string type { get; set; }
+            public string userId { get; set; }
+            public bool video { get; set; }
         }
 
         bool EsksikVarmi()

@@ -102,7 +102,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             public int mediaCount { get; set; }
             public string postText { get; set; }
             public bool processed { get; set; }
-            public DateTime shareDateTime { get; set; }
+            public string shareDateTime { get; set; }
             public string templateId { get; set; }
             public string type { get; set; }
             public string userId { get; set; }

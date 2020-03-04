@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -16,6 +17,7 @@ using Android.Views;
 using Android.Widget;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.MediaUploader;
 using SOSI.YeniSablonOlustur.Bilgilendirme;
 
 namespace SOSI.YeniSablonOlustur
@@ -59,7 +61,8 @@ namespace SOSI.YeniSablonOlustur
             }
             else
             {
-                //Gönderme İşlemini Başlat
+                StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
             }
         }
 
@@ -167,42 +170,115 @@ namespace SOSI.YeniSablonOlustur
 
         void SaveMediaLocalDB(SablonDTO gelenicerik, int positionn)
         {
+            var YeniPaylasimMetinDialogFragment1 = new YeniPaylasimMetinDialogFragment(gelenicerik, positionn,this);
+            YeniPaylasimMetinDialogFragment1.Cancelable = false;
+            YeniPaylasimMetinDialogFragment1.Show(this.SupportFragmentManager, "YeniPaylasimMetinDialogFragment");
+        }
+        public void MetinGirildiMedyayiKaydet(SablonDTO gelenicerik, int positionn,string GelenAciklama)
+        {
             var DahaOnceEklenenVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
             if (DahaOnceEklenenVarmi.Count > 0)
             {
                 var BuPosizyondavarmi = DahaOnceEklenenVarmi.FindAll(item => item.position == positionn);
                 if (BuPosizyondavarmi.Count > 0)
                 {
+                    BuPosizyondavarmi[0].aciklama = GelenAciklama;
                     BuPosizyondavarmi[0].isVideo = gelenicerik.isVideo;
                     BuPosizyondavarmi[0].isUploaded = false;
-                    BuPosizyondavarmi[0].MediaUri = gelenicerik.MediaUri.Path;
-                    DataBase.YUKLENECEK_SABLON_Guncelle(BuPosizyondavarmi[0]);
+                    //BuPosizyondavarmi[0].MediaUri = gelenicerik.MediaUri.Path;
+                    var DosyaYolu = DosyayıLokaleKopyala(gelenicerik.MediaUri, gelenicerik);
+                    if (DosyaYolu!="")
+                    {
+                        BuPosizyondavarmi[0].MediaUri = DosyaYolu;
+                        DataBase.YUKLENECEK_SABLON_Guncelle(BuPosizyondavarmi[0]);
+                    }
                 }
                 else
+                {
+                    var DosyaYolu = DosyayıLokaleKopyala(gelenicerik.MediaUri, gelenicerik);
+                    if (DosyaYolu != "")
+                    {
+                        DataBase.YUKLENECEK_SABLON_EKLE(new YUKLENECEK_SABLON()
+                        {
+                            isUploaded = false,
+                            isVideo = gelenicerik.isVideo,
+                            maxMediaCount = YuklenecekMediaCountHelper.Countt,
+                            MediaUri = DosyaYolu,
+                            position = positionn,
+                            aciklama = GelenAciklama,
+                        });
+                    }
+                    
+                }
+            }
+            else
+            {
+
+                var DosyaYolu = DosyayıLokaleKopyala(gelenicerik.MediaUri, gelenicerik);
+                if (DosyaYolu != "")
                 {
                     DataBase.YUKLENECEK_SABLON_EKLE(new YUKLENECEK_SABLON()
                     {
                         isUploaded = false,
                         isVideo = gelenicerik.isVideo,
                         maxMediaCount = YuklenecekMediaCountHelper.Countt,
-                        MediaUri = gelenicerik.MediaUri.Path,
-                        position = positionn
+                        MediaUri = DosyaYolu,
+                        position = positionn,
+                        aciklama = GelenAciklama,
                     });
                 }
             }
-            else
-            {
-                DataBase.YUKLENECEK_SABLON_EKLE(new YUKLENECEK_SABLON()
-                {
-                    isUploaded = false,
-                    isVideo = gelenicerik.isVideo,
-                    maxMediaCount = YuklenecekMediaCountHelper.Countt,
-                    MediaUri = gelenicerik.MediaUri.Path,
-                    position = positionn
-                });
-            }
         }
 
+        string DosyayıLokaleKopyala(Android.Net.Uri uri, SablonDTO GelenSablonBilgileri)
+        {
+            try
+            {
+                Stream stream = ContentResolver.OpenInputStream(uri);
+                byte[] byteArray;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    byteArray = memoryStream.ToArray();
+                }
+                stream.Dispose();
+                var Klasor = documentsFolder();
+                string FileNamee = Guid.NewGuid().ToString();
+                if (GelenSablonBilgileri.isVideo)
+                {
+                    FileNamee = FileNamee + ".mp4";
+                }
+                else
+                {
+                    FileNamee = FileNamee + ".png";
+                }
+
+
+                FileStream dosya = System.IO.File.Create(Klasor + "/" + FileNamee);
+                dosya.Write(byteArray, 0, byteArray.Length);
+                dosya.Close();
+
+                return Klasor + "/" + FileNamee;
+            }
+            catch (Exception exx)
+            {
+                string aaa = exx.Message;
+                return "";
+            }
+
+        }
+        static string documentsFolder()
+        {
+            string path;
+            path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            Directory.CreateDirectory(path);
+            if (!Directory.Exists(path+"/MediaFiles"))
+            {
+                Directory.CreateDirectory(path + "/MediaFiles");
+            }
+            return path +"/MediaFiles";
+        }
         void CreateGiftList()
         {
             for (int i = 0; i < YuklenecekMediaCountHelper.Countt; i++)
@@ -215,22 +291,21 @@ namespace SOSI.YeniSablonOlustur
             {
                 Android.Net.Uri.Builder Builderr = new Android.Net.Uri.Builder();
                 Android.Net.Uri newUri;
-                if (DahaOnceEklenenVarmi[i].isVideo)
-                {
-                    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("media").EncodedAuthority("media").Build();
-                }
-                else
-                {
-                    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("com.android.providers.media.documents").EncodedAuthority("com.android.providers.media.documents").Build();
-                }
-                
+                //if (DahaOnceEklenenVarmi[i].isVideo)
+                //{
+                //    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("media").EncodedAuthority("media").Build();
+                //}
+                //else
+                //{
+                //    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("com.android.providers.media.documents").EncodedAuthority("com.android.providers.media.documents").Build();
+                //}
+                newUri = Android.Net.Uri.Parse(DahaOnceEklenenVarmi[i].MediaUri);
                 SablonDTO1[DahaOnceEklenenVarmi[i].position].MediaUri = newUri;
                 SablonDTO1[DahaOnceEklenenVarmi[i].position].isVideo = DahaOnceEklenenVarmi[i].isVideo;
             }
 
 
         }
-
         private void InformationButton_Click(object sender, EventArgs e)
         {
             this.StartActivity(typeof(InformationBaseActivity));

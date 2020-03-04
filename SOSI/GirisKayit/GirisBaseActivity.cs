@@ -97,7 +97,9 @@ namespace SOSI.GirisKayit
             }
             else
             {
-                Toast.MakeText(this, "Giriş Yapılamadı.", ToastLength.Long).Show();
+                this.RunOnUiThread(delegate { 
+                    Toast.MakeText(this, "Giriş Yapılamadı.", ToastLength.Long).Show();
+                });
             }
         }
         bool GetMemberData(string PassWord)
@@ -113,6 +115,7 @@ namespace SOSI.GirisKayit
                 Icerik.password = PassWord;
 
                 DataBase.MEMBER_DATA_EKLE(Icerik);
+
                 return true;
             }
             else
@@ -124,6 +127,10 @@ namespace SOSI.GirisKayit
             }
         }
 
+        void GetCompanyInfo(string UserID)
+        {
+            WebService webService = new WebService();
+        }
 
         bool BosVarmi()
         {

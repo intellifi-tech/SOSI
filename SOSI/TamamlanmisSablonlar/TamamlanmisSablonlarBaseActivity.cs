@@ -14,6 +14,7 @@ using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.TamamlanmisSablonlar.SablonDetay;
+using SOSI.TamamlanmisSablonlar.SablonIcerikleri;
 using SOSI.WebServicee;
 using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
@@ -72,7 +73,7 @@ namespace SOSI.TamamlanmisSablonlar
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
             SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;
-            this.StartActivity(typeof(RevizeGonderBaseActivity));
+            this.StartActivity(typeof(SablonIcerikleriBaseActivity));
         }
     
         public class TamamlanmisSablonDTO

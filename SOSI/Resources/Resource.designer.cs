@@ -7164,10 +7164,13 @@ namespace SOSI
 			public const int view_creditcard = 2131427441;
 			
 			// aapt resource value: 0x7F0B0072
-			public const int YeniSablonGorselYukleCardView = 2131427442;
+			public const int YeniPaylasimMetinGirisiDialogFragment = 2131427442;
 			
 			// aapt resource value: 0x7F0B0073
-			public const int YeniSablonOlusturBaseActivity = 2131427443;
+			public const int YeniSablonGorselYukleCardView = 2131427443;
+			
+			// aapt resource value: 0x7F0B0074
+			public const int YeniSablonOlusturBaseActivity = 2131427444;
 			
 			static Layout()
 			{
