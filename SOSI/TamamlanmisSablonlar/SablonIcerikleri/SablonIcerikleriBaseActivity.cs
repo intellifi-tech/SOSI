@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.TamamlanmisSablonlar.SablonDetay;
 using SOSI.WebServicee;
@@ -23,10 +24,21 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         SablonIcerikleriRecyclerViewAdapter mViewAdapter;
+        ImageButton GeriButton;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.SablonIcerikleriBaseActivity);
+            DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
+            dinamikStatusBarColor.SetFullScreen(this);
+            mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
+            GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            GeriButton.Click += GeriButton_Click;
+        }
+
+        private void GeriButton_Click(object sender, EventArgs e)
+        {
+            this.Finish();
         }
 
         protected override void OnStart()

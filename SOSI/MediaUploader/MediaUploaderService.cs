@@ -120,7 +120,6 @@ namespace SOSI.MediaUploader
                     }
                 }
             }
-
         }
 
         int GetMediaCount()
@@ -147,9 +146,21 @@ namespace SOSI.MediaUploader
             var client = new RestSharp.RestClient("http://46.45.185.15:9003/api/template-medias");
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
+            //request.Accept = "*/*";
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
+            //client.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
+            request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36");
+            request.AddHeader("Accept", "*/*");
             request.AddHeader("Content-Type", "multipart/form-data");
             request.AddHeader("Authorization", "Bearer " + MeId.API_TOKEN);
-            request.AddParameter("templateMedia", jsonString);
+            request.AddParameter("mediaCount", MediaUploadDTO1.mediaCount);
+            request.AddParameter("postText", MediaUploadDTO1.postText);
+            request.AddParameter("templateId", MediaUploadDTO1.templateId);
+            request.AddParameter("video", MediaUploadDTO1.video);
+            request.AddParameter("userId", MeId.id);
+            request.AddParameter("processed", false);
+            request.AddParameter("type", "POST");
             request.AddFile("photo", mediabyte, "sosi_media_file"+ uzanti);
             RestSharp.IRestResponse response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.Unauthorized &&

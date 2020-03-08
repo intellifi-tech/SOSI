@@ -21,9 +21,11 @@ namespace SOSI.MainPage
         LottieAnimationView lottieAnimationView;
         SablonlarDTO SonSablon;
         List<MedyaIcerikleriDTO> medyaIcerikleriDTOs = new List<MedyaIcerikleriDTO>();
-        public GrafikIslemeDurumFragment(SablonlarDTO SonSablon1)
+        MainPageBaseActivity MainPageBaseActivity1;
+        public GrafikIslemeDurumFragment(SablonlarDTO SonSablon1, MainPageBaseActivity MainPageBaseActivity2)
         {
             SonSablon = SonSablon1;
+            MainPageBaseActivity1 = MainPageBaseActivity2;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -63,6 +65,10 @@ namespace SOSI.MainPage
                         lottieAnimationView.SetAnimation("done1.json");
                         lottieAnimationView.PlayAnimation();
                     }
+                    else
+                    {
+                        MainPageBaseActivity1.YeniSablonButtonGizle();
+                    }
                 }
 
                 CounterText.Text = Tamamlanan.ToString() + "/" + Total.ToString();
@@ -77,7 +83,7 @@ namespace SOSI.MainPage
             public int mediaCount { get; set; }
             public string postText { get; set; }
             public bool processed { get; set; }
-            public DateTime shareDateTime { get; set; }
+            public DateTime? shareDateTime { get; set; }
             public string templateId { get; set; }
             public string type { get; set; }
             public string userId { get; set; }

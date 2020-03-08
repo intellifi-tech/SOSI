@@ -96,11 +96,15 @@ namespace SOSI.MainPage
         void GetIslemeDurumFragment(SablonlarDTO SonSablon)
         {
             ClearFragment();
-            GrafikIslemeDurumFragment ZaplaBaseFragment1 = new GrafikIslemeDurumFragment(SonSablon);
+            GrafikIslemeDurumFragment ZaplaBaseFragment1 = new GrafikIslemeDurumFragment(SonSablon,this);
             ft = this.SupportFragmentManager.BeginTransaction();
             ft.AddToBackStack(null);
             ft.Replace(Resource.Id.conteinerview, ZaplaBaseFragment1);//
             ft.Commit();
+        }
+        public void YeniSablonButtonGizle()
+        {
+            YeniSablonOlustur.Visibility = ViewStates.Gone;
         }
         void GetSablonYokFragment()
         {

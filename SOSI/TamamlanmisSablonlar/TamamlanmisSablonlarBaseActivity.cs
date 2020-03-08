@@ -74,6 +74,16 @@ namespace SOSI.TamamlanmisSablonlar
         {
             SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;
             this.StartActivity(typeof(SablonIcerikleriBaseActivity));
+            return;
+            if ((bool)TamamlanmisSablonDTO1[(int)e[0]].complete)
+            {
+                SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;
+                this.StartActivity(typeof(SablonIcerikleriBaseActivity));
+            }
+            else
+            {
+                Toast.MakeText(this, "Şablonunuz henüz hazır değil. Lütfen tamamlanmasını bekleyin..", ToastLength.Long).Show();
+            }
         }
     
         public class TamamlanmisSablonDTO

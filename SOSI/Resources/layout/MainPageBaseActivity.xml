@@ -92,13 +92,14 @@
                 android:text="Tamamlanmış Şablonlar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/button1" />
+                android:id="@+id/button1"
+                android:layout_marginBottom="7.5dp" />
             <Button
                 android:textColor="#fff"
                 android:background="@drawable/gradientbg_raunded"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="7.5dp"
                 android:layout_marginBottom="15dp"
                 android:text="Yeni Şablon"
                 android:layout_width="match_parent"

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -19,7 +20,7 @@ namespace SOSI.TamamlanmisSablonlar
     class TamamlanmisSablonRecyclerViewHolder : RecyclerView.ViewHolder
     {
 
-        TextView AyText, IcerikSayisiText, TamamlanmaText;
+        public TextView AyText, IcerikSayisiText, TamamlanmaText;
         public TamamlanmisSablonRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
         {
 
@@ -57,7 +58,18 @@ namespace SOSI.TamamlanmisSablonlar
         {
             TamamlanmisSablonRecyclerViewHolder viewholder = holder as TamamlanmisSablonRecyclerViewHolder;
             HolderForAnimation = holder as TamamlanmisSablonRecyclerViewHolder;
-           
+            var item = mData[position];
+            viewholder.IcerikSayisiText.Text = item.mediaCount + " içerik";
+            if ((bool)item.complete)
+            {
+                viewholder.TamamlanmaText.Text = "Tamamlandı";
+                viewholder.TamamlanmaText.SetTextColor(Color.ParseColor("#1E8E3E"));
+            }
+            else
+            {
+                viewholder.TamamlanmaText.Text = "Tamamlanmadı";
+                viewholder.TamamlanmaText.SetTextColor(Color.ParseColor("#eb0000"));
+            }
         }
         
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
