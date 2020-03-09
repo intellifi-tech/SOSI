@@ -65,8 +65,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         }
         DinamikAdresSec DinamikActionSheet1;
         List<Buttons_Image_DataModels> Butonlarr = new List<Buttons_Image_DataModels>();
+
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
+            SecilenSablonDTO.SecilenSablon = sablonIcerikleriDTOs[(int)e[0]];
             Butonlarr = new List<Buttons_Image_DataModels>();
 
             Butonlarr.Add(new Buttons_Image_DataModels()
@@ -98,6 +100,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             }
             else if (Index == 1)
             {
+                 
                 this.StartActivity(typeof(SablonDetayBaseActivity));
             }
             else if (Index == Butonlarr.Count - 1)

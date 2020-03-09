@@ -50,13 +50,6 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:id="@+id/ımageButton2" />
-                <ImageButton
-                    android:tint="#fff"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/send"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/ımageButton3" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -113,27 +106,37 @@
                             android:layout_height="match_parent"
                             android:id="@+id/textView3" />
                     </LinearLayout>
-                <com.ebr163.bifacialview.view.BifacialView
-                    android:id="@+id/view"
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@android:drawable/ic_menu_gallery"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    app:arrowColor="#fff"
-                    app:arrowCornerRadius="2dp"
-                    app:arrowFill="true"
-                    app:arrowStrokeWidth="3dp"
-                    app:arrowWidth="27dp"
-                    app:arrowHeight="41dp"
-                    app:arrowMargin="10dp"
-                    app:arrowVisibility="true"
-                    app:delimiterWidth="3dp"
-                    app:touchMode="delimiter"
-                    app:drawableLeft="@mipmap/pizzaimg2"
-                    app:drawableRight="@mipmap/pizzaimg3"
-                    app:leftText="before"
-                    app:rightText="after"
-                    app:textColor="@android:color/transparent"
-                    app:textSize="20sp"
-                    app:delimiterPadding="20dp"/>
+                    android:id="@+id/ımageView1" />
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/videohazne" >
+            <VideoView
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/videoView1" />
+                <ImageView
+                    android:visibility="gone"
+                    android:padding="20dp"
+                    android:tint="#fff"
+                    android:background="@drawable/playbacground"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/play_circle"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:id="@+id/baslabutton" />
+            </RelativeLayout>
                  <TextView
                     android:layout_marginTop="10dp"
                      android:textColor="#686868"
@@ -141,7 +144,7 @@
                      android:textAppearance="?android:attr/textAppearanceSmall"
                      android:layout_width="wrap_content"
                      android:layout_height="match_parent"
-                     android:id="@+id/textView3" />
+                     android:id="@+id/textView4" />
             </LinearLayout>
           </ScrollView>
         <Button
@@ -153,6 +156,7 @@
             android:text="Paylaş"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/button1" />
+            android:id="@+id/button1"
+            android:layout_marginTop="15.0dp" />
     </RelativeLayout>
 </LinearLayout>

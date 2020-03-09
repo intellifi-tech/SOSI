@@ -24,6 +24,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         public TextView PaylasimTipiText, PaylasimZamaniText, PostAciklama;
         public ImageView Resim;
         public VideoView Videoo;
+        public RelativeLayout VideoHazne;
         public SablonIcerikleriRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
         {
 
@@ -32,6 +33,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             Resim = itemView.FindViewById<ImageView>(Resource.Id.ımageView1);
             Videoo = itemView.FindViewById<VideoView>(Resource.Id.videoView1);
             PostAciklama = itemView.FindViewById<TextView>(Resource.Id.textView3);
+            VideoHazne = itemView.FindViewById<RelativeLayout>(Resource.Id.videohazne);
 
 
             itemView.Click += (sender, e) => listener(new object[] { base.Position,itemView });
@@ -70,7 +72,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             if (item.video)
             {
                 viewholder.Resim.Visibility = ViewStates.Gone;
-                viewholder.Videoo.Visibility = ViewStates.Visible;
+                viewholder.VideoHazne.Visibility = ViewStates.Visible;
                 String videoUrl = "https://ia800201.us.archive.org/12/items/BigBuckBunny_328/BigBuckBunny_512kb.mp4";
                 Android.Net.Uri video = Android.Net.Uri.Parse(videoUrl);
                 viewholder.Videoo.SetVideoURI(video);
@@ -79,7 +81,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             else
             {
                 viewholder.Resim.Visibility = ViewStates.Visible;
-                viewholder.Videoo.Visibility = ViewStates.Gone;
+                viewholder.VideoHazne.Visibility = ViewStates.Gone;
                 new SetImageHelper().SetImage(BaseActivity, viewholder.Resim, item.afterMediaPath);
             }
 
