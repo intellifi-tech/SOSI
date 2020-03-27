@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <ImageView
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/logononbg"
         android:layout_width="match_parent"
         android:layout_height="81.0dp"
         android:minWidth="25px"
@@ -18,7 +18,7 @@
         android:textStyle="bold"
         android:textColor="#fff"
         android:gravity="center_horizontal"
-        android:text="SOSİ'ye"
+        android:text="Contento'ya"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
             android:id="@+id/textView6" />
     </LinearLayout>
     <LinearLayout
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/facebookbuttonbg"
                 android:orientation="horizontal"
                 android:minWidth="25px"
@@ -167,9 +167,10 @@
                     android:text="FACEBOOK İLE OTURUM AÇ"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/textView1" />
+                    android:id="@+id/facebookloginbutton" />
             </LinearLayout>
     <LinearLayout
+                android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/inputbg1"
                 android:orientation="horizontal"

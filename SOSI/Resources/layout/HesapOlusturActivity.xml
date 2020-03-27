@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
     <ImageView
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/logononbg"
         android:layout_width="match_parent"
         android:layout_height="71.0dp"
         android:minWidth="25px"

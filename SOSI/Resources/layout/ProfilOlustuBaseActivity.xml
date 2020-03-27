@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.airbnb.lottie.LottieAnimationView
+        android:visibility="gone"
             android:layout_centerInParent="true"
             android:id="@+id/animation_view1"
             android:scaleType="centerCrop"
@@ -25,7 +26,7 @@
             android:textSize="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:textColor="#fff"
+            android:textColor="#000"
             android:text="Tebrikler!"
             android:gravity="center"
             android:textStyle="bold"
@@ -45,7 +46,7 @@
             android:layout_marginBottom="40.0dp"
             android:layout_marginTop="40.0dp" />
         <TextView
-            android:textColor="#fff"
+            android:textColor="#000"
             android:gravity="center"
             android:text="İşletme profiliniz oluşturuldu. Şimdi sosyal medya hesaplarınız için biraz grafik çalışalım!"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -57,7 +58,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/buttonbg2"
+            android:background="@drawable/gradientbg_raunded"
             android:layout_alignParentBottom="true"
             android:textColor="#fff"
             android:text="Devam Et"

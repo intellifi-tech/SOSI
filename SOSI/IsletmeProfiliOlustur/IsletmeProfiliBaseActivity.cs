@@ -121,24 +121,22 @@ namespace SOSI.IsletmeProfiliOlustur
         {
             var MeID = DataBase.MEMBER_DATA_GETIR()[0];
             byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
-            MediaUploadDTO MediaUploadDTO1 = new MediaUploadDTO()
-            {
-                mediaCount = 0,
-                postText = "",
-                templateId = "0",
-                video = false,
-                userId = MeID.id,
-                processed = false,
-            };
-
-            string jsonString = JsonConvert.SerializeObject(MediaUploadDTO1);
             var client = new RestSharp.RestClient("http://46.45.185.15:9003/api/template-medias");
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
             request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36");
+            request.AddHeader("Accept", "*/*");
+            request.AddHeader("Content-Type", "multipart/form-data");
             request.AddHeader("Authorization", "Bearer " + MeID.API_TOKEN);
-            request.AddParameter("templateMedia", jsonString);
-            request.AddFile("photo", mediabyte, "sosi_company_logo.png");
+            request.AddParameter("mediaCount", 0);
+            request.AddParameter("postText", "");
+            request.AddParameter("templateId", "0");
+            request.AddParameter("video", false);
+            request.AddParameter("userId", MeID.id);
+            request.AddParameter("processed", false);
+            request.AddParameter("type", "POST");
+            request.AddFile("photo", mediabyte, "sosi_media_file.png");
             RestSharp.IRestResponse response = client.Execute(request);
             if (response.StatusCode != HttpStatusCode.Unauthorized &&
                 response.StatusCode != HttpStatusCode.InternalServerError &&
@@ -345,6 +343,12 @@ namespace SOSI.IsletmeProfiliOlustur
                     {
                         this.Activity.RunOnUiThread(delegate
                         {
+                            //SektorList.Add(new StringDTO() { 
+                            // id="",
+                            // name="Diğer",
+                            // IsSelect=false,
+                            // sectorId=""
+                            //});
                             mViewAdapter = new StringRecyclerViewAdapter(SektorList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
                             mRecyclerView.HasFixedSize = true;
                             mLayoutManager = new LinearLayoutManager(this.Activity);
@@ -376,14 +380,20 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 if (SektorList.Count > 0)
                 {
-                    SektorList.ForEach(item => item.IsSelect = false);
-                    SektorList[(int)e[0]].IsSelect = true;
-                    mViewAdapter.mData = SektorList;
-                    mViewAdapter.NotifyDataSetChanged();
-                    IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
+                    if (SektorList[(int)e[0]].name=="Diğer")
+                    {
+
+                    }
+                    else
+                    {
+                        SektorList.ForEach(item => item.IsSelect = false);
+                        SektorList[(int)e[0]].IsSelect = true;
+                        mViewAdapter.mData = SektorList;
+                        mViewAdapter.NotifyDataSetChanged();
+                        IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
+                    }
                 }
             }
-
             public string GetSeletedSectorID()
             {
                 var SecilenSektor = SektorList.FindAll(item => item.IsSelect == true);

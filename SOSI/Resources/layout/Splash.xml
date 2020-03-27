@@ -7,9 +7,9 @@
     <ImageView
         android:layout_centerInParent="true"
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/logononbg"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="127.0dp"
         android:minWidth="25px"
         android:minHeight="25px"
         android:id="@+id/ımageView1" />

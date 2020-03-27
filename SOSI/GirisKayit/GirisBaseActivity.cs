@@ -20,6 +20,8 @@ using SOSI.IsletmeProfiliOlustur;
 using SOSI.MainPage;
 using SOSI.Splashh;
 using SOSI.WebServicee;
+using Xamarin.Auth;
+using static SOSI.GirisKayit.HesapOlusturActivity;
 
 namespace SOSI.GirisKayit
 {
@@ -30,6 +32,7 @@ namespace SOSI.GirisKayit
         TextView SifremiUnuttum,UyeOlText;
         EditText MailText, SifreText;
         Button GirisButton;
+        TextView FacebookLoginButton;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,16 +42,153 @@ namespace SOSI.GirisKayit
             dinamikStatusBarColor.SetFullScreen(this);
             SifremiUnuttum = FindViewById<TextView>(Resource.Id.textView5);
             UyeOlText = FindViewById<TextView>(Resource.Id.textView6);
+            FacebookLoginButton = FindViewById<TextView>(Resource.Id.facebookloginbutton);
             MailText = FindViewById<EditText>(Resource.Id.editText1);
             SifreText = FindViewById<EditText>(Resource.Id.editText2);
             GirisButton = FindViewById<Button>(Resource.Id.button1);
             GirisButton.Click += GirisButton_Click;
             SifremiUnuttum.Click += SifremiUnuttum_Click;
             UyeOlText.Click += UyeOlText_Click;
+            FacebookLoginButton.Click += FacebookLoginButton_Click;
             MailText.Text = "mesut1@intellifi.tech";
             SifreText.Text = "qwer1234";
         }
+        #region Facebook Login
 
+        
+        private void FacebookLoginButton_Click(object sender, EventArgs e)
+        {
+            var auth = new OAuth2Authenticator(
+             clientId: "140942637360381",
+             scope: "email",
+             authorizeUrl: new System.Uri("https://m.facebook.com/dialog/oauth/"),
+             redirectUrl: new System.Uri("https://www.facebook.com/connect/login_success.html"));
+            auth.Completed += FacebookAuth_CompletedAsync;
+            var ui = auth.GetUI(this);
+            StartActivity(ui);
+        }
+        FacebookEmail facebookEmail = null;
+        private void FacebookAuth_CompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            if (e.IsAuthenticated)
+            {
+                //ShowLoading.Show(this, setColorFilterr: true);
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                {
+                    var authenticator = sender as OAuth2Authenticator;
+                    if (authenticator.AuthorizeUrl.Host == "m.facebook.com")
+                    {
+                        WebService webService = new WebService();
+                        var FacebookDonus = webService.OkuGetir($"https://graph.facebook.com/me?fields=id,name,first_name,last_name,email,picture.type(large)&access_token=" + e.Account.Properties["access_token"], true, true);
+                        if (FacebookDonus != null)
+                        {
+                            var Durum = FacebookDonus.ToString();
+                            facebookEmail = JsonConvert.DeserializeObject<FacebookEmail>(FacebookDonus);
+
+                            #region FaceBook Login With Out API
+                            string Ad = "", Soyad = "", email, sifre;
+                            var parcala = facebookEmail.Name.Split(' ');
+                            for (int i = 0; i < parcala.Length; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    Ad = parcala[0];
+                                }
+                                else
+                                {
+                                    Soyad += parcala[1];
+                                }
+                            }
+                            email = facebookEmail.Email;
+                            sifre = facebookEmail.Id;
+
+                            if (GirisYapmayiDene(email,sifre))//Önce giriş yapmayı dene
+                            {
+                                this.StartActivity(typeof(Splash));
+                                this.Finish();
+                            }
+                            else//Yapamazsan Kayit olmayı dene
+                            {
+                                if (KayitOl(email, sifre, Ad, Soyad))//Kayıt olursan tekrar giriş yapmayı dene
+                                {
+                                    if (GirisYapmayiDene(email, sifre))
+                                    {
+                                        this.StartActivity(typeof(Splash));
+                                        this.Finish();
+                                    } 
+                                }
+                            }
+                            #endregion
+                        }
+                    }
+                })).Start();
+            }
+        }
+        bool GirisYapmayiDene(string email, string sifre)
+        {
+            LoginRoot loginRoot = new LoginRoot()
+            {
+                password = sifre,
+                rememberMe = true,
+                username = email
+            };
+            string jsonString = JsonConvert.SerializeObject(loginRoot);
+            WebService webService = new WebService();
+            var Donus = webService.ServisIslem("authenticate", jsonString, true);
+            if (Donus != "Hata")
+            {
+                JSONObject js = new JSONObject(Donus);
+                var Token = js.GetString("id_token");
+                if (Token != null && Token != "")
+                {
+                    APITOKEN.TOKEN = Token;
+                    if (GetMemberData(sifre))
+                    {
+                        ShowLoading.Hide();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        bool KayitOl(string email, string sifre,string Ad,string Soyad)
+        {
+            WebService webService = new WebService();
+            KayitIcinRoot kayitIcinRoot = new KayitIcinRoot()
+            {
+                firstName = Ad,
+                lastName = Soyad,
+                password = sifre,
+                login = email,
+                email = email
+            };
+            string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
+            var Responsee = webService.ServisIslem("register", jsonString, true);
+            if (Responsee != "Hata")
+            {
+                return true;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                return false;
+            }
+        }
+
+        #endregion
         private void UyeOlText_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(HesapOlusturActivity));

@@ -101,7 +101,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="7.5dp"
                 android:layout_marginBottom="15dp"
-                android:text="Yeni Şablon"
+                android:text="Yeni Akış Şablonu Oluştur"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/button2" />

@@ -63,6 +63,7 @@ namespace SOSI.YeniSablonOlustur
             {
                 StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
                 StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                this.Finish();
             }
         }
 

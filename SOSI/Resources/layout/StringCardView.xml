@@ -27,6 +27,7 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/linearLayout1">
 			<TextView
+				android:gravity="center_horizontal"
 				android:layout_marginLeft="3dp"
 				android:background="#fff"
 				android:layout_toRightOf="@+id/view1"
