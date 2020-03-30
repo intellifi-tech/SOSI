@@ -21,7 +21,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
     class SablonIcerikleriRecyclerViewHolder : RecyclerView.ViewHolder
     {
 
-        public TextView PaylasimTipiText, PaylasimZamaniText, PostAciklama;
+        public TextView PaylasimTipiText, PaylasimZamaniText, PostAciklama,ZamanSayac;
         public ImageView Resim;
         public VideoView Videoo;
         public RelativeLayout VideoHazne;
@@ -34,7 +34,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             Videoo = itemView.FindViewById<VideoView>(Resource.Id.videoView1);
             PostAciklama = itemView.FindViewById<TextView>(Resource.Id.textView3);
             VideoHazne = itemView.FindViewById<RelativeLayout>(Resource.Id.videohazne);
-
+            ZamanSayac = itemView.FindViewById<TextView>(Resource.Id.textView4);
 
             itemView.Click += (sender, e) => listener(new object[] { base.Position,itemView });
         }
@@ -97,8 +97,34 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
 
             viewholder.PaylasimTipiText.Text = item.type.ToString();
             viewholder.PostAciklama.Text = item.postText;
+
+            if (!string.IsNullOrEmpty(item.shareDateTime))
+            {
+                try
+                {
+                    viewholder.ZamanSayac.Text= KalanZamanHesapla(Convert.ToDateTime(item.shareDateTime));
+                }
+                catch 
+                {
+                    viewholder.ZamanSayac.Text = "";
+                }
+            }
         }
-        
+
+        string KalanZamanHesapla(DateTime PaylasimZamani)
+        {
+            if (DateTime.Now > PaylasimZamani)
+            {
+                return "Tamamlandı";
+            }
+            else
+            {
+                var fark = PaylasimZamani - DateTime.Now;
+                return String.Format("{0}{1}{2}{3}", fark.Days > 0 ? string.Format("{0} gün ", fark.Days) : "", fark.Hours > 0 ? string.Format("{0} saat ", fark.Hours) : "", fark.Minutes > 0 ? string.Format("{0} dakika ", fark.Minutes) : "", fark.Seconds > 0 ? string.Format("{3} Saniye ", fark.Seconds) : "").Trim();
+
+            }
+        }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);

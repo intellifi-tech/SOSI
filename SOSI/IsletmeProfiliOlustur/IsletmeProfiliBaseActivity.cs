@@ -45,7 +45,21 @@ namespace SOSI.IsletmeProfiliOlustur
             IlerButton.Click += IlerButton_Click;
             GeriButton.Click += GeriButton_Click;
             viepageratama();
+            viewpager.PageSelected += Viewpager_PageSelected;
             // Create your application here
+        }
+
+        private void Viewpager_PageSelected(object sender, ViewPager.PageSelectedEventArgs e)
+        {
+            if (viewpager.CurrentItem == 2)
+            {
+                if (SektorVeHizmetDigerSecimHelper.Secim)
+                {
+                    var SektorHizmetDigerDialogFragment1 = new SektorHizmetDigerDialogFragment();
+                    SektorHizmetDigerDialogFragment1.Cancelable = false;
+                    SektorHizmetDigerDialogFragment1.Show(this.SupportFragmentManager, "SektorHizmetDigerDialogFragment1");
+                }
+            }
         }
 
         private void GeriButton_Click(object sender, EventArgs e)
@@ -87,6 +101,7 @@ namespace SOSI.IsletmeProfiliOlustur
                         name = ((LogoFragment)fragments[3]).GetCompanyName(),
                         sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
                         serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
+                        other = SektorVeHizmetDigerSecimHelper.DigerAcikalam
                     };
                     jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
                     IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;
@@ -121,7 +136,7 @@ namespace SOSI.IsletmeProfiliOlustur
         {
             var MeID = DataBase.MEMBER_DATA_GETIR()[0];
             byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
-            var client = new RestSharp.RestClient("http://46.45.185.15:9003/api/template-medias");
+            var client = new RestSharp.RestClient("http://46.45.185.15:8080/api/template-medias");
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
             request.AddHeader("Content-Type", "multipart/form-data");
@@ -263,7 +278,6 @@ namespace SOSI.IsletmeProfiliOlustur
             ((HizmetFragment)fragments[1]).HizmetleriGetir(SektorID);
         }
 
-
         public class StringDTO
         {
             public string name { get; set; }
@@ -343,12 +357,6 @@ namespace SOSI.IsletmeProfiliOlustur
                     {
                         this.Activity.RunOnUiThread(delegate
                         {
-                            //SektorList.Add(new StringDTO() { 
-                            // id="",
-                            // name="Diğer",
-                            // IsSelect=false,
-                            // sectorId=""
-                            //});
                             mViewAdapter = new StringRecyclerViewAdapter(SektorList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
                             mRecyclerView.HasFixedSize = true;
                             mLayoutManager = new LinearLayoutManager(this.Activity);
@@ -364,7 +372,6 @@ namespace SOSI.IsletmeProfiliOlustur
                             Toast.MakeText(this.Activity, "Sektörler alınamadı lütfen tekrar deneyin.", ToastLength.Long).Show();
                             return;
                         });
-                        
                     }
                 }
                 else
@@ -378,21 +385,24 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             private void MViewAdapter_ItemClick(object sender, object[] e)
             {
+                
                 if (SektorList.Count > 0)
                 {
-                    if (SektorList[(int)e[0]].name=="Diğer")
+                    SektorList.ForEach(item => item.IsSelect = false);
+                    SektorList[(int)e[0]].IsSelect = true;
+                    if (SektorList[(int)e[0]].name == "Diğer")
                     {
-
+                        SektorVeHizmetDigerSecimHelper.Secim = true;
                     }
                     else
                     {
-                        SektorList.ForEach(item => item.IsSelect = false);
-                        SektorList[(int)e[0]].IsSelect = true;
-                        mViewAdapter.mData = SektorList;
-                        mViewAdapter.NotifyDataSetChanged();
-                        IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
+                        SektorVeHizmetDigerSecimHelper.Secim = false;
                     }
+                    mViewAdapter.mData = SektorList;
+                    mViewAdapter.NotifyDataSetChanged();
+                    IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
                 }
+                
             }
             public string GetSeletedSectorID()
             {
@@ -496,7 +506,7 @@ namespace SOSI.IsletmeProfiliOlustur
                                 }
                                 else
                                 {
-                                    mViewAdapter = new StringRecyclerViewAdapter(HizmetList_Hepsi, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                                    mViewAdapter = new StringRecyclerViewAdapter(HizmetList, (Android.Support.V7.App.AppCompatActivity)this.Activity);
                                     mRecyclerView.HasFixedSize = true;
                                     mLayoutManager = new LinearLayoutManager(this.Activity);
                                     mRecyclerView.SetLayoutManager(mLayoutManager);
@@ -715,6 +725,12 @@ namespace SOSI.IsletmeProfiliOlustur
                     return null;
                 }
             }
+        }
+
+        public static class SektorVeHizmetDigerSecimHelper
+        {
+            public static bool Secim { get; set; }
+            public static string DigerAcikalam { get; set; }
         }
     }
 }

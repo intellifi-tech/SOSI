@@ -7140,49 +7140,52 @@ namespace SOSI
 			public const int SablonIcerikleriListCardItem = 2131427429;
 			
 			// aapt resource value: 0x7F0B0066
-			public const int SektorSecBaseActivity = 2131427430;
+			public const int SektorHizmetDigerDialogFragment = 2131427430;
 			
 			// aapt resource value: 0x7F0B0067
-			public const int select_dialog_item_material = 2131427431;
+			public const int SektorSecBaseActivity = 2131427431;
 			
 			// aapt resource value: 0x7F0B0068
-			public const int select_dialog_multichoice_material = 2131427432;
+			public const int select_dialog_item_material = 2131427432;
 			
 			// aapt resource value: 0x7F0B0069
-			public const int select_dialog_singlechoice_material = 2131427433;
+			public const int select_dialog_multichoice_material = 2131427433;
 			
 			// aapt resource value: 0x7F0B006A
-			public const int Splash = 2131427434;
+			public const int select_dialog_singlechoice_material = 2131427434;
 			
 			// aapt resource value: 0x7F0B006B
-			public const int StringCardView = 2131427435;
+			public const int Splash = 2131427435;
 			
 			// aapt resource value: 0x7F0B006C
-			public const int support_simple_spinner_dropdown_item = 2131427436;
+			public const int StringCardView = 2131427436;
 			
 			// aapt resource value: 0x7F0B006D
-			public const int TamamlanmisSablonDetayBaseActivity = 2131427437;
+			public const int support_simple_spinner_dropdown_item = 2131427437;
 			
 			// aapt resource value: 0x7F0B006E
-			public const int TamamlanmisSablonlarBaseActivity = 2131427438;
+			public const int TamamlanmisSablonDetayBaseActivity = 2131427438;
 			
 			// aapt resource value: 0x7F0B006F
-			public const int TamamlanmisSablonlarCustomCardView = 2131427439;
+			public const int TamamlanmisSablonlarBaseActivity = 2131427439;
 			
 			// aapt resource value: 0x7F0B0070
-			public const int TamamlanmisSablonlarSablonListItem = 2131427440;
+			public const int TamamlanmisSablonlarCustomCardView = 2131427440;
 			
 			// aapt resource value: 0x7F0B0071
-			public const int view_creditcard = 2131427441;
+			public const int TamamlanmisSablonlarSablonListItem = 2131427441;
 			
 			// aapt resource value: 0x7F0B0072
-			public const int YeniPaylasimMetinGirisiDialogFragment = 2131427442;
+			public const int view_creditcard = 2131427442;
 			
 			// aapt resource value: 0x7F0B0073
-			public const int YeniSablonGorselYukleCardView = 2131427443;
+			public const int YeniPaylasimMetinGirisiDialogFragment = 2131427443;
 			
 			// aapt resource value: 0x7F0B0074
-			public const int YeniSablonOlusturBaseActivity = 2131427444;
+			public const int YeniSablonGorselYukleCardView = 2131427444;
+			
+			// aapt resource value: 0x7F0B0075
+			public const int YeniSablonOlusturBaseActivity = 2131427445;
 			
 			static Layout()
 			{

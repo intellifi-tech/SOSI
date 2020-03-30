@@ -22,7 +22,7 @@ namespace SOSI.WebServicee
 {
     class WebService
     {
-        string kokurl = "http://46.45.185.15:9003/api/";
+        string kokurl = "http://46.45.185.15:8080/api/";
         public string ServisIslem(string url, string istekler,bool isLogin=false, string Method = "POST", string ContentType = "application/json")
         {
             RestSharp.Method GelenMethod = RestSharp.Method.POST;

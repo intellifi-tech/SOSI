@@ -73,6 +73,7 @@
     <Compile Include="GenericClass\CustomLoadingViewHelper.cs" />
     <Compile Include="GenericClass\CustomVerticalTextView.cs" />
     <Compile Include="GenericClass\DinamikStatusBarColor.cs" />
+    <Compile Include="GenericClass\Downloader.cs" />
     <Compile Include="GenericClass\DPX.cs" />
     <Compile Include="GenericClass\ExtMethods.cs" />
     <Compile Include="GenericClass\FontHelper.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="IsletmeProfiliOlustur\StringRecyclerviewAdepter.cs" />
     <Compile Include="IsletmeProfiliOlustur\ProfilOlustuBaseActivity.cs" />
     <Compile Include="IsletmeProfiliOlustur\SektorSecBaseActivity.cs" />
+    <Compile Include="IsletmeProfiliOlustur\SektorHizmetDigerDialogFragment.cs" />
     <Compile Include="MainPage\GrafikIslemeDurumFragment.cs" />
     <Compile Include="MainPage\HazirlananSablonYokBaseFragment.cs" />
     <Compile Include="MainPage\MainPageBaseActivity.cs" />
@@ -2063,6 +2065,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\logononbg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SektorHizmetDigerDialogFragment.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

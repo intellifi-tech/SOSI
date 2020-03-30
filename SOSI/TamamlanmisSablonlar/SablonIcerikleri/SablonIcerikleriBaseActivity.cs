@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         SablonIcerikleriRecyclerViewAdapter mViewAdapter;
+        IDownloader downloader;
         ImageButton GeriButton;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,8 +36,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
             GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             GeriButton.Click += GeriButton_Click;
+            downloader.OnFileDownloaded += Downloader_OnFileDownloaded;
         }
 
+        
         private void GeriButton_Click(object sender, EventArgs e)
         {
             this.Finish();
@@ -95,8 +99,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             var Index = (int)((Button)sender).Tag;
             if (Index == 0)
             {
-
-
+                InstagramPaylas();
             }
             else if (Index == 1)
             {
@@ -109,6 +112,43 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             }
             DinamikActionSheet1.Dismiss();
         }
+        void InstagramPaylas()
+        {
+            MedyayiIndırKaydet();
+        }
+        void MedyayiIndırKaydet()
+        {
+            downloader.DownloadFile("http://46.45.185.15/"+ SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
+        }
+        private void Downloader_OnFileDownloaded(object sender, DownloadEventArgs e)
+        {
+            if (e.FileSaved)//Başarılı
+            {
+                ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
+                ClipData clip = ClipData.NewPlainText(SecilenSablonDTO.SecilenSablon.id, SecilenSablonDTO.SecilenSablon.postText);
+                clipboard.PrimaryClip =(clip);
+                
+                var pathh = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SharedMedias");
+                string pathh2 = Path.Combine(pathh, Path.GetFileName("http://46.45.185.15/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
+                Java.IO.File media = new Java.IO.File(pathh2);
+                Android.Net.Uri uri = Android.Net.Uri.FromFile(media);
+                Intent shareIntent = new Intent(Intent.ActionSend);
+                shareIntent.SetType(SecilenSablonDTO.SecilenSablon.video ? "video/*" : "image/*");
+                shareIntent.AddFlags(ActivityFlags.NewTask);//FLAG_ACTIVITY_NEW_TASK
+                shareIntent.PutExtra(Intent.ExtraStream, uri);
+                shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
+                shareIntent.SetPackage("com.instagram.android");
+                this.StartActivity(shareIntent);
+                Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
+
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                return;
+            }
+        }
+
         public class SablonIcerikleriDTO
         {
             public string afterMediaPath { get; set; }
