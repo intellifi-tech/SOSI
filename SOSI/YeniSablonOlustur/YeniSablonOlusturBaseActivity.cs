@@ -6,10 +6,12 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
 using Android.Text;
 using Android.Text.Style;
@@ -17,6 +19,7 @@ using Android.Views;
 using Android.Widget;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.GenericUI;
 using SOSI.MediaUploader;
 using SOSI.YeniSablonOlustur.Bilgilendirme;
 
@@ -32,6 +35,12 @@ namespace SOSI.YeniSablonOlustur
         GorselYukleRecyclerViewAdapter mViewAdapter;
         List<SablonDTO> SablonDTO1 = new List<SablonDTO>();
         Button GonderButton;
+        public static class App
+        {
+            public static Java.IO.File _file;
+            public static Java.IO.File _dir;
+            public static Bitmap bitmap;
+        }
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,6 +58,9 @@ namespace SOSI.YeniSablonOlustur
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
 
             mRecyclerView.HasFixedSize = true;
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.SetVmPolicy(builder.Build());
+            builder.DetectFileUriExposure();
         }
 
         private void GonderButton_Click(object sender, EventArgs e)
@@ -104,10 +116,74 @@ namespace SOSI.YeniSablonOlustur
 
             #endregion
         }
+        DinamikAdresSec DinamikActionSheet1;
+        List<Buttons_Image_DataModels> Butonlarr = new List<Buttons_Image_DataModels>();
         int SonSecilenItem = -1;
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
             SonSecilenItem = (int)e[0];
+
+            Butonlarr = new List<Buttons_Image_DataModels>();
+
+            Butonlarr.Add(new Buttons_Image_DataModels()
+            {
+                Button_Text = "Galeri",
+                Button_Image = Resource.Drawable.photo
+            });
+            Butonlarr.Add(new Buttons_Image_DataModels()
+            {
+                Button_Text = "Kamera",
+                Button_Image = Resource.Drawable.camera
+            });
+
+            DinamikActionSheet1 = new DinamikAdresSec(Butonlarr, "İşlemle Seç", "Devam etmek için aşağıdaki seçenekleri kullanın.", Buton_Click);
+            DinamikActionSheet1.Show(this.SupportFragmentManager, "DinamikActionSheet1");
+        }
+
+        private void Buton_Click(object sender, EventArgs e)
+        {
+            var Index = (int)((Button)sender).Tag;
+            if (Index == 0)
+            {
+                GaleridenSecMetod();
+            }
+            if (Index == 1)
+            {
+                KameradanCek();
+            }
+            DinamikActionSheet1.Dismiss();
+        }
+        void KameradanCek()
+        {
+
+            if (IsThereAnAppToTakePictures())
+            {
+                CreateDirectoryForPictures();
+            }
+
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            App._file = new Java.IO.File(App._dir, String.Format("contentoPhoto_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(App._file));
+            StartActivityForResult(intent, 0);
+        }
+        private bool IsThereAnAppToTakePictures()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            IList<ResolveInfo> availableActivities = this.PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+            return availableActivities != null && availableActivities.Count > 0;
+        }
+        private void CreateDirectoryForPictures()
+        {
+            App._dir = new Java.IO.File(
+                Android.OS.Environment.GetExternalStoragePublicDirectory(
+                    Android.OS.Environment.DirectoryPictures), "Contento");
+            if (!App._dir.Exists())
+            {
+                App._dir.Mkdirs();
+            }
+        }
+        void GaleridenSecMetod()
+        {
             var cevap = new AlertDialog.Builder(this);
             cevap.SetCancelable(true);
             cevap.SetIcon(Resource.Mipmap.ic_launcher);
@@ -131,6 +207,7 @@ namespace SOSI.YeniSablonOlustur
             });
             cevap.Show();
         }
+
         SpannableStringBuilder Spannla(Color Renk, string textt)
         {
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
@@ -166,6 +243,24 @@ namespace SOSI.YeniSablonOlustur
                 mViewAdapter.mData = SablonDTO1;
                 mViewAdapter.NotifyItemChanged(SonSecilenItem);
                 SaveMediaLocalDB(SablonDTO1[SonSecilenItem], SonSecilenItem);
+            }
+            else if ((resultCode == Android.App.Result.Ok))
+            {
+                if (App._file != null)
+                {
+                    Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+                    Android.Net.Uri contentUri = Android.Net.Uri.FromFile(App._file);
+                    mediaScanIntent.SetData(contentUri);
+                    this.SendBroadcast(mediaScanIntent);
+                    Android.Net.Uri uri = contentUri;
+
+                   // Android.Net.Uri uri = data.Data;
+                    SablonDTO1[SonSecilenItem].MediaUri = uri;
+                    SablonDTO1[SonSecilenItem].isVideo = false;
+                    mViewAdapter.mData = SablonDTO1;
+                    mViewAdapter.NotifyItemChanged(SonSecilenItem);
+                    SaveMediaLocalDB(SablonDTO1[SonSecilenItem], SonSecilenItem);
+                }
             }
         }
 

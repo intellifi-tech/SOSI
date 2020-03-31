@@ -72,7 +72,8 @@ namespace SOSI.YeniSablonOlustur
             new SetImageHelper().SetImage(this.Activity, IsletmeLogo, CompanyInfo.logoPath);
             //DataBase.YUKLENECEK_SABLON_TEMIZLE();
             if (ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
-              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.Camera) == Permission.Granted)
             {
                 var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
                 if (DevamEdenSablonVarmi.Count > 0)
@@ -94,14 +95,15 @@ namespace SOSI.YeniSablonOlustur
         {
 
             if (ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
-              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.Camera) == Permission.Granted)
             {
 
                 YuklemeSayfasiniAc();
             }
             else
             {
-                RequestPermissions(new String[] {Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage }, 111);
+                RequestPermissions(new String[] {Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage, Android.Manifest.Permission.Camera }, 111);
             }
         }
         void YuklemeSayfasiniAc()
