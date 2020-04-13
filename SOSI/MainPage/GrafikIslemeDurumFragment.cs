@@ -64,10 +64,18 @@ namespace SOSI.MainPage
                         AciklamaText.Text = "Tamamlanan şablonlar sayfasına giderek paylaşımlarınızı inceleyebilirsiniz.";
                         lottieAnimationView.SetAnimation("done1.json");
                         lottieAnimationView.PlayAnimation();
+                        MainPageBaseActivity1.YeniSablonButtonGizle(ViewStates.Visible);
                     }
                     else
                     {
-                        MainPageBaseActivity1.YeniSablonButtonGizle();
+                        MainPageBaseActivity1.YeniSablonButtonGizle(ViewStates.Gone);
+                    }
+                }
+                else
+                {
+                    if (Total>0)
+                    {
+                        MainPageBaseActivity1.YeniSablonButtonGizle(ViewStates.Gone);
                     }
                 }
 

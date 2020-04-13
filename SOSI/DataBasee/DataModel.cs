@@ -63,6 +63,7 @@ namespace SOSI.DataBasee
         public string sectorId { get; set; }
         public string serviceAreaId { get; set; }
         public string other { get; set; }
+        public string userId { get; set; }
     }
 
     public class YUKLENECEK_SABLON

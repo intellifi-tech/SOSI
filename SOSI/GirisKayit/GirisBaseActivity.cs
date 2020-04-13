@@ -39,7 +39,7 @@ namespace SOSI.GirisKayit
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.GirisBaseActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
-            dinamikStatusBarColor.SetFullScreen(this);
+            dinamikStatusBarColor.Trans(this,true);
             SifremiUnuttum = FindViewById<TextView>(Resource.Id.textView5);
             UyeOlText = FindViewById<TextView>(Resource.Id.textView6);
             FacebookLoginButton = FindViewById<TextView>(Resource.Id.facebookloginbutton);
@@ -173,7 +173,8 @@ namespace SOSI.GirisKayit
                 lastName = Soyad,
                 password = sifre,
                 login = email,
-                email = email
+                email = email,
+                authorities = new List<string>() { "ROLE_USER" }
             };
             string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
             var Responsee = webService.ServisIslem("register", jsonString, true);

@@ -36,7 +36,7 @@ namespace SOSI.IsletmeProfiliOlustur
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.IsletmeProfiliBaseActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
-            dinamikStatusBarColor.SetFullScreen(this);
+            dinamikStatusBarColor.Trans(this,true);
             Transformiew = FindViewById<RelativeLayout>(Resource.Id.rootview);
             viewpager = FindViewById<ViewPager>(Resource.Id.viewPager1);
             viewpager.OffscreenPageLimit = 50;
@@ -101,7 +101,8 @@ namespace SOSI.IsletmeProfiliOlustur
                         name = ((LogoFragment)fragments[3]).GetCompanyName(),
                         sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
                         serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
-                        other = SektorVeHizmetDigerSecimHelper.DigerAcikalam
+                        other = SektorVeHizmetDigerSecimHelper.DigerAcikalam,
+                        userId = DataBase.MEMBER_DATA_GETIR()[0].id
                     };
                     jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
                     IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;

@@ -25,12 +25,14 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         SablonIcerikleriRecyclerViewAdapter mViewAdapter;
-        IDownloader downloader;
+        IDownloader downloader = new Downloader();
         ImageButton GeriButton;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.SablonIcerikleriBaseActivity);
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.SetVmPolicy(builder.Build());
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
             dinamikStatusBarColor.SetFullScreen(this);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
@@ -118,7 +120,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         }
         void MedyayiIndırKaydet()
         {
-            downloader.DownloadFile("http://46.45.185.15/"+ SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
+            downloader.DownloadFile(/*"http://46.45.185.15/"+ */SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
         }
         private void Downloader_OnFileDownloaded(object sender, DownloadEventArgs e)
         {
@@ -129,7 +131,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
                 clipboard.PrimaryClip =(clip);
                 
                 var pathh = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SharedMedias");
-                string pathh2 = Path.Combine(pathh, Path.GetFileName("http://46.45.185.15/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
+                string pathh2 = Path.Combine(pathh, Path.GetFileName(/*"http://46.45.185.15/" + */SecilenSablonDTO.SecilenSablon.afterMediaPath));
                 Java.IO.File media = new Java.IO.File(pathh2);
                 Android.Net.Uri uri = Android.Net.Uri.FromFile(media);
                 Intent shareIntent = new Intent(Intent.ActionSend);

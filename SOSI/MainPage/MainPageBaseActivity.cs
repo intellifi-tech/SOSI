@@ -102,9 +102,9 @@ namespace SOSI.MainPage
             ft.Replace(Resource.Id.conteinerview, ZaplaBaseFragment1);//
             ft.Commit();
         }
-        public void YeniSablonButtonGizle()
+        public void YeniSablonButtonGizle(ViewStates Durum)
         {
-            YeniSablonOlustur.Visibility = ViewStates.Gone;
+            YeniSablonOlustur.Visibility = Durum;
         }
         void GetSablonYokFragment()
         {

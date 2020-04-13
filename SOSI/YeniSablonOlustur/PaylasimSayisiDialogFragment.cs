@@ -84,7 +84,23 @@ namespace SOSI.YeniSablonOlustur
             }
             return view;
         }
-        
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this.Activity, Android.Manifest.Permission.Camera) == Permission.Granted)
+            {
+
+                YuklemeSayfasiniAc();
+            }
+            else
+            {
+                RequestPermissions(new String[] { Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage, Android.Manifest.Permission.Camera }, 111);
+            }
+        }
+
         private void PlusCard_Click(object sender, EventArgs e)
         {
             MarginleriSifirla((int)((CardView)sender).Tag);

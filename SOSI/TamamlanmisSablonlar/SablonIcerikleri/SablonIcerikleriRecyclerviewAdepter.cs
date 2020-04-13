@@ -109,6 +109,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
                     viewholder.ZamanSayac.Text = "";
                 }
             }
+            else
+            {
+                viewholder.ZamanSayac.Text = "";
+            }
         }
 
         string KalanZamanHesapla(DateTime PaylasimZamani)

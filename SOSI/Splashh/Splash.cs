@@ -45,7 +45,7 @@ namespace SOSI.Splashh
         }
         void HazirlikYap()
         {
-           // SetDumyData();
+            SetDumyData();
             this.RunOnUiThread(delegate ()
             {
                 var Kullanici = DataBase.MEMBER_DATA_GETIR();
@@ -85,8 +85,8 @@ namespace SOSI.Splashh
             {
                 RootObject rootObject = new RootObject()
                 {
-                    name = "Diğer",
-                    sectorId = "5e81d1462ab79c00017e3043"
+                    name = "Hizmet Alanı " + (i+1).ToString(),
+                    sectorId = "5e91da68be077700010095d9"
                 };
                 WebService webService = new WebService();
                 string jsonString = JsonConvert.SerializeObject(rootObject);

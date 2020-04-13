@@ -32,6 +32,8 @@ namespace SOSI.GenericClass
         }
         public void Beyaz(Activity Act)
         {
+            Trans(Act, true);
+            return;
             Window window = Act.Window;
             window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             window.SetStatusBarColor(Color.Rgb(255,255,255));
@@ -54,6 +56,8 @@ namespace SOSI.GenericClass
 
                 Window window = actt.Window;
                 window.AddFlags(WindowManagerFlags.Fullscreen);
+                window.ClearFlags(WindowManagerFlags.TranslucentNavigation);
+               // window.AddFlags();
                 // setStatusBarTextColor(getResources().getColor(R.color.orange));
 
             }
@@ -65,6 +69,8 @@ namespace SOSI.GenericClass
 
         public void SetFullScreen(Activity activity)
         {
+            Trans(activity, true);
+            return;
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
             {
                 Window window = activity.Window;

@@ -32,7 +32,7 @@ namespace SOSI.GirisKayit
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.HesapOlusturActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
-            dinamikStatusBarColor.SetFullScreen(this);
+            dinamikStatusBarColor.Trans(this,true);
             KayitOlButton = FindViewById<Button>(Resource.Id.button1);
             AdText = FindViewById<EditText>(Resource.Id.editText1);
             SoyadText = FindViewById<EditText>(Resource.Id.editText2);
@@ -66,7 +66,8 @@ namespace SOSI.GirisKayit
                         lastName = SoyadText.Text.Trim(),
                         password = SifreText.Text,
                         login = inputmail.Text,
-                        email = inputmail.Text
+                        email = inputmail.Text,
+                        authorities = new List<string>() { "ROLE_USER" }
                     };
                     string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
                     var Responsee = webService.ServisIslem("register", jsonString, true);
@@ -186,6 +187,7 @@ namespace SOSI.GirisKayit
             public string lastName { get; set; }
             public string login { get; set; }
             public string password { get; set; }
+            public List<string> authorities { get; set; }
         }
     }
 }
