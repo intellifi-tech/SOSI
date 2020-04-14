@@ -61,6 +61,7 @@ namespace SOSI.TamamlanmisSablonlar
                 TamamlanmisSablonDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TamamlanmisSablonDTO>>(Donus.ToString());
                 if (TamamlanmisSablonDTO1.Count>0)
                 {
+                    TamamlanmisSablonDTO1.Reverse();
                     mViewAdapter = new TamamlanmisSablonRecyclerViewAdapter(TamamlanmisSablonDTO1, this);
                     mRecyclerView.SetAdapter(mViewAdapter);
                     mViewAdapter.ItemClick += MViewAdapter_ItemClick;
