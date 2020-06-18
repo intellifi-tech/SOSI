@@ -87,4 +87,12 @@ namespace SOSI.DataBasee
         public int mediaCount { get; set; }
         public string userId { get; set; }
     }
+
+    public class ODEME_GECMISI
+    {
+        [PrimaryKey, AutoIncrement]
+        public int localid { get; set; }
+        public string iyzicoReferanceCode { get; set; }
+        public string UzakDB_ID { get; set; }
+    }
 }

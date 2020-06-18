@@ -143,7 +143,7 @@ namespace SOSI.MediaUploader
             {
                 uzanti = ".mp4";
             }
-            var client = new RestSharp.RestClient("http://46.45.185.15:8080/api/template-medias");
+            var client = new RestSharp.RestClient("http://31.169.67.210:8080/api/template-medias");
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
             //request.Accept = "*/*";

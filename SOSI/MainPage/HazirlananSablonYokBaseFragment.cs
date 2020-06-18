@@ -11,6 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using SOSI.YeniSablonOlustur;
+using static SOSI.MainPage.MainPageBaseActivity;
 
 namespace SOSI.MainPage
 {
@@ -32,6 +33,8 @@ namespace SOSI.MainPage
 
         private void YeniSablonButton_Click(object sender, EventArgs e)
         {
+            MainPageBaseActivity_Helper.MainPageBaseActivity1.KullaniciAbonelikSorgula();
+            return;
             var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
             PaylasimSayisiDialogFragment1.Show(this.Activity.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }

@@ -33,6 +33,7 @@ namespace SOSI.DataBasee
             conn.CreateTable<COMPANY_INFORMATION>();
             conn.CreateTable<YUKLENECEK_SABLON>();
             conn.CreateTable<GUNCEL_SABLON>();
+            conn.CreateTable<ODEME_GECMISI>();
             conn.Close();
         }
 
@@ -240,7 +241,7 @@ namespace SOSI.DataBasee
         }
         #endregion
 
-        #region YUKLENECEK_SABLON
+        #region GUNCEL_SABLON
         public static bool GUNCEL_SABLON_EKLE(GUNCEL_SABLON GelenDoluTablo)
         {
             try
@@ -291,6 +292,94 @@ namespace SOSI.DataBasee
 
         }
         public static bool GUNCEL_SABLON_Guncelle(GUNCEL_SABLON Tablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Update(Tablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        #endregion
+
+
+        #region ODEME_GECMISI
+        public static bool ODEME_GECMISI_EKLE(ODEME_GECMISI GelenDoluTablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Insert(GelenDoluTablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                var aa = Ex.Message;
+                return false;
+            }
+        }
+        public static List<ODEME_GECMISI> ODEME_GECMISI_GETIR()
+        {
+            Atla:
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                var gelenler = conn.Query<ODEME_GECMISI>("Select * From ODEME_GECMISI");
+                conn.Close();
+                return gelenler;
+            }
+            catch (Exception Ex)
+            {
+                goto Atla;
+                var aa = Ex.Message;
+                return null;
+            }
+
+        }
+
+        public static List<ODEME_GECMISI> ODEME_GECMISI_GETIR_UZAKID(string UzakdbId)
+        {
+            Atla:
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                var gelenler = conn.Query<ODEME_GECMISI>("Select * From ODEME_GECMISI WHERE UzakDB_ID=?", UzakdbId);
+                conn.Close();
+                return gelenler;
+            }
+            catch (Exception Ex)
+            {
+                goto Atla;
+                var aa = Ex.Message;
+                return null;
+            }
+
+        }
+        public static bool ODEME_GECMISI_TEMIZLE()
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Contento.db"), false);
+                conn.Query<ODEME_GECMISI>("Delete From ODEME_GECMISI");
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+
+        }
+        public static bool ODEME_GECMISI_Guncelle(ODEME_GECMISI Tablo)
         {
             try
             {

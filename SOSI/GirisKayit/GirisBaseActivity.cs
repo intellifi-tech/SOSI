@@ -50,8 +50,8 @@ namespace SOSI.GirisKayit
             SifremiUnuttum.Click += SifremiUnuttum_Click;
             UyeOlText.Click += UyeOlText_Click;
             FacebookLoginButton.Click += FacebookLoginButton_Click;
-            MailText.Text = "mesut1@intellifi.tech";
-            SifreText.Text = "qwer1234";
+            //MailText.Text = "mesut1@intellifi.tech";
+            //SifreText.Text = "qwer1234";
         }
         #region Facebook Login
 

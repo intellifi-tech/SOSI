@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FFF"
+    android:weightSum="99"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+     <RelativeLayout
+        android:background="@drawable/profileheaderbg"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="102.5dp"
+        android:id="@+id/relativeLayout1" >
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout2" >
+            <ImageButton
+                android:tint="#fff"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/arrow_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/ımageButton1" />
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:text="Paketler"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/textView1" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <ScrollView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linearLayout2">
+            <TextView
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="#7F7F7F"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="İşletmenize en uygun paketi seçerek işleme devam edebilirsiniz. Üstelik ilk 7 gün ücretsiz!"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
+            <android.support.v7.widget.CardView
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="false"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@android:color/transparent">
+                <RelativeLayout
+                    android:id="@+id/renkhanesi"
+                    android:background="@drawable/paket_platinum_gradiendbg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/paket1hazne"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:weightSum="99"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textColor="#fff"
+                            android:paddingLeft="10dp"
+                            android:textSize="40dp"
+                            android:textStyle="bold"
+                            android:text="SILVER"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:id="@+id/textView1" />
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/post"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="10 post max 3 özel gün paylaşımı."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/video"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="1 müzikli video."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="4 story."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/pen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="Düzenlenebilir içerik."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <TextView
+                            android:textColor="#fff"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="1 aylık paylaşım sıklığında, 3 günde 1 paylaşım sırasında ilerlemektedir. Bu paket için ortalama hazırlanması gereken grafik sayısı 14 ile 17 görsel arasındadır."
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView4" />
+                        <TextView
+                            android:textSize="18dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center_vertical|right"
+                            android:textColor="#fff"
+                            android:text="499₺ / ay"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="false"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@android:color/transparent">
+                <RelativeLayout
+                    android:id="@+id/renkhanesi"
+                    android:background="@drawable/paket_platinum_gradiendbg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/paket2hazne"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:weightSum="99"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textColor="#fff"
+                            android:paddingLeft="10dp"
+                            android:textSize="40dp"
+                            android:textStyle="bold"
+                            android:text="GOLD"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:id="@+id/textView1" />
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/post"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="15 post ve tüm özel gün paylaşımları."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/video"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="3 müzikli video."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="6 story."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/pen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="Düzenlenebilir içerik."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <TextView
+                            android:textColor="#fff"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="1 aylık paylaşım sıklığında, 2 günde 1 paylaşım sırasında ilerlemektedir. Bu paket için ortalama hazırlanması gereken grafik sayısı 21 ile 27 görsel arasındadır."
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView4" />
+                        <TextView
+                            android:textSize="18dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical|right"
+                            android:textColor="#fff"
+                            android:text="699₺ / ay"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="false"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@android:color/transparent">
+                <RelativeLayout
+                    android:id="@+id/renkhanesi"
+                    android:background="@drawable/paket_platinum_gradiendbg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/paket3hazne"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textColor="#fff"
+                            android:paddingLeft="10dp"
+                            android:textSize="40dp"
+                            android:textStyle="bold"
+                            android:text="PLATINUM"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:id="@+id/textView1" />
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/post"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="20 post tüm özel gün paylaşımları."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/video"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="5 müzikli video."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="8 story."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout1">
+                            <ImageView
+                                android:tint="#fff"
+                                android:src="@drawable/pen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/ımageView1" />
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:textColor="#fff"
+                                android:text="Düzenlenebilir içerik."
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView2" />
+                        </LinearLayout>
+                         <TextView
+                            android:textColor="#fff"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="1 aylık paylaşım sıklığında, günde 1 paylaşım sırasında ilerlemektedir. Bu paket için ortalama hazırlanması gereken grafik sayısı 28 ile 31 görsel arasındadır."
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView4" />
+                        <TextView
+                            android:textSize="18dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical|right"
+                            android:textColor="#fff"
+                            android:text="899₺ / ay"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

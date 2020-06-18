@@ -43,7 +43,7 @@ namespace SOSI.GenericClass.Contento_Helpers
                     mContext.RunOnUiThread(delegate ()
                     {
                         Glide.With(mContext)
-                                 .Load(URLL)//"http://46.45.185.15:9003/images/" +
+                                 .Load(URLL)//"http://31.169.67.210:9003/images/" +
                                  .Apply(options).Into(GelenView);
                     });
                 }

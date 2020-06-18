@@ -137,7 +137,7 @@ namespace SOSI.IsletmeProfiliOlustur
         {
             var MeID = DataBase.MEMBER_DATA_GETIR()[0];
             byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
-            var client = new RestSharp.RestClient("http://46.45.185.15:8080/api/template-medias");
+            var client = new RestSharp.RestClient("http://31.169.67.210:8080/api/template-medias");
             client.Timeout = -1;
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
             request.AddHeader("Content-Type", "multipart/form-data");

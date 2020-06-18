@@ -90,6 +90,35 @@ namespace SOSI.YeniSablonOlustur
             }
             
         }
+        //void YuklemeSayfasiniAc()
+        //{
+        //    var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+        //    if (DevamEdenSablonVarmi.Count > 0)
+        //    {
+        //        YuklenecekMediaCountHelper.Countt = DevamEdenSablonVarmi[0].maxMediaCount;
+        //        //this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+        //    }
+        //    else
+        //    {
+        //        if (SecilenPaketTag == 0)
+        //        {
+        //            YuklenecekMediaCountHelper.Countt = 10;
+        //            this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+        //        }
+        //        else if (SecilenPaketTag == 1)
+        //        {
+        //            YuklenecekMediaCountHelper.Countt = 15;
+        //            this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+        //        }
+        //        else
+        //        {
+        //            YuklenecekMediaCountHelper.Countt = 25;
+        //            this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+        //        }
+        //    }
+        //}
+
+
 
         void GetItemss()
         {

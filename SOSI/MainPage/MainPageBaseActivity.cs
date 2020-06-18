@@ -5,18 +5,27 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
+using Iyzipay;
+using Iyzipay.Model;
+using Iyzipay.Model.V2;
+using Iyzipay.Model.V2.Subscription;
+using Iyzipay.Request.V2.Subscription;
 using Refractored.Controls;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.OdemePaketleri;
 using SOSI.Paketler;
 using SOSI.TamamlanmisSablonlar;
 using SOSI.WebServicee;
 using SOSI.YeniSablonOlustur;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
+using static SOSI.YeniSablonOlustur.YeniSablonOlusturBaseActivity;
 
 namespace SOSI.MainPage
 {
@@ -27,6 +36,7 @@ namespace SOSI.MainPage
         Android.Support.V4.App.FragmentTransaction ft;
         Button HazirSablonlar, YeniSablonOlustur;
         ImageButton PaketAl;
+        protected Options options;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,20 +50,187 @@ namespace SOSI.MainPage
             PaketAl.Click += PaketAl_Click;
             HazirSablonlar.Click += HazirSablonlar_Click;
             YeniSablonOlustur.Click += YeniSablonOlustur_Click;
+            MainPageBaseActivity_Helper.MainPageBaseActivity1 = this;
         }
 
         private void PaketAl_Click(object sender, EventArgs e)
         {
+            StartActivity(typeof(OdemePaketleriBaseActivity));
+            return;
             var PaketlerDialogFragment1 = new PaketlerDialogFragment();
             PaketlerDialogFragment1.Show(this.SupportFragmentManager, "PaketlerDialogFragment1");
         }
 
         private void YeniSablonOlustur_Click(object sender, EventArgs e)
         {
+
+            KullaniciAbonelikSorgula();
+            return;
+
             var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
             PaylasimSayisiDialogFragment1.Show(this.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }
+        OdemeGecmisiDTO BenimkileriFiltrele;
+        public void KullaniciAbonelikSorgula()
+        {
+            var MeData = DataBase.MEMBER_DATA_GETIR()[0];
 
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("payment-histories");
+            if (Donus!=null)
+            {
+                var Icerik  = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OdemeGecmisiDTO>>(Donus.ToString());
+                if (Icerik.Count>0)
+                {
+                     BenimkileriFiltrele = Icerik.FindLast(item => item.userId == MeData.id);
+                    if (BenimkileriFiltrele!=null)
+                    {
+                        var pricingPlanReferenceCode = "";
+                        switch (BenimkileriFiltrele.packageName)
+                        {
+                            case "SILVER":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            case "GOLD":
+                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                break;
+                            case "PLATINUM":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            default:
+                                break;
+                        }
+                        var ReferansNumarasiGetir = DataBase.ODEME_GECMISI_GETIR_UZAKID(BenimkileriFiltrele.id);
+                        if (ReferansNumarasiGetir.Count>0)
+                        {
+                            Should_Search_Subscription(ReferansNumarasiGetir[0].iyzicoReferanceCode, pricingPlanReferenceCode, BenimkileriFiltrele.packageName);
+                        }
+                        else
+                        {
+                            StartActivity(typeof(OdemePaketleriBaseActivity));
+                        }
+                    }
+                    else
+                    {
+                        StartActivity(typeof(OdemePaketleriBaseActivity));
+                    }
+                }
+                else
+                {
+                    StartActivity(typeof(OdemePaketleriBaseActivity));
+                }
+            }
+            else
+            {
+                StartActivity(typeof(OdemePaketleriBaseActivity));
+            }
+        }
+         
+        void Should_Search_Subscription(string referanscode,string pricingPlanReferenceCode,string packageName)
+        {
+            Initializee();
+            SearchSubscriptionRequest request = new SearchSubscriptionRequest
+            {
+                Locale = Locale.TR.ToString(),
+                ConversationId = "123456789",
+                SubscriptionReferenceCode = referanscode,
+                Page = 1,
+                Count = 1,
+                SubscriptionStatus = SubscriptionStatus.ACTIVE.ToString(),
+                PricingPlanReferenceCode = pricingPlanReferenceCode
+            };
+
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            if (response.Data.Items[response.Data.Items.Count-1].SubscriptionStatus == "ACTIVE")
+            {
+                if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.Camera) == Permission.Granted)
+                {
+                    var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+                    if (DevamEdenSablonVarmi.Count > 0)
+                    {
+                        YuklenecekMediaCountHelper.Countt = DevamEdenSablonVarmi[0].maxMediaCount;
+                        this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                    }
+                    else
+                    {
+                        switch (packageName)
+                        {
+                            case "SILVER":
+                                YuklenecekMediaCountHelper.Countt = 10;
+                                this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                                break;
+                            case "GOLD":
+                                YuklenecekMediaCountHelper.Countt = 15;
+                                this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                                break;
+                            case "PLATINUM":
+                                YuklenecekMediaCountHelper.Countt = 20;
+                                this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    RequestPermissions(new String[] { Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage, Android.Manifest.Permission.Camera }, 111);
+                }
+            }
+            else
+            {
+                StartActivity(typeof(OdemePaketleriBaseActivity));
+            }
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.ReadExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted
+              && ContextCompat.CheckSelfPermission(this, Android.Manifest.Permission.Camera) == Permission.Granted)
+            {
+
+                var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+                if (DevamEdenSablonVarmi.Count > 0)
+                {
+                    YuklenecekMediaCountHelper.Countt = DevamEdenSablonVarmi[0].maxMediaCount;
+                    this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                }
+                else
+                {
+                    switch (BenimkileriFiltrele.packageName)
+                    {
+                        case "SILVER":
+                            YuklenecekMediaCountHelper.Countt = 10;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        case "GOLD":
+                            YuklenecekMediaCountHelper.Countt = 15;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        case "PLATINUM":
+                            YuklenecekMediaCountHelper.Countt = 20;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                RequestPermissions(new String[] { Android.Manifest.Permission.ReadExternalStorage, Android.Manifest.Permission.WriteExternalStorage, Android.Manifest.Permission.Camera }, 111);
+            }
+        }
+        public void Initializee()
+        {
+            options = new Options();
+            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+            options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        }
         private void HazirSablonlar_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(TamamlanmisSablonlarBaseActivity));
@@ -78,14 +255,22 @@ namespace SOSI.MainPage
                 var SablonlarDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SablonlarDTO>>(Donus.ToString());
                 var YuklenecekMedialar = DataBase.YUKLENECEK_SABLON_GETIR();
                 YuklenecekMedialar = YuklenecekMedialar.FindAll(item => item.isUploaded == false);
-                if (SablonlarDTO1.Count > 0 && YuklenecekMedialar.Count <= 0)
+                if (SablonlarDTO1!=null)
                 {
-                    GetIslemeDurumFragment(SablonlarDTO1[SablonlarDTO1.Count-1]);
+                    if (SablonlarDTO1.Count > 0 && YuklenecekMedialar.Count <= 0)
+                    {
+                        GetIslemeDurumFragment(SablonlarDTO1[SablonlarDTO1.Count - 1]);
+                    }
+                    else
+                    {
+                        GetSablonYokFragment();
+                    }
                 }
                 else
                 {
                     GetSablonYokFragment();
                 }
+            
             }
             else
             {
@@ -133,6 +318,23 @@ namespace SOSI.MainPage
             public string id { get; set; }
             public int mediaCount { get; set; }
             public string userId { get; set; }
+        }
+
+
+
+        public class OdemeGecmisiDTO
+        {
+            public DateTime? date { get; set; }
+            public string id { get; set; }
+            public string packageId { get; set; }
+            public string packageName { get; set; }
+            public string userId { get; set; }
+            public string userName { get; set; }
+        }
+
+        public static class MainPageBaseActivity_Helper
+        {
+            public static MainPageBaseActivity MainPageBaseActivity1 { get; set; }
         }
     }
 }

@@ -41,12 +41,11 @@ namespace SOSI.GirisKayit
             SifreTekrarText = FindViewById<EditText>(Resource.Id.editText5);
             KayitOlButton.Click += KayitOlButton_Click;
 
-            AdText.Text = "Mesut";
-            SoyadText.Text = "Polat";
-            inputmail.Text = "mesut3@intellifi.tech";
-            SifreText.Text = "qwer1234";
-            SifreTekrarText.Text = "qwer1234";
-
+            //AdText.Text = "Mesut";
+            //SoyadText.Text = "Polat";
+            //inputmail.Text = "mesut3@intellifi.tech";
+            //SifreText.Text = "qwer1234";
+            //SifreTekrarText.Text = "qwer1234";
 
         }
 
