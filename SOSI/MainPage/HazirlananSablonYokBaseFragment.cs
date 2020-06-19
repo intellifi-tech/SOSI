@@ -33,8 +33,8 @@ namespace SOSI.MainPage
 
         private void YeniSablonButton_Click(object sender, EventArgs e)
         {
-            MainPageBaseActivity_Helper.MainPageBaseActivity1.KullaniciAbonelikSorgula();
-            return;
+            //MainPageBaseActivity_Helper.MainPageBaseActivity1.KullaniciAbonelikSorgula();
+            //return;
             var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
             PaylasimSayisiDialogFragment1.Show(this.Activity.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }

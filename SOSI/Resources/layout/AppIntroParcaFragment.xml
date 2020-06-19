@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@null"
     android:orientation="vertical"
     android:weightSum="100"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout2" >
             <TextView
+                android:visibility="gone"
                 android:textColor="#fff"
                 android:gravity="center"
                 android:text="Artık Testleri Tam Kalbinden"
@@ -30,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView1" />
             <TextView
+                android:textSize="25dp"
                 android:textColor="#fff"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -40,14 +43,16 @@
                 android:id="@+id/textView2" />
         </LinearLayout>
     </RelativeLayout>
-    <ImageView
-        android:padding="60dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"
-        android:id="@+id/ımageView1" />
+    <com.airbnb.lottie.LottieAnimationView
+            android:layout_centerInParent="true"
+            android:id="@+id/animation_view1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            app:lottie_fileName="birdenfazlafoto.json"
+            app:lottie_loop="true"
+            android:layout_above="@+id/button2"
+            app:lottie_autoPlay="true" />
     <TextView
         android:textColor="#fff"
         android:paddingLeft="50dp"

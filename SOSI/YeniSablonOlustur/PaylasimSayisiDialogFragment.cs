@@ -144,7 +144,7 @@ namespace SOSI.YeniSablonOlustur
                 }
                 else
                 {
-                    YuklenecekMediaCountHelper.Countt = 25;
+                    YuklenecekMediaCountHelper.Countt = 20;
                     this.Activity.StartActivity(typeof(YeniSablonOlusturBaseActivity));
                 }
             }

@@ -22,6 +22,13 @@ using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.MediaUploader;
 using SOSI.YeniSablonOlustur.Bilgilendirme;
+using Iyzipay;
+using Iyzipay.Model;
+using Iyzipay.Model.V2;
+using Iyzipay.Model.V2.Subscription;
+using Iyzipay.Request.V2.Subscription;
+using SOSI.WebServicee;
+using SOSI.OdemePaketleri;
 
 namespace SOSI.YeniSablonOlustur
 {
@@ -35,6 +42,7 @@ namespace SOSI.YeniSablonOlustur
         GorselYukleRecyclerViewAdapter mViewAdapter;
         List<SablonDTO> SablonDTO1 = new List<SablonDTO>();
         Button GonderButton;
+        protected Options options;
         public static class App
         {
             public static Java.IO.File _file;
@@ -73,11 +81,124 @@ namespace SOSI.YeniSablonOlustur
             }
             else
             {
-                StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-                StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-                this.Finish();
+                KullaniciAbonelikSorgula(); 
             }
         }
+
+        OdemeGecmisiDTO BenimkileriFiltrele;
+        public void KullaniciAbonelikSorgula()
+        {
+            var MeData = DataBase.MEMBER_DATA_GETIR()[0];
+
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("payment-histories");
+            if (Donus != null)
+            {
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OdemeGecmisiDTO>>(Donus.ToString());
+                if (Icerik.Count > 0)
+                {
+                    BenimkileriFiltrele = Icerik.FindLast(item => item.userId == MeData.id);
+                    if (BenimkileriFiltrele != null)
+                    {
+                        var pricingPlanReferenceCode = "";
+                        switch (BenimkileriFiltrele.packageName)
+                        {
+                            case "SILVER":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            case "GOLD":
+                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                break;
+                            case "PLATINUM":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            default:
+                                break;
+                        }
+                        var ReferansNumarasiGetir = DataBase.ODEME_GECMISI_GETIR_UZAKID(BenimkileriFiltrele.id);
+                        if (ReferansNumarasiGetir.Count > 0)
+                        {
+                            Should_Search_Subscription(ReferansNumarasiGetir[0].iyzicoReferanceCode, pricingPlanReferenceCode, BenimkileriFiltrele.packageName);
+                        }
+                        else
+                        {
+                            StartActivity(typeof(OdemePaketleriBaseActivity));
+                        }
+                    }
+                    else
+                    {
+                        StartActivity(typeof(OdemePaketleriBaseActivity));
+                    }
+                }
+                else
+                {
+                    StartActivity(typeof(OdemePaketleriBaseActivity));
+                }
+            }
+            else
+            {
+                StartActivity(typeof(OdemePaketleriBaseActivity));
+            }
+        }
+
+        void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
+        {
+            Initializee();
+            SearchSubscriptionRequest request = new SearchSubscriptionRequest
+            {
+                Locale = Locale.TR.ToString(),
+                ConversationId = "123456789",
+                SubscriptionReferenceCode = referanscode,
+                Page = 1,
+                Count = 1,
+                SubscriptionStatus = SubscriptionStatus.ACTIVE.ToString(),
+                PricingPlanReferenceCode = pricingPlanReferenceCode
+            };
+
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
+            {
+                var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
+                if (DevamEdenSablonVarmi.Count > 0)
+                {
+                    StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                    StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                    this.Finish();
+                }
+                else
+                {
+                    switch (packageName)
+                    {
+                        case "SILVER":
+                            YuklenecekMediaCountHelper.Countt = 10;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        case "GOLD":
+                            YuklenecekMediaCountHelper.Countt = 15;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        case "PLATINUM":
+                            YuklenecekMediaCountHelper.Countt = 20;
+                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                StartActivity(typeof(OdemePaketleriBaseActivity));
+            }
+        }
+        public void Initializee()
+        {
+            options = new Options();
+            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+            options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        }
+
 
         bool Actinmi = false;
         protected override void OnStart()
@@ -90,6 +211,7 @@ namespace SOSI.YeniSablonOlustur
             }
             
         }
+
         //void YuklemeSayfasiniAc()
         //{
         //    var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
@@ -448,6 +570,16 @@ namespace SOSI.YeniSablonOlustur
         public static class YuklenecekMediaCountHelper
         {
             public static int Countt { get; set; }
+        }
+
+        public class OdemeGecmisiDTO
+        {
+            public DateTime? date { get; set; }
+            public string id { get; set; }
+            public string packageId { get; set; }
+            public string packageName { get; set; }
+            public string userId { get; set; }
+            public string userName { get; set; }
         }
     }
 }

@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
+using Com.Airbnb.Lottie;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using SOSI.GenericClass;
 using SOSI.GirisKayit;
@@ -53,9 +54,9 @@ namespace SOSI.AppIntro
         Android.Support.V4.App.Fragment[] fragments;
         void viepageratama()
         {
-            var ss1 = new IntroFragment("SOSİ", "LOREM", "Lorem impus sit dolor amed. Lorem impus sit dolor amed. Lorem impus sit dolor amed.", Resource.Mipmap.ic_launcher, false);
-            var ss2 = new IntroFragment("SOSİ", "LOREM", "Lorem impus sit dolor amed. Lorem impus sit dolor amed. Lorem impus sit dolor amed.", Resource.Mipmap.ic_launcher, false);
-            var ss3 = new IntroFragment("SOSİ", "LOREM", "Lorem impus sit dolor amed. Lorem impus sit dolor amed. Lorem impus sit dolor amed.", Resource.Mipmap.ic_launcher, true);
+            var ss1 = new IntroFragment("", "1. Aşama", "Öncelikle paylaşmak istediğin görsellerini contento’ya yükle ve görselin ne olduğuna dair küçük bir açıklama ekle ve sonrasını bize bırak!", "birdenfazlafoto.json", false);
+            var ss2 = new IntroFragment("", "2. Aşama", "Sana bunları tamamen profesyonel bir şekilde; gönderiler, storyler, videolar, müzikli animasyonlar olarak hazırlayıp paylaşıma hazır hale getireceğiz.", "appintro2.json", false);
+            var ss3 = new IntroFragment("", "Final!", "Sana sadece gönderilerini kontrol etmek kalacak.\nMükemmel değil mi!", "appintro3.json", true);
 
             //Fragment array
             fragments = new Android.Support.V4.App.Fragment[]
@@ -83,12 +84,12 @@ namespace SOSI.AppIntro
         public class IntroFragment : Android.Support.V4.App.Fragment
         {
             string Metin1, Metin2, Metin3;
-            int imageid;
+            string imageid;
             bool buttondurum;
             TextView MetinText1,MetinText2,MetinText3;
-            ImageView imageview;
             Button devamet;
-            public IntroFragment(string metin1,string metin2,string metin3, int gelenimageid, bool buttonolsunmu)
+            LottieAnimationView LottieAnimationView1;
+            public IntroFragment(string metin1,string metin2,string metin3, string gelenimageid, bool buttonolsunmu)
             {
                 Metin1 = metin1;
                 Metin2 = metin2;
@@ -99,13 +100,13 @@ namespace SOSI.AppIntro
             public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
             {
                 View view = inflater.Inflate(Resource.Layout.AppIntroParcaFragment, container, false);
-                imageview = view.FindViewById<ImageView>(Resource.Id.ımageView1);
+                LottieAnimationView1 = view.FindViewById<LottieAnimationView>(Resource.Id.animation_view1);
                 devamet = view.FindViewById<Button>(Resource.Id.button1);
                 MetinText1 = view.FindViewById<TextView>(Resource.Id.textView1);
                 MetinText2 = view.FindViewById<TextView>(Resource.Id.textView2);
                 MetinText3 = view.FindViewById<TextView>(Resource.Id.textView3);
-                
-                imageview.SetImageResource(imageid);
+
+                LottieAnimationView1.SetAnimation(imageid);
 
                 MetinText1.Text = Metin1;
                 MetinText2.Text = Metin2;

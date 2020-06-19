@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#fff"
     android:layout_width="match_parent"
@@ -70,7 +71,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/relativeLayout1" >
+        <Net.ArcanaStudio.ColorPicker.ColorPanelView
+            android:id="@+id/cpv_color_picker_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cpv_alphaChannelVisible="false"/>
         <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
             android:background="#f5f5f5"
             android:minWidth="25px"
             android:minHeight="25px"

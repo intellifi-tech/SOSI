@@ -71,7 +71,7 @@ namespace SOSI.Splashh
                 {
                     //StartActivity(typeof(AnaMenuBaseActivitty));
                     //return;
-                    StartActivity(typeof(GirisBaseActivity)); //AppIntroBaseActivity
+                    StartActivity(typeof(AppIntroBaseActivity)); //AppIntroBaseActivity
                     this.Finish();
                 }
                 
