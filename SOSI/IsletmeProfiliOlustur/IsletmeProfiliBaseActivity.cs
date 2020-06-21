@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using LarsWerkman.HoloColorPicker;
 using Newtonsoft.Json;
 using Refractored.Controls;
 using SOSI.DataBasee;
@@ -562,13 +564,19 @@ namespace SOSI.IsletmeProfiliOlustur
             }
 
         }
-        public class KurumsalRenkFragment : Android.Support.V4.App.Fragment
+        public class KurumsalRenkFragment : Android.Support.V4.App.Fragment,ColorPicker.IOnColorChangedListener
         {
             IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity1;
             RecyclerView mRecyclerView;
             RecyclerView.LayoutManager mLayoutManager;
             KurumsalRenkRecyclerViewAdapter mViewAdapter;
             List<KurumsalRenkDTO> KurumsalRenkDTO1 = new List<KurumsalRenkDTO>();
+            ColorPicker picker;
+            SVBar svBar;
+            //SaturationBar saturationBar;
+            ValueBar valueBar;
+            int SecilenRenk = 0xFFFFFF;
+
             public KurumsalRenkFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -576,6 +584,36 @@ namespace SOSI.IsletmeProfiliOlustur
             public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
             {
                 View view = inflater.Inflate(Resource.Layout.KurumsalRenkSecBaseActivity, container, false);
+
+                 picker = view.FindViewById<ColorPicker>(Resource.Id.picker);
+                 //saturationBar = view.FindViewById<SaturationBar>(Resource.Id.saturationbar);
+                 valueBar = view.FindViewById<ValueBar>(Resource.Id.valuebar);
+
+
+                //picker.AddSVBar(svBar);
+                //picker.addOpacityBar(opacityBar);
+                //picker.AddSaturationBar(saturationBar);
+                picker.AddValueBar(valueBar);
+
+                //To get the color
+                var a = picker.Color;
+
+                //To set the old selected color u can do it like this
+                picker.OldCenterColor = picker.Color;
+                // adds listener to the colorpicker which is implemented
+                //in the activity
+                picker.OnColorChangedListener = this;
+
+                //to turn of showing the old color
+               // picker.setShowOldCenterColor(false);
+
+                //adding onChangeListeners to bars
+                //opacitybar.setOnOpacityChangeListener(new OnOpacityChangeListener …);
+                //valuebar.setOnValueChangeListener(new OnValueChangeListener …);
+                //saturationBar.setOnSaturationChangeListener(new OnSaturationChangeListener …);
+
+
+
                 mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView1);
                 mRecyclerView.HasFixedSize = true;
                 new System.Threading.Thread(new System.Threading.ThreadStart(async delegate
@@ -589,6 +627,21 @@ namespace SOSI.IsletmeProfiliOlustur
 
             }
 
+            public void OnColorChanged(int color)
+            {
+                // SecilenRenk = new Color(color);
+                SecilenRenk = color;
+               // string hexColor = string.Format("#%06X", (0xFFFFFF & SecilenRenk));
+
+                var hexx = HexConverter(System.Drawing.Color.FromArgb(color));
+
+
+                Console.WriteLine(hexx);
+            }
+            private static String HexConverter(System.Drawing.Color c)
+            {
+                return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+            }
             void RekleriGetir()
             {
                 ReadColorsFromJson();
@@ -636,6 +689,10 @@ namespace SOSI.IsletmeProfiliOlustur
 
             public string GetSeletedColor()
             {
+
+                var hexx = HexConverter(System.Drawing.Color.FromArgb(SecilenRenk));
+                return hexx;
+
                 var SecilenSektor = KurumsalRenkDTO1.FindAll(item => item.IsSelect == true);
 
                 if (SecilenSektor.Count > 0)
@@ -647,6 +704,8 @@ namespace SOSI.IsletmeProfiliOlustur
                     return "null";
                 }
             }
+
+            
         }
         public class LogoFragment : Android.Support.V4.App.Fragment
         {
