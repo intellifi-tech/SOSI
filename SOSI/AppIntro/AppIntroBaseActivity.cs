@@ -54,9 +54,9 @@ namespace SOSI.AppIntro
         Android.Support.V4.App.Fragment[] fragments;
         void viepageratama()
         {
-            var ss1 = new IntroFragment("", "1. Aşama", "Öncelikle paylaşmak istediğin görsellerini contento’ya yükle ve görselin ne olduğuna dair küçük bir açıklama ekle ve sonrasını bize bırak!", "birdenfazlafoto.json", false);
+            var ss1 = new IntroFragment("", "1. Aşama", "Öncelikle paylaşmak istediğin görsellerini contento’ya yükle ve görselin ne olduğuna dair küçük bir açıklama ekle ve sonrasını bize bırak!", "appintro_1.json", false);
             var ss2 = new IntroFragment("", "2. Aşama", "Sana bunları tamamen profesyonel bir şekilde; gönderiler, storyler, videolar, müzikli animasyonlar olarak hazırlayıp paylaşıma hazır hale getireceğiz.", "appintro2.json", false);
-            var ss3 = new IntroFragment("", "Final!", "Sana sadece gönderilerini kontrol etmek kalacak.\nMükemmel değil mi!", "appintro3.json", true);
+            var ss3 = new IntroFragment("", "Final!", "Sana sadece gönderilerini kontrol etmek kalacak.\nMükemmel değil mi!", "appintro_2.json", true);
 
             //Fragment array
             fragments = new Android.Support.V4.App.Fragment[]

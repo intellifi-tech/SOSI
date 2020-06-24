@@ -29,7 +29,7 @@ using static SOSI.YeniSablonOlustur.YeniSablonOlusturBaseActivity;
 
 namespace SOSI.MainPage
 {
-    [Activity(Label = "SOSI")]
+    [Activity(Label = "Contento")]
     public class MainPageBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         CircleImageView IsletmeLogo;

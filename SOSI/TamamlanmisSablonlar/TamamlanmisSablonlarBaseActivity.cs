@@ -73,6 +73,9 @@ namespace SOSI.TamamlanmisSablonlar
         
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
+            SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;
+            this.StartActivity(typeof(SablonIcerikleriBaseActivity));
+            return;
             if ((bool)TamamlanmisSablonDTO1[(int)e[0]].complete)
             {
                 SecilenSablon.SablonID = TamamlanmisSablonDTO1[(int)e[0]].id;

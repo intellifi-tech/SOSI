@@ -133,6 +133,7 @@
     <Compile Include="YeniSablonOlustur\Bilgilendirme\OrnekCalisma\OrnekCalismaRecyclerviewAdepter.cs" />
     <Compile Include="YeniSablonOlustur\Bilgilendirme\OrnekCalisma\OrnekCalismaBaseActivity.cs" />
     <Compile Include="YeniSablonOlustur\GorselYukleRecyclerviewAdepter.cs" />
+    <Compile Include="YeniSablonOlustur\TebriklerSablonGonderildiBaseActivity.cs" />
     <Compile Include="YeniSablonOlustur\YeniPaylasimMetinDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\PaylasimSayisiDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\YeniSablonOlusturBaseActivity.cs" />
@@ -162,6 +163,8 @@
     <AndroidAsset Include="Assets\birdenfazlafoto.json" />
     <AndroidAsset Include="Assets\appintro2.json" />
     <AndroidAsset Include="Assets\appintro3.json" />
+    <AndroidAsset Include="Assets\appintro_2.json" />
+    <AndroidAsset Include="Assets\appintro_1.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -2152,6 +2155,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\TestActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TebriklerSablonGonderildiBaseActivity.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

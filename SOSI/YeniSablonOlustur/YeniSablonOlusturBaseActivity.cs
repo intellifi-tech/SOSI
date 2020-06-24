@@ -29,6 +29,7 @@ using Iyzipay.Model.V2.Subscription;
 using Iyzipay.Request.V2.Subscription;
 using SOSI.WebServicee;
 using SOSI.OdemePaketleri;
+using static SOSI.YeniSablonOlustur.TebriklerSablonGonderildiBaseActivity;
 
 namespace SOSI.YeniSablonOlustur
 {
@@ -122,22 +123,34 @@ namespace SOSI.YeniSablonOlustur
                         }
                         else
                         {
-                            StartActivity(typeof(OdemePaketleriBaseActivity));
+                            GonderimiBaslat();
+                            TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = false;
+                            StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                            this.Finish();
                         }
                     }
                     else
                     {
-                        StartActivity(typeof(OdemePaketleriBaseActivity));
+                        GonderimiBaslat();
+                        TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = false;
+                        StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                        this.Finish();
                     }
                 }
                 else
                 {
-                    StartActivity(typeof(OdemePaketleriBaseActivity));
+                    GonderimiBaslat();
+                    TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = false;
+                    StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                    this.Finish();
                 }
             }
             else
             {
-                StartActivity(typeof(OdemePaketleriBaseActivity));
+                GonderimiBaslat();
+                TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = false;
+                StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                this.Finish();
             }
         }
 
@@ -158,37 +171,17 @@ namespace SOSI.YeniSablonOlustur
             ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
             if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
             {
-                var DevamEdenSablonVarmi = DataBase.YUKLENECEK_SABLON_GETIR();
-                if (DevamEdenSablonVarmi.Count > 0)
-                {
-                    StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-                    StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-                    this.Finish();
-                }
-                else
-                {
-                    switch (packageName)
-                    {
-                        case "SILVER":
-                            YuklenecekMediaCountHelper.Countt = 10;
-                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
-                            break;
-                        case "GOLD":
-                            YuklenecekMediaCountHelper.Countt = 15;
-                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
-                            break;
-                        case "PLATINUM":
-                            YuklenecekMediaCountHelper.Countt = 20;
-                            this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                GonderimiBaslat();
+                TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = true;
+                StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                this.Finish();
             }
             else
             {
-                StartActivity(typeof(OdemePaketleriBaseActivity));
+                GonderimiBaslat();
+                TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri = false;
+                StartActivity(typeof(TebriklerSablonGonderildiBaseActivity));
+                this.Finish();
             }
         }
         public void Initializee()
@@ -199,6 +192,11 @@ namespace SOSI.YeniSablonOlustur
             options.BaseUrl = "https://sandbox-api.iyzipay.com";
         }
 
+        void GonderimiBaslat()
+        {
+            StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+            StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+        }
 
         bool Actinmi = false;
         protected override void OnStart()

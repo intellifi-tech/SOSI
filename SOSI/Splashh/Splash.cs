@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -45,6 +48,7 @@ namespace SOSI.Splashh
         }
         void HazirlikYap()
         {
+            //OrnekCalismaTestDummy();
             SetDumyData();
             this.RunOnUiThread(delegate ()
             {
@@ -77,6 +81,60 @@ namespace SOSI.Splashh
                 
             });
             
+        }
+
+        void OrnekCalismaTestDummy()
+        {
+            var icon = BitmapFactory.DecodeResource(Resources, Resource.Mipmap.aaestro);
+            var ms = new MemoryStream();
+            icon.Compress(Bitmap.CompressFormat.Png, 0, ms);
+            byte[] mediabyte = ms.ToArray();
+
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0];
+            
+            var client = new RestSharp.RestClient("http://31.169.67.210:8080/api/examples");
+            client.Timeout = -1;
+            var request = new RestSharp.RestRequest(RestSharp.Method.POST);
+           // request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36");
+            request.AddHeader("Accept", "*/*");
+            //request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddHeader("Authorization", "Bearer " + MeID.API_TOKEN);
+            request.AddParameter("text", "ddddddddd");
+            request.AddFile("afterImagePath", mediabyte, "sosi_media_file.png");
+            request.AddFile("beforeImagePath", mediabyte, "sosi_media_file1.png");
+            RestSharp.IRestResponse response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.Unauthorized &&
+                response.StatusCode != HttpStatusCode.InternalServerError &&
+                response.StatusCode != HttpStatusCode.BadRequest &&
+                response.StatusCode != HttpStatusCode.Forbidden &&
+                response.StatusCode != HttpStatusCode.MethodNotAllowed &&
+                response.StatusCode != HttpStatusCode.NotAcceptable &&
+                response.StatusCode != HttpStatusCode.RequestTimeout &&
+                response.StatusCode != HttpStatusCode.NotFound)
+            {
+                var jsonobj = response.Content;
+                //var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<MediaUploadDTO>(jsonobj.ToString());
+                //if (Icerik != null)
+                //{
+                //    return Icerik.beforeMediaPath;
+                //}
+                //else
+                //{
+                //    return "";
+                //}
+            }
+            else
+            {
+                //return "";
+            }
+        }
+        public class OrnekCalisma
+        {
+            public string afterImagePath { get; set; }
+            public string beforeImagePath { get; set; }
+            public string id { get; set; }
+            public string text { get; set; }
         }
         void SetDumyData()
         {

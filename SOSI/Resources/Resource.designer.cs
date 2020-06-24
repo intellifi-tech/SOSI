@@ -9754,19 +9754,22 @@ namespace SOSI
 			public const int TamamlanmisSablonlarSablonListItem = 2131427468;
 			
 			// aapt resource value: 0x7F0B008D
-			public const int TestActivity = 2131427469;
+			public const int TebriklerSablonGonderildiBaseActivity = 2131427469;
 			
 			// aapt resource value: 0x7F0B008E
-			public const int view_creditcard = 2131427470;
+			public const int TestActivity = 2131427470;
 			
 			// aapt resource value: 0x7F0B008F
-			public const int YeniPaylasimMetinGirisiDialogFragment = 2131427471;
+			public const int view_creditcard = 2131427471;
 			
 			// aapt resource value: 0x7F0B0090
-			public const int YeniSablonGorselYukleCardView = 2131427472;
+			public const int YeniPaylasimMetinGirisiDialogFragment = 2131427472;
 			
 			// aapt resource value: 0x7F0B0091
-			public const int YeniSablonOlusturBaseActivity = 2131427473;
+			public const int YeniSablonGorselYukleCardView = 2131427473;
+			
+			// aapt resource value: 0x7F0B0092
+			public const int YeniSablonOlusturBaseActivity = 2131427474;
 			
 			static Layout()
 			{

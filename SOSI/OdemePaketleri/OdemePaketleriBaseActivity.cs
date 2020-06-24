@@ -6,8 +6,11 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using Iyzipay;
@@ -16,8 +19,10 @@ using Iyzipay.Model.V2;
 using Iyzipay.Model.V2.Subscription;
 using Iyzipay.Request.V2.Subscription;
 using Newtonsoft.Json;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.WebServicee;
+using static SOSI.MainPage.MainPageBaseActivity;
 //using SOSI.IyziPayHelper;
 
 namespace SOSI.OdemePaketleri
@@ -28,6 +33,10 @@ namespace SOSI.OdemePaketleri
         protected Options options;
         LinearLayout Paket1, Paket2, Paket3;
         ImageButton Geri;
+
+        TextView MevcutAlinmisPaket;
+        Button PaketIptal;
+        LinearLayout MevcutPaketHanze;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,12 +47,78 @@ namespace SOSI.OdemePaketleri
             Paket2 = FindViewById<LinearLayout>(Resource.Id.paket2hazne);
             Paket3 = FindViewById<LinearLayout>(Resource.Id.paket3hazne);
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+
+            MevcutAlinmisPaket = FindViewById<TextView>(Resource.Id.textView6);
+            PaketIptal = FindViewById<Button>(Resource.Id.button1);
+            MevcutPaketHanze = FindViewById<LinearLayout>(Resource.Id.linearLayout3);
+            PaketIptal.Click += PaketIptal_Click;
+
+
+            MevcutPaketHanze.Visibility = ViewStates.Gone;
+
             Geri.Click += Geri_Click;
             //PaketleriOlustur();
             Paket1.Click += Paket1_Click;
             Paket2.Click += Paket2_Click;
             Paket3.Click += Paket3_Click;
 
+        }
+
+        private void PaketIptal_Click(object sender, EventArgs e)
+        {
+            var cevap = new AlertDialog.Builder(this);
+            cevap.SetCancelable(true);
+            cevap.SetIcon(Resource.Mipmap.ic_launcher);
+            cevap.SetTitle(Spannla(Color.Black, "Contento"));
+            cevap.SetMessage(Spannla(Color.DarkGray, "Aktif aboneliğinizi iptal etmek istediğinizden emin misiniz?"));
+            cevap.SetPositiveButton("Evet", delegate
+            {
+                Should_Cancel_Subscription();
+            });
+            cevap.SetNegativeButton("Hayır", delegate
+            {
+            });
+            cevap.Show();
+            
+        }
+        SpannableStringBuilder Spannla(Color Renk, string textt)
+        {
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
+
+            string title = textt;
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+            ssBuilder.SetSpan(
+                    foregroundColorSpan,
+                    0,
+                    title.Length,
+                    SpanTypes.ExclusiveExclusive
+            );
+            return ssBuilder;
+        }
+        public void Should_Cancel_Subscription()
+        {
+            Initializee();
+            CancelSubscriptionRequest request = new CancelSubscriptionRequest
+            {
+                Locale = Locale.TR.ToString(),
+                ConversationId = "123456789",
+                SubscriptionReferenceCode = AktifAbonelikKodu
+            };
+
+            IyzipayResourceV2 response = Subscription.Cancel(request, options);
+            if (response.Status=="success")
+            {
+                Toast.MakeText(this, "Aboneliğiniz İptal Edildi.", ToastLength.Long).Show();
+                this.RunOnUiThread(delegate () {
+
+                    MevcutPaketHanze.Visibility = ViewStates.Gone;
+                    MevcutAlinmisPaket.Text = "";
+                });
+            }
+            else
+            {
+                Toast.MakeText(this, "Bir sorun oluştu lütfen daha sonra tekrar deneyin", ToastLength.Long).Show();
+            }
         }
 
         private void Geri_Click(object sender, EventArgs e)
@@ -74,11 +149,104 @@ namespace SOSI.OdemePaketleri
             OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
             OdemePaketleriBaseActivity_Helper.PackageName = "SILVER";
             StartActivity(typeof(OdemeFormBaseActivity));
-
         }
 
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                KullaniciAbonelikSorgula();
+            })).Start();
+            
+        }
+
+        #region Paket Sorgula
+        OdemeGecmisiDTO BenimkileriFiltrele;
+        string AktifPaketAi,AktifAbonelikKodu;
+        public void KullaniciAbonelikSorgula()
+        {
+            var MeData = DataBase.MEMBER_DATA_GETIR()[0];
+
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("payment-histories");
+            if (Donus != null)
+            {
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OdemeGecmisiDTO>>(Donus.ToString());
+                if (Icerik.Count > 0)
+                {
+                    BenimkileriFiltrele = Icerik.FindLast(item => item.userId == MeData.id);
+                    if (BenimkileriFiltrele != null)
+                    {
+                        var pricingPlanReferenceCode = "";
+                        switch (BenimkileriFiltrele.packageName)
+                        {
+                            case "SILVER":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                AktifPaketAi = "SILVER";
+                                break;
+                            case "GOLD":
+                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                AktifPaketAi = "GOLD";
+                                break;
+                            case "PLATINUM":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                AktifPaketAi = "PLATINUM";
+                                break;
+                            default:
+                                break;
+                        }
+                        var ReferansNumarasiGetir = DataBase.ODEME_GECMISI_GETIR_UZAKID(BenimkileriFiltrele.id);
+                        if (ReferansNumarasiGetir.Count > 0)
+                        {
+                            Should_Search_Subscription(ReferansNumarasiGetir[0].iyzicoReferanceCode, pricingPlanReferenceCode, BenimkileriFiltrele.packageName);
+                        }
+                    }
+                }
+            }
+        }
+        
+        void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
+        {
+            Initializee();
+            SearchSubscriptionRequest request = new SearchSubscriptionRequest
+            {
+                Locale = Locale.TR.ToString(),
+                ConversationId = "123456789",
+                SubscriptionReferenceCode = referanscode,
+                Page = 1,
+                Count = 1,
+                SubscriptionStatus = SubscriptionStatus.ACTIVE.ToString(),
+                PricingPlanReferenceCode = pricingPlanReferenceCode
+            };
+
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
+            {
+                AktifAbonelikKodu = response.Data.Items[response.Data.Items.Count - 1].ReferenceCode;
+                this.RunOnUiThread(delegate () {
+
+                    MevcutPaketHanze.Visibility = ViewStates.Visible;
+                    MevcutAlinmisPaket.Text = AktifPaketAi;
+                });
+            }
+            
+        }
+        public void Initializee()
+        {
+            options = new Options();
+            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+            options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        }
+
+        #endregion
+
+
+
         #region DummyData
-    
+
         void PaketleriOlustur()
         {
             PaketDTOHazirla();

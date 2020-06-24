@@ -59,6 +59,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             if (Donus!=null)
             {
                 sablonIcerikleriDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SablonIcerikleriDTO>>(Donus.ToString());
+                sablonIcerikleriDTOs = sablonIcerikleriDTOs.FindAll(item => item.processed == true);
                 if (sablonIcerikleriDTOs.Count >0)
                 {
                     mViewAdapter = new SablonIcerikleriRecyclerViewAdapter(sablonIcerikleriDTOs, this);

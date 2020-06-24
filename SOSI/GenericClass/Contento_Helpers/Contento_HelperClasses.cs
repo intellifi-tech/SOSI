@@ -18,7 +18,7 @@ namespace SOSI.GenericClass.Contento_Helpers
     {
         public class SetImageHelper
         {
-            public void SetImage(Activity mContext, ImageView GelenView, string URLL, bool isCenterInsade = false, int PlaceHolderAndErrorImages = Resource.Mipmap.ic_launcher, bool setResize = false)
+            public void SetImage(Activity mContext, ImageView GelenView, string URLL, bool isCenterInsade = false, int PlaceHolderAndErrorImages = Resource.Mipmap.logononbg, bool setResize = false)
             {
                 try
                 {
@@ -33,7 +33,7 @@ namespace SOSI.GenericClass.Contento_Helpers
                                             .Error(PlaceHolderAndErrorImages);
                     if (setResize)
                     {
-                        options.Override(200, 200);
+                        options.Override(500, 500);
                     }
                     if (isCenterInsade)
                     {

@@ -7,20 +7,20 @@
     android:weightSum="99"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-     <RelativeLayout
+    <RelativeLayout
         android:background="@drawable/profileheaderbg"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="102.5dp"
-        android:id="@+id/relativeLayout1" >
+        android:id="@+id/relativeLayout1">
         <RelativeLayout
             android:layout_centerInParent="true"
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relativeLayout2" >
+            android:id="@+id/relativeLayout2">
             <ImageButton
                 android:tint="#fff"
                 android:background="?android:attr/selectableItemBackground"
@@ -56,6 +56,7 @@
             android:layout_height="match_parent"
             android:id="@+id/linearLayout2">
             <TextView
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:textSize="16dp"
                 android:textColor="#7F7F7F"
@@ -67,11 +68,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3" />
+            <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:background="#eee"
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout3">
+                <TextView
+                    android:textSize="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="#000"
+                    android:text="Mevcut Aboneliğiniz;"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5" />
+                <RelativeLayout
+                    android:layout_marginBottom="10dp"
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relativeLayout3">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:paddingLeft="10dp"
+                        android:textColor="#942EBB"
+                        android:text="PLATINUM"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_toLeftOf="@+id/button1"
+                        android:id="@+id/textView6" />
+                    <Button
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#fff"
+                        android:background="@drawable/gradientbg_raunded"
+                        android:layout_alignParentRight="true"
+                        android:text="İPTAL ET"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:id="@+id/button1" />
+                </RelativeLayout>
+            </LinearLayout>
             <android.support.v7.widget.CardView
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="false"
@@ -526,7 +579,7 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/textView2" />
                         </LinearLayout>
-                         <TextView
+                        <TextView
                             android:textColor="#fff"
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="10dp"
