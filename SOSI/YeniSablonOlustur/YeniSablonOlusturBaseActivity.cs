@@ -74,16 +74,25 @@ namespace SOSI.YeniSablonOlustur
 
         private void GonderButton_Click(object sender, EventArgs e)
         {
-            var HepsiOkeymi = SablonDTO1.FindAll(item => item.MediaUri == null);
-            if (HepsiOkeymi.Count > 0)
+            ShowLoading.Show(this);
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
-                Toast.MakeText(this, "Lütfen tüm içerik alanlarını doldurun", ToastLength.Long).Show();
-                return;
-            }
-            else
-            {
-                KullaniciAbonelikSorgula(); 
-            }
+                var HepsiOkeymi = SablonDTO1.FindAll(item => item.MediaUri == null);
+                if (HepsiOkeymi.Count > 0)
+                {
+                    Toast.MakeText(this, "Lütfen tüm içerik alanlarını doldurun", ToastLength.Long).Show();
+                    return;
+                }
+                else
+                {
+                    KullaniciAbonelikSorgula();
+                    this.RunOnUiThread(delegate ()
+                    {
+                        ShowLoading.Hide();
+                    });
+                }
+            })).Start();
+            
         }
 
         OdemeGecmisiDTO BenimkileriFiltrele;

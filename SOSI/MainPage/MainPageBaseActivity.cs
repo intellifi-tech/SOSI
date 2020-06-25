@@ -19,6 +19,7 @@ using Iyzipay.Request.V2.Subscription;
 using Refractored.Controls;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.GenericClass.Contento_Helpers;
 using SOSI.OdemePaketleri;
 using SOSI.Paketler;
 using SOSI.TamamlanmisSablonlar;
@@ -83,7 +84,14 @@ namespace SOSI.MainPage
             var CompanyInfo = DataBase.COMPANY_INFORMATION_GETIR()[0];
             new SetImageHelper().SetImage(this, IsletmeLogo, CompanyInfo.logoPath);
             SablonKontrol();
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                new ContentoNotificationInit_Helper(this).Init();
+            })).Start();
+            
         }
+
+       
 
         void SablonKontrol()
         {
@@ -130,6 +138,7 @@ namespace SOSI.MainPage
         public void YeniSablonButtonGizle(ViewStates Durum)
         {
             YeniSablonOlustur.Visibility = Durum;
+            HazirSablonlar.Visibility = ViewStates.Visible;
         }
         void GetSablonYokFragment()
         {

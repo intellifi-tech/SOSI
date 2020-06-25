@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.TamamlanmisSablonlar.SablonDetay;
@@ -27,6 +28,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         SablonIcerikleriRecyclerViewAdapter mViewAdapter;
         IDownloader downloader = new Downloader();
         ImageButton GeriButton;
+        MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -121,7 +123,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         }
         void MedyayiIndırKaydet()
         {
-            downloader.DownloadFile(/*"http://31.169.67.210/"+ */SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
+            downloader.DownloadFile("https://contentoapp.co/app/" + Me.login + "/" + SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
         }
         private void Downloader_OnFileDownloaded(object sender, DownloadEventArgs e)
         {
@@ -132,14 +134,22 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
                 clipboard.PrimaryClip =(clip);
                 
                 var pathh = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SharedMedias");
-                string pathh2 = Path.Combine(pathh, Path.GetFileName(/*"http://31.169.67.210/" + */SecilenSablonDTO.SecilenSablon.afterMediaPath));
+                string pathh2 = Path.Combine(pathh, Path.GetFileName("https://contentoapp.co/app/" + Me.login + "/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
                 Java.IO.File media = new Java.IO.File(pathh2);
                 Android.Net.Uri uri = Android.Net.Uri.FromFile(media);
+
+                byte[] ImageData = File.ReadAllBytes(uri.Path);
+
+                string base64String = Convert.ToBase64String(ImageData);
+
                 Intent shareIntent = new Intent(Intent.ActionSend);
                 shareIntent.SetType(SecilenSablonDTO.SecilenSablon.video ? "video/*" : "image/*");
                 shareIntent.AddFlags(ActivityFlags.NewTask);//FLAG_ACTIVITY_NEW_TASK
                 shareIntent.PutExtra(Intent.ExtraStream, uri);
-                shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
+
+                this.GrantUriPermission("com.instagram.android", uri, ActivityFlags.GrantReadUriPermission);
+
+                //shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
                 shareIntent.SetPackage("com.instagram.android");
                 this.StartActivity(shareIntent);
                 Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
@@ -151,6 +161,9 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
                 return;
             }
         }
+
+
+
 
         public class SablonIcerikleriDTO
         {

@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Bumptech.Glide;
 using Com.Bumptech.Glide.Request;
+using SOSI.DataBasee;
 
 namespace SOSI.GenericClass.Contento_Helpers
 {
@@ -20,6 +21,7 @@ namespace SOSI.GenericClass.Contento_Helpers
         {
             public void SetImage(Activity mContext, ImageView GelenView, string URLL, bool isCenterInsade = false, int PlaceHolderAndErrorImages = Resource.Mipmap.logononbg, bool setResize = false)
             {
+                var Me = DataBase.MEMBER_DATA_GETIR()[0];
                 try
                 {
                     //val file: File = Glide.with(activity).asFile().load(url).submit().get()
@@ -43,7 +45,7 @@ namespace SOSI.GenericClass.Contento_Helpers
                     mContext.RunOnUiThread(delegate ()
                     {
                         Glide.With(mContext)
-                                 .Load(URLL)//"http://31.169.67.210:9003/images/" +
+                                 .Load("https://contentoapp.co/app/"+ Me.login+"/"+ URLL)
                                  .Apply(options).Into(GelenView);
                     });
                 }

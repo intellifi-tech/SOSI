@@ -124,8 +124,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             else
             {
                 var fark = PaylasimZamani - DateTime.Now;
-                return String.Format("{0}{1}{2}{3}", fark.Days > 0 ? string.Format("{0} gün ", fark.Days) : "", fark.Hours > 0 ? string.Format("{0} saat ", fark.Hours) : "", fark.Minutes > 0 ? string.Format("{0} dakika ", fark.Minutes) : "", fark.Seconds > 0 ? string.Format("{3} Saniye ", fark.Seconds) : "").Trim();
-
+                return "Paylaşıma " + fark.Days + " Gün " + fark.Hours + " Sa. " + fark.Minutes + " Dk. kaldı";
             }
         }
 
