@@ -45,7 +45,7 @@ namespace SOSI.GenericClass.Contento_Helpers
                     mContext.RunOnUiThread(delegate ()
                     {
                         Glide.With(mContext)
-                                 .Load("https://contentoapp.co/app/"+ Me.login+"/"+ URLL)
+                                 .Load("https://contentoapp.co/app/"+ URLL)
                                  .Apply(options).Into(GelenView);
                     });
                 }

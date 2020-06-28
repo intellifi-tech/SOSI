@@ -20,7 +20,7 @@ namespace SOSI.YeniSablonOlustur
     {
         #region Tanımlamalar
         LottieAnimationView animationView, animationView2;
-        Button DevamEtButton;
+        Button DevamEtButton,UcretsizDevamEt;
         TextView Baslik, Acikalama;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -32,6 +32,7 @@ namespace SOSI.YeniSablonOlustur
             animationView = FindViewById<LottieAnimationView>(Resource.Id.animation_view1);
             animationView2 = FindViewById<LottieAnimationView>(Resource.Id.animation_view2);
             DevamEtButton = FindViewById<Button>(Resource.Id.button1);
+            UcretsizDevamEt = FindViewById<Button>(Resource.Id.button2);
             Baslik = FindViewById<TextView>(Resource.Id.textView1);
             Acikalama = FindViewById<TextView>(Resource.Id.textView2);
             DevamEtButton.Visibility = ViewStates.Invisible;
@@ -46,7 +47,14 @@ namespace SOSI.YeniSablonOlustur
                 Acikalama.Text = "İşletmeniz için oluşturduğunuz paylaşım akışı şuan bize aktarılıyor. Aktarım tamamlandıktan sonraki 24 saat içerisinde uzman tasarımcılarımız ile birlikte paylaşımlarınızı hazır hale getireceğiz. Tasarım sürecini AnaSayfa'dan takip edebilirsiniz.";
             }
             DevamEtButton.Click += DevamEtButton_Click;
+            UcretsizDevamEt.Click += UcretsizDevamEt_Click;
         }
+
+        private void UcretsizDevamEt_Click(object sender, EventArgs e)
+        {
+            this.Finish();
+        }
+
         private void DevamEtButton_Click(object sender, EventArgs e)
         {
             if (!TebriklerSablonGonderildiBaseActivity_Helper.OdemeliMusteri)

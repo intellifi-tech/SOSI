@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -10,7 +11,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using SOSI.DataBasee;
 using SOSI.GenericClass;
+using SOSI.GenericUI;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
@@ -25,9 +28,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
         ImageView PostImage;
         VideoView PostVideoView;
         RelativeLayout VideoHazne;
-
+        Button PaylasButton;
         MediaController mediaController;
-
+        IDownloader downloader = new Downloader();
+        MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,10 +46,12 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
             PostImage = FindViewById<ImageView>(Resource.Id.ımageView1);
             PostVideoView = FindViewById<VideoView>(Resource.Id.videoView1);
             VideoyaBaslaButton = FindViewById<ImageView>(Resource.Id.baslabutton);
+            PaylasButton = FindViewById<Button>(Resource.Id.paylasbutton);
+            PaylasButton.Click += PaylasButton_Click;
             PostTipiText.Text = SecilenSablonDTO.SecilenSablon.type;
             mediaController = new MediaController(this);
             PostVideoView.SetMediaController(mediaController);
-            
+            downloader.OnFileDownloaded += Downloader_OnFileDownloaded;
             if (SecilenSablonDTO.SecilenSablon.shareDateTime != null)
             {
                 PostTarihiTet.Text = Convert.ToDateTime(SecilenSablonDTO.SecilenSablon.shareDateTime).ToString("MMMM dd") + ", " + Convert.ToDateTime(SecilenSablonDTO.SecilenSablon.shareDateTime).ToString("HH:mm");
@@ -64,7 +70,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
             {
                 PostImage.Visibility = ViewStates.Gone;
                 VideoHazne.Visibility = ViewStates.Visible;
-                String videoUrl = "https://ia800201.us.archive.org/12/items/BigBuckBunny_328/BigBuckBunny_512kb.mp4";
+                String videoUrl = "https://contentoapp.co/app/" + SecilenSablonDTO.SecilenSablon.afterMediaPath;
                 Android.Net.Uri video = Android.Net.Uri.Parse(videoUrl);
                 PostVideoView.SetVideoURI(video);
                 PostVideoView.SetOnPreparedListener(this);
@@ -76,6 +82,95 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
                 new SetImageHelper().SetImage(this, PostImage, SecilenSablonDTO.SecilenSablon.afterMediaPath);
             }
         }
+
+        private void PaylasButton_Click(object sender, EventArgs e)
+        {
+            ShowLoading.Show(this);
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                InstagramPaylas();
+            })).Start();
+            
+        }
+
+
+        #region Paylas
+        void InstagramPaylas()
+        {
+            MedyayiIndırKaydet();
+        }
+        void MedyayiIndırKaydet()
+        {
+            downloader.DownloadFile("https://contentoapp.co/app/"  + SecilenSablonDTO.SecilenSablon.afterMediaPath, "SharedMedias");
+        }
+        private void Downloader_OnFileDownloaded(object sender, DownloadEventArgs e)
+        {
+            this.RunOnUiThread(delegate () {
+
+                ShowLoading.Hide();
+            });
+            if (e.FileSaved)//Başarılı
+            {
+
+                ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
+                ClipData clip = ClipData.NewPlainText(SecilenSablonDTO.SecilenSablon.id, SecilenSablonDTO.SecilenSablon.postText);
+                clipboard.PrimaryClip = (clip);
+
+                var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath;
+
+                var pathh = Path.Combine(dir, "SharedMedias");
+                string pathh2 = Path.Combine(pathh, Path.GetFileName("https://contentoapp.co/app/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
+                Java.IO.File media = new Java.IO.File(pathh2);
+                Android.Net.Uri uri = Android.Net.Uri.FromFile(media);
+
+                //Android.Net.Uri.Builder Builderr = new Android.Net.Uri.Builder();
+                //Android.Net.Uri newUri;
+                ////if (DahaOnceEklenenVarmi[i].isVideo)
+                ////{
+                ////    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("media").EncodedAuthority("media").Build();
+                ////}
+                ////else
+                ////{
+                ////    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("com.android.providers.media.documents").EncodedAuthority("com.android.providers.media.documents").Build();
+                ////}
+                //newUri = Android.Net.Uri.Parse(pathh2);
+
+
+                byte[] ImageData = File.ReadAllBytes(uri.Path);
+
+                string base64String = Convert.ToBase64String(ImageData);
+
+                Intent shareIntent = new Intent(Intent.ActionSend);
+                shareIntent.SetType(SecilenSablonDTO.SecilenSablon.video ? "video/*" : "image/*");
+                shareIntent.AddFlags(ActivityFlags.NewTask);//FLAG_ACTIVITY_NEW_TASK
+                shareIntent.PutExtra(Intent.ExtraStream, uri);
+
+                this.GrantUriPermission("com.instagram.android", uri, ActivityFlags.GrantReadUriPermission);
+
+                //shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
+                shareIntent.SetPackage("com.instagram.android");
+                this.StartActivity(shareIntent);
+                this.RunOnUiThread(delegate () {
+
+                    Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
+                });
+                
+
+            }
+            else
+            {
+                this.RunOnUiThread(delegate () {
+                    AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                });
+                return;
+            }
+        }
+
+        #endregion
+
+
+
+
 
         private void VideoyaBaslaButton_Click(object sender, EventArgs e)
         {

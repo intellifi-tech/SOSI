@@ -32,13 +32,13 @@ namespace SOSI.IsletmeProfiliOlustur
         public ViewPager viewpager;
         RelativeLayout Transformiew;
         Button IlerButton, GeriButton;
-        
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.IsletmeProfiliBaseActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
-            dinamikStatusBarColor.Trans(this,true);
+            dinamikStatusBarColor.Trans(this, true);
             Transformiew = FindViewById<RelativeLayout>(Resource.Id.rootview);
             viewpager = FindViewById<ViewPager>(Resource.Id.viewPager1);
             viewpager.OffscreenPageLimit = 50;
@@ -83,64 +83,74 @@ namespace SOSI.IsletmeProfiliOlustur
                 }
 
                 //((LogoFragment)fragments[3]).IsletmeAdiniGetir();
-                
+
             }
         }
 
         void IsletmeBilgileriDTOOlustur()
         {
+            ShowLoading.Show(this);
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 string jsonString = "";
-                this.RunOnUiThread(delegate ()
-                {
-                    var logopath = OnceLogoyuYule();
 
-                    COMPANY_INFORMATION kayitIcinIsletmeBilgileri = new COMPANY_INFORMATION()
-                    {
-                        companyColor = ((KurumsalRenkFragment)fragments[2]).GetSeletedColor(),
-                        logoPath = logopath,
-                        name = ((LogoFragment)fragments[3]).GetCompanyName(),
-                        sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
-                        serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
-                        other = SektorVeHizmetDigerSecimHelper.DigerAcikalam,
-                        userId = DataBase.MEMBER_DATA_GETIR()[0].id
-                    };
-                    jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
-                    IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;
-                    WebService webService = new WebService();
-                    var Donus = webService.ServisIslem("company-informations", jsonString);
-                    if (Donus != "Hata")
+                COMPANY_INFORMATION kayitIcinIsletmeBilgileri = new COMPANY_INFORMATION()
+                {
+                    companyColor = ((KurumsalRenkFragment)fragments[2]).GetSeletedColor(),
+                    logoPath = OnceLogoyuYule(),
+                    name = ((LogoFragment)fragments[3]).GetCompanyName(),
+                    sectorId = ((SeoktorFragment)fragments[0]).GetSeletedSectorID(),
+                    serviceAreaId = ((HizmetFragment)fragments[1]).GetSeletedHizmetID(),
+                    other = SektorVeHizmetDigerSecimHelper.DigerAcikalam,
+                    userId = DataBase.MEMBER_DATA_GETIR()[0].id
+                };
+
+               // kayitIcinIsletmeBilgileri.logoPath = OnceLogoyuYule();
+                jsonString = JsonConvert.SerializeObject(kayitIcinIsletmeBilgileri);
+
+                IsletmeAdiClass.IsletmeAdi = kayitIcinIsletmeBilgileri.name;
+                WebService webService = new WebService();
+                var Donus = webService.ServisIslem("company-informations", jsonString);
+                if (Donus != "Hata")
+                {
+
+                    var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
+                    if (DataBase.COMPANY_INFORMATION_EKLE(Icerik))
                     {
                         this.RunOnUiThread(delegate ()
                         {
-                            var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
-                            if (DataBase.COMPANY_INFORMATION_EKLE(Icerik))
-                            {
-                                this.StartActivity(typeof(ProfilOlustuBaseActivity));
-                                OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
-                                this.Finish();
-                            }
+                            ShowLoading.Hide();
+                            this.StartActivity(typeof(ProfilOlustuBaseActivity));
+                            OverridePendingTransition(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left);
+                            this.Finish();
                         });
                     }
                     else
                     {
                         this.RunOnUiThread(delegate ()
                         {
+                            ShowLoading.Hide();
                             Toast.MakeText(this, "Bir sorun oluştu lütfen tekrar deneyin.", ToastLength.Long).Show();
                         });
-
                     }
-                });
+                }
+                else
+                {
+                    this.RunOnUiThread(delegate ()
+                    {
+                        ShowLoading.Hide();
+                        Toast.MakeText(this, "Bir sorun oluştu lütfen tekrar deneyin.", ToastLength.Long).Show();
+                    });
 
+                }
             })).Start();
         }
         string OnceLogoyuYule()
         {
             var MeID = DataBase.MEMBER_DATA_GETIR()[0];
-            byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
             var client = new RestSharp.RestClient("http://31.169.67.210:8080/api/template-medias");
             client.Timeout = -1;
+            byte[] mediabyte = ConvertImageToByte(((LogoFragment)fragments[3]).GetCompanyLogoPath());
             var request = new RestSharp.RestRequest(RestSharp.Method.POST);
             request.AddHeader("Content-Type", "multipart/form-data");
             request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36");
@@ -217,7 +227,7 @@ namespace SOSI.IsletmeProfiliOlustur
                 Toast.MakeText(this, "Lütfen Sektör Seçin", ToastLength.Long).Show();
                 return false;
             }
-            else if(((HizmetFragment)fragments[1]).GetSeletedHizmetID() == "null")
+            else if (((HizmetFragment)fragments[1]).GetSeletedHizmetID() == "null")
             {
                 Toast.MakeText(this, "Lütfen Hizmet Alanını Seçin", ToastLength.Long).Show();
                 return false;
@@ -275,7 +285,7 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             viewpager.SetPageTransformer(true, new IntroTransformer(Transformiew));
         }
-       
+
         public void SektorSecildiHizmetleriGuncelle(string SektorID)
         {
             ((HizmetFragment)fragments[1]).HizmetleriGetir(SektorID);
@@ -330,7 +340,8 @@ namespace SOSI.IsletmeProfiliOlustur
                 mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView1);
                 new System.Threading.Thread(new System.Threading.ThreadStart(async delegate
                 {
-                    await Task.Run(async delegate {
+                    await Task.Run(async delegate
+                    {
                         await Task.Delay(1000);
                         SektorleriGetir();
                     });
@@ -353,10 +364,10 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 WebService webService = new WebService();
                 var Donus = webService.OkuGetir("sectors");
-                if (Donus!=null)
+                if (Donus != null)
                 {
                     SektorList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<StringDTO>>(Donus.ToString());
-                    if (SektorList.Count>0)
+                    if (SektorList.Count > 0)
                     {
                         this.Activity.RunOnUiThread(delegate
                         {
@@ -388,7 +399,7 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             private void MViewAdapter_ItemClick(object sender, object[] e)
             {
-                
+
                 if (SektorList.Count > 0)
                 {
                     SektorList.ForEach(item => item.IsSelect = false);
@@ -405,7 +416,7 @@ namespace SOSI.IsletmeProfiliOlustur
                     mViewAdapter.NotifyDataSetChanged();
                     IsletmeProfiliBaseActivity1.SektorSecildiHizmetleriGuncelle(SektorList[(int)e[0]].id);
                 }
-                
+
             }
             public string GetSeletedSectorID()
             {
@@ -429,7 +440,7 @@ namespace SOSI.IsletmeProfiliOlustur
             StringRecyclerViewAdapter mViewAdapter;
             List<StringDTO> HizmetList_Hepsi = new List<StringDTO>();
             List<StringDTO> HizmetList = new List<StringDTO>();
- 
+
             public HizmetFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -564,7 +575,7 @@ namespace SOSI.IsletmeProfiliOlustur
             }
 
         }
-        public class KurumsalRenkFragment : Android.Support.V4.App.Fragment,ColorPicker.IOnColorChangedListener
+        public class KurumsalRenkFragment : Android.Support.V4.App.Fragment, ColorPicker.IOnColorChangedListener
         {
             IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity1;
             RecyclerView mRecyclerView;
@@ -585,9 +596,9 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 View view = inflater.Inflate(Resource.Layout.KurumsalRenkSecBaseActivity, container, false);
 
-                 picker = view.FindViewById<ColorPicker>(Resource.Id.picker);
-                 //saturationBar = view.FindViewById<SaturationBar>(Resource.Id.saturationbar);
-                 valueBar = view.FindViewById<ValueBar>(Resource.Id.valuebar);
+                picker = view.FindViewById<ColorPicker>(Resource.Id.picker);
+                //saturationBar = view.FindViewById<SaturationBar>(Resource.Id.saturationbar);
+                valueBar = view.FindViewById<ValueBar>(Resource.Id.valuebar);
 
 
                 //picker.AddSVBar(svBar);
@@ -605,7 +616,7 @@ namespace SOSI.IsletmeProfiliOlustur
                 picker.OnColorChangedListener = this;
 
                 //to turn of showing the old color
-               // picker.setShowOldCenterColor(false);
+                // picker.setShowOldCenterColor(false);
 
                 //adding onChangeListeners to bars
                 //opacitybar.setOnOpacityChangeListener(new OnOpacityChangeListener …);
@@ -618,7 +629,8 @@ namespace SOSI.IsletmeProfiliOlustur
                 mRecyclerView.HasFixedSize = true;
                 new System.Threading.Thread(new System.Threading.ThreadStart(async delegate
                 {
-                    await Task.Run(async delegate {
+                    await Task.Run(async delegate
+                    {
                         await Task.Delay(1000);
                         RekleriGetir();
                     });
@@ -631,7 +643,7 @@ namespace SOSI.IsletmeProfiliOlustur
             {
                 // SecilenRenk = new Color(color);
                 SecilenRenk = color;
-               // string hexColor = string.Format("#%06X", (0xFFFFFF & SecilenRenk));
+                // string hexColor = string.Format("#%06X", (0xFFFFFF & SecilenRenk));
 
                 var hexx = HexConverter(System.Drawing.Color.FromArgb(color));
 
@@ -658,7 +670,7 @@ namespace SOSI.IsletmeProfiliOlustur
 
                     mViewAdapter = new KurumsalRenkRecyclerViewAdapter(KurumsalRenkDTO1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik);
                     mRecyclerView.HasFixedSize = true;
-                    mLayoutManager = new GridLayoutManager(this.Activity,4);
+                    mLayoutManager = new GridLayoutManager(this.Activity, 4);
                     mRecyclerView.SetLayoutManager(mLayoutManager);
                     mRecyclerView.SetAdapter(mViewAdapter);
                     mViewAdapter.ItemClick += MViewAdapter_ItemClick;
@@ -705,7 +717,7 @@ namespace SOSI.IsletmeProfiliOlustur
                 }
             }
 
-            
+
         }
         public class LogoFragment : Android.Support.V4.App.Fragment
         {
@@ -715,6 +727,7 @@ namespace SOSI.IsletmeProfiliOlustur
             ImageButton LogoYukleButton;
             byte[] SecilenGoruntuByte;
             Android.Net.Uri LogoPath;
+            string IsletmeAdii;
             public LogoFragment(IsletmeProfiliBaseActivity IsletmeProfiliBaseActivity2)
             {
                 IsletmeProfiliBaseActivity1 = IsletmeProfiliBaseActivity2;
@@ -727,7 +740,13 @@ namespace SOSI.IsletmeProfiliOlustur
                 LogoYukleButton = view.FindViewById<ImageButton>(Resource.Id.logoyuklebutton);
                 LogoYukleButton.Click += LogoYukleButton_Click;
                 circleImageView.Click += LogoYukleButton_Click;
+                IsletmeAdi.TextChanged += IsletmeAdi_TextChanged;
                 return view;
+            }
+
+            private void IsletmeAdi_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+            {
+                IsletmeAdii = IsletmeAdi.Text.Trim();
             }
 
             private void LogoYukleButton_Click(object sender, EventArgs e)
@@ -764,7 +783,7 @@ namespace SOSI.IsletmeProfiliOlustur
             }
             public string GetCompanyName()
             {
-                if (!String.IsNullOrEmpty(IsletmeAdi.Text.Trim()))
+                if (!String.IsNullOrEmpty(IsletmeAdii))
                 {
                     return IsletmeAdi.Text.Trim();
                 }

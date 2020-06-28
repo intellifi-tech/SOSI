@@ -20,12 +20,14 @@ using Refractored.Controls;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericClass.Contento_Helpers;
+using SOSI.GenericUI;
 using SOSI.OdemePaketleri;
 using SOSI.Paketler;
 using SOSI.TamamlanmisSablonlar;
 using SOSI.WebServicee;
 using SOSI.YeniSablonOlustur;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
+using static SOSI.TamamlanmisSablonlar.TamamlanmisSablonlarBaseActivity;
 using static SOSI.YeniSablonOlustur.YeniSablonOlusturBaseActivity;
 
 namespace SOSI.MainPage
@@ -38,6 +40,7 @@ namespace SOSI.MainPage
         Button HazirSablonlar, YeniSablonOlustur;
         ImageButton PaketAl;
         protected Options options;
+        MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -64,13 +67,161 @@ namespace SOSI.MainPage
 
         private void YeniSablonOlustur_Click(object sender, EventArgs e)
         {
+            ShowLoading.Show(this);
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                KullaniciAbonelikSorgula();
+            })).Start();
 
+
+            
             //KullaniciAbonelikSorgula();
             //return;
 
-            var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
-            PaylasimSayisiDialogFragment1.Show(this.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
+            //var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
+            //PaylasimSayisiDialogFragment1.Show(this.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
         }
+
+
+        OdemeGecmisiDTO BenimkileriFiltrele;
+        public void KullaniciAbonelikSorgula()
+        {
+            var MeData = DataBase.MEMBER_DATA_GETIR()[0];
+
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("payment-histories");
+            if (Donus != null)
+            {
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OdemeGecmisiDTO>>(Donus.ToString());
+                if (Icerik.Count > 0)
+                {
+                    BenimkileriFiltrele = Icerik.FindLast(item => item.userId == MeData.id);
+                    if (BenimkileriFiltrele != null)
+                    {
+                        var pricingPlanReferenceCode = "";
+                        switch (BenimkileriFiltrele.packageName)
+                        {
+                            case "SILVER":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            case "GOLD":
+                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                break;
+                            case "PLATINUM":
+                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                break;
+                            default:
+                                break;
+                        }
+                        var ReferansNumarasiGetir = DataBase.ODEME_GECMISI_GETIR_UZAKID(BenimkileriFiltrele.id);
+                        if (ReferansNumarasiGetir.Count > 0)
+                        {
+                            Should_Search_Subscription(ReferansNumarasiGetir[0].iyzicoReferanceCode, pricingPlanReferenceCode, BenimkileriFiltrele.packageName);
+                        }
+                        else
+                        {
+                            PaylasimCountDialogAc();
+                        }
+                    }
+                    else
+                    {
+                        PaylasimCountDialogAc();
+                    }
+                }
+                else
+                {
+                    PaylasimCountDialogAc();
+                }
+            }
+            else
+            {
+                PaylasimCountDialogAc();
+            }
+        }
+        void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
+        {
+            Initializee();
+            SearchSubscriptionRequest request = new SearchSubscriptionRequest
+            {
+                Locale = Locale.TR.ToString(),
+                ConversationId = "123456789",
+                SubscriptionReferenceCode = referanscode,
+                Page = 1,
+                Count = 1,
+                SubscriptionStatus = SubscriptionStatus.ACTIVE.ToString(),
+                PricingPlanReferenceCode = pricingPlanReferenceCode
+            };
+
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
+            {
+                switch (BenimkileriFiltrele.packageName)
+                {
+                    case "SILVER":
+                        YuklenecekMediaCountHelper.Countt = 10;
+                        break;
+                    case "GOLD":
+                        YuklenecekMediaCountHelper.Countt = 15;
+                        break;
+                    case "PLATINUM":
+                        YuklenecekMediaCountHelper.Countt = 20;
+                        break;
+                    default:
+                        break;
+                }
+                this.RunOnUiThread(delegate ()
+                {
+                    ShowLoading.Hide();
+                    this.StartActivity(typeof(YeniSablonOlusturBaseActivity));
+                });
+            }
+            else
+            {
+                PaylasimCountDialogAc(); 
+            }
+        }
+        public void Initializee()
+        {
+            options = new Options();
+            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+            options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        }
+
+
+        void PaylasimCountDialogAc()
+        {
+            this.RunOnUiThread(delegate ()
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("templates/user/" + Me.id);
+                if (Donus != null)
+                {
+                    var TamamlanmisSablonDTO1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TamamlanmisSablonDTO>>(Donus.ToString());
+                    if (TamamlanmisSablonDTO1.Count > 0)
+                    {
+                        this.RunOnUiThread(delegate ()
+                        {
+                            ShowLoading.Hide();
+                            StartActivity(typeof(OdemePaketleriBaseActivity));
+                        });
+                        
+                    }
+                    else
+                    {
+                        this.RunOnUiThread(delegate ()
+                        {
+                            ShowLoading.Hide();
+                            var PaylasimSayisiDialogFragment1 = new PaylasimSayisiDialogFragment();
+                            PaylasimSayisiDialogFragment1.Show(this.SupportFragmentManager, "PaylasimSayisiDialogFragment1");
+
+                        });
+                        
+                    }
+                }
+            });
+        }
+
 
         private void HazirSablonlar_Click(object sender, EventArgs e)
         {

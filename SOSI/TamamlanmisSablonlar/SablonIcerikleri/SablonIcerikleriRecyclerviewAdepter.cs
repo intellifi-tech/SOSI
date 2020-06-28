@@ -13,6 +13,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Java.Util;
+using SOSI.DataBasee;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
@@ -22,9 +23,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
     {
 
         public TextView PaylasimTipiText, PaylasimZamaniText, PostAciklama,ZamanSayac;
-        public ImageView Resim;
+        public ImageView Resim,VideoPlayButton;
         public VideoView Videoo;
         public RelativeLayout VideoHazne;
+        public MediaController mediaController;
         public SablonIcerikleriRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
         {
 
@@ -35,20 +37,22 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             PostAciklama = itemView.FindViewById<TextView>(Resource.Id.textView3);
             VideoHazne = itemView.FindViewById<RelativeLayout>(Resource.Id.videohazne);
             ZamanSayac = itemView.FindViewById<TextView>(Resource.Id.textView4);
-
+            VideoPlayButton = itemView.FindViewById<ImageView>(Resource.Id.ımageView2);
+            
             itemView.Click += (sender, e) => listener(new object[] { base.Position,itemView });
         }
     }
-    class SablonIcerikleriRecyclerViewAdapter : RecyclerView.Adapter,Android.Media.MediaPlayer.IOnPreparedListener
+    class SablonIcerikleriRecyclerViewAdapter : RecyclerView.Adapter,Android.Media.MediaPlayer.IOnPreparedListener,View.IOnClickListener
     {
         private List<SablonIcerikleriDTO> mData = new List<SablonIcerikleriDTO>();
         AppCompatActivity BaseActivity;
         public event EventHandler<object[]> ItemClick;
-        
+        MEMBER_DATA Me;
         public SablonIcerikleriRecyclerViewAdapter(List<SablonIcerikleriDTO> GelenData, AppCompatActivity GelenContex)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
+            Me = DataBase.MEMBER_DATA_GETIR()[0];
         }
 
         public override int GetItemViewType(int position)
@@ -71,12 +75,23 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             var item = mData[position];
             if (item.video)
             {
+                viewholder.mediaController = new MediaController(BaseActivity);
+                viewholder.mediaController.Visibility = ViewStates.Gone;
+                viewholder.Videoo.SetMediaController(viewholder.mediaController);
+                viewholder.VideoPlayButton.Tag = new Java.Lang.Object[] {
+                    position,
+                    viewholder.Videoo,
+                    viewholder.mediaController
+                };
+                viewholder.VideoPlayButton.SetOnClickListener(this);
                 viewholder.Resim.Visibility = ViewStates.Gone;
                 viewholder.VideoHazne.Visibility = ViewStates.Visible;
-                String videoUrl = "https://ia800201.us.archive.org/12/items/BigBuckBunny_328/BigBuckBunny_512kb.mp4";
+                String videoUrl = "https://contentoapp.co/app/" + item.afterMediaPath;
                 Android.Net.Uri video = Android.Net.Uri.Parse(videoUrl);
                 viewholder.Videoo.SetVideoURI(video);
+                viewholder.Videoo.RequestFocus();
                 viewholder.Videoo.SetOnPreparedListener(this);
+                
             }
             else
             {
@@ -136,10 +151,10 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             //paramss.Height = Genislikk;
             //paramss.Width = Genislikk;
             //v.LayoutParameters = paramss;
-            return new SablonIcerikleriRecyclerViewHolder(v, OnClick);
+            return new SablonIcerikleriRecyclerViewHolder(v, OnClickk);
         }
 
-        void OnClick(object[] Icerik)
+        void OnClickk(object[] Icerik)
         {
             if (ItemClick != null)
                 ItemClick(this, Icerik);
@@ -148,6 +163,20 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         public void OnPrepared(MediaPlayer mp)
         {
             mp.SeekTo(2000);
+        }
+
+        public void OnClick(View v)
+        {
+            var position = (int)((Java.Lang.Object[])v.Tag)[0];
+            var VideoVieww = (VideoView)((Java.Lang.Object[])v.Tag)[1];
+            var MediaControllerr = (MediaController)((Java.Lang.Object[])v.Tag)[2];
+            v.Visibility = ViewStates.Gone;
+            MediaControllerr.Visibility = ViewStates.Visible;
+            if (VideoVieww.Duration==2000)
+            {
+                VideoVieww.SeekTo(0);
+            }
+            VideoVieww.Start();
         }
     }
 }

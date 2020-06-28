@@ -104,7 +104,11 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             var Index = (int)((Button)sender).Tag;
             if (Index == 0)
             {
-                InstagramPaylas();
+                ShowLoading.Show(this);
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                {
+                    InstagramPaylas();
+                })).Start();
             }
             else if (Index == 1)
             {
@@ -123,20 +127,40 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
         }
         void MedyayiIndırKaydet()
         {
-            downloader.DownloadFile("https://contentoapp.co/app/" + Me.login + "/" + SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
+            downloader.DownloadFile("https://contentoapp.co/app/" + SecilenSablonDTO.SecilenSablon.afterMediaPath,"SharedMedias" );
         }
         private void Downloader_OnFileDownloaded(object sender, DownloadEventArgs e)
         {
+            this.RunOnUiThread(delegate () {
+
+                ShowLoading.Hide();
+            });
             if (e.FileSaved)//Başarılı
             {
+
                 ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
                 ClipData clip = ClipData.NewPlainText(SecilenSablonDTO.SecilenSablon.id, SecilenSablonDTO.SecilenSablon.postText);
                 clipboard.PrimaryClip =(clip);
-                
-                var pathh = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SharedMedias");
-                string pathh2 = Path.Combine(pathh, Path.GetFileName("https://contentoapp.co/app/" + Me.login + "/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
+
+                var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath;
+
+                var pathh = Path.Combine(dir, "SharedMedias");
+                string pathh2 = Path.Combine(pathh, Path.GetFileName("https://contentoapp.co/app/" + SecilenSablonDTO.SecilenSablon.afterMediaPath));
                 Java.IO.File media = new Java.IO.File(pathh2);
                 Android.Net.Uri uri = Android.Net.Uri.FromFile(media);
+
+                //Android.Net.Uri.Builder Builderr = new Android.Net.Uri.Builder();
+                //Android.Net.Uri newUri;
+                ////if (DahaOnceEklenenVarmi[i].isVideo)
+                ////{
+                ////    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("media").EncodedAuthority("media").Build();
+                ////}
+                ////else
+                ////{
+                ////    newUri = Builderr.Scheme("content").Path(DahaOnceEklenenVarmi[i].MediaUri).Authority("com.android.providers.media.documents").EncodedAuthority("com.android.providers.media.documents").Build();
+                ////}
+                //newUri = Android.Net.Uri.Parse(pathh2);
+
 
                 byte[] ImageData = File.ReadAllBytes(uri.Path);
 
@@ -152,12 +176,16 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
                 //shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
                 shareIntent.SetPackage("com.instagram.android");
                 this.StartActivity(shareIntent);
-                Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
+                this.RunOnUiThread(delegate () {
 
+                    Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
+                });
             }
             else
             {
-                AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                this.RunOnUiThread(delegate () {
+                    AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                });
                 return;
             }
         }

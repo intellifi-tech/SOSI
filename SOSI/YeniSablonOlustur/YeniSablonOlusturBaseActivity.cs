@@ -162,7 +162,6 @@ namespace SOSI.YeniSablonOlustur
                 this.Finish();
             }
         }
-
         void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
         {
             Initializee();
@@ -203,8 +202,11 @@ namespace SOSI.YeniSablonOlustur
 
         void GonderimiBaslat()
         {
-            StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-            StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+            })).Start();
         }
 
         bool Actinmi = false;

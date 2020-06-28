@@ -21,7 +21,9 @@ namespace SOSI.GenericClass
 
         public void DownloadFile(string url, string folder)
         {
-            string pathToNewFolder = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),folder);
+            var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath;
+
+            string pathToNewFolder = Path.Combine(dir, folder);
             Directory.CreateDirectory(pathToNewFolder);
 
             try
