@@ -140,6 +140,7 @@ namespace SOSI.TamamlanmisSablonlar.SablonIcerikleri
             {
                 var fark = PaylasimZamani - DateTime.Now;
                 return "Paylaşıma " + fark.Days + " Gün " + fark.Hours + " Sa. " + fark.Minutes + " Dk. kaldı";
+
             }
         }
 

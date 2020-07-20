@@ -26,7 +26,7 @@ using static SOSI.IsletmeProfiliOlustur.ProfilOlustuBaseActivity;
 
 namespace SOSI.IsletmeProfiliOlustur
 {
-    [Activity(Label = "SOSI")]
+    [Activity(Label = "Contento")]
     public class IsletmeProfiliBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         public ViewPager viewpager;

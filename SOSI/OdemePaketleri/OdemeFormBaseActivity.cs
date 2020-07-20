@@ -21,6 +21,7 @@ using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
 using SOSI.WebServicee;
+using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 using static SOSI.OdemePaketleri.OdemePaketleriBaseActivity;
 
 namespace SOSI.OdemePaketleri
@@ -28,7 +29,7 @@ namespace SOSI.OdemePaketleri
     [Activity(Label = "Contento")]
     public class OdemeFormBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
-        protected Options options;
+        //protected Options options;
         EditText KartNumarasiText, KartuzerindekiIsim, CVC,SKT;
         TextView Pre_KarNumarasi, Pre_KartuzerindekiIsim, Pre_SonKullanim;
         ImageView KartTipImg;
@@ -51,7 +52,7 @@ namespace SOSI.OdemePaketleri
             SetContentView(Resource.Layout.OdemeFormBaseActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
             dinamikStatusBarColor.SetFullScreen(this);
-            Initializee();
+            //Initializee();
             CVC = FindViewById<EditText>(Resource.Id.cvc);
             SKT = FindViewById<EditText>(Resource.Id.skt);
             KartTipImg = FindViewById<ImageView>(Resource.Id.cardtypee);
@@ -241,13 +242,13 @@ namespace SOSI.OdemePaketleri
 
         #region Iyzico
 
-        public void Initializee()
-        {
-            options = new Options();
-            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
-            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
-            options.BaseUrl = "https://sandbox-api.iyzipay.com";
-        }
+        //public void Initializee()
+        //{
+        //    options = new Options();
+        //    options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+        //    options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+        //    options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        //}
 
         public void Should_Create_Customer()
         {
@@ -279,7 +280,7 @@ namespace SOSI.OdemePaketleri
                 IdentityNumber = "55555555555"
             };
 
-            ResponseData<CustomerResource> response = Customer.Create(createCustomerRequest, options);
+            ResponseData<CustomerResource> response = Customer.Create(createCustomerRequest, Contento_Resources_Helper.options);
             if (response.Status == "success")
             {
 
@@ -315,7 +316,8 @@ namespace SOSI.OdemePaketleri
             {
                 ad = soyad;
             }
-           // string randomString = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+          
+            // string randomString = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             SubscriptionInitializeRequest request = new SubscriptionInitializeRequest
             {
                 Locale = Locale.TR.ToString(),
@@ -357,7 +359,7 @@ namespace SOSI.OdemePaketleri
                 PricingPlanReferenceCode = OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode
             };
 
-            response = Subscription.Initialize(request, options);
+            response = Subscription.Initialize(request, Contento_Resources_Helper.options);
             var a = response;
 
             if (response.StatusCode != 200)

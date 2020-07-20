@@ -69,7 +69,7 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
                 Drawable AfterIMGDrawable = new BitmapDrawable(BaseActivity.Resources, AfterIMG);
                 BaseActivity.RunOnUiThread(delegate () {
                     GelenView.SetDrawableLeft(BeforeIMGDrawable);
-                    GelenView.SetDrawableLeft(AfterIMGDrawable);
+                    GelenView.SetDrawableRight(AfterIMGDrawable);
                 });
             })).Start();
         }
@@ -79,11 +79,19 @@ namespace SOSI.YeniSablonOlustur.Bilgilendirme.OrnekCalisma
 
             using (var webClient = new WebClient())
             {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
+                try
                 {
-                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                    var imageBytes = webClient.DownloadData("https://contentoapp.co/app/" + url);
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                    }
                 }
+                catch 
+                {
+
+                }
+
             }
 
             return imageBitmap;

@@ -39,7 +39,7 @@ namespace SOSI.MainPage
         Android.Support.V4.App.FragmentTransaction ft;
         Button HazirSablonlar, YeniSablonOlustur;
         ImageButton PaketAl;
-        protected Options options;
+     
         MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -102,13 +102,13 @@ namespace SOSI.MainPage
                         switch (BenimkileriFiltrele.packageName)
                         {
                             case "SILVER":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.SilverUrunCode;
                                 break;
                             case "GOLD":
-                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.GoldUrunCode;
                                 break;
                             case "PLATINUM":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.PlatinumUrunCode;
                                 break;
                             default:
                                 break;
@@ -140,7 +140,7 @@ namespace SOSI.MainPage
         }
         void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
         {
-            Initializee();
+            //Initializee();
             SearchSubscriptionRequest request = new SearchSubscriptionRequest
             {
                 Locale = Locale.TR.ToString(),
@@ -152,7 +152,7 @@ namespace SOSI.MainPage
                 PricingPlanReferenceCode = pricingPlanReferenceCode
             };
 
-            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, Contento_Resources_Helper.options);
             if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
             {
                 switch (BenimkileriFiltrele.packageName)
@@ -180,13 +180,13 @@ namespace SOSI.MainPage
                 PaylasimCountDialogAc(); 
             }
         }
-        public void Initializee()
-        {
-            options = new Options();
-            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
-            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
-            options.BaseUrl = "https://sandbox-api.iyzipay.com";
-        }
+        //public void Initializee()
+        //{
+        //    options = new Options();
+        //    options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+        //    options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+        //    options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        //}
 
 
         void PaylasimCountDialogAc()

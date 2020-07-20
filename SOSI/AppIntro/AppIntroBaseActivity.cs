@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -18,7 +17,7 @@ using SOSI.GirisKayit;
 
 namespace SOSI.AppIntro
 {
-    [Activity(Label = "SOSI")]
+    [Activity(Label = "Contento")]
     public class AppIntroBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar

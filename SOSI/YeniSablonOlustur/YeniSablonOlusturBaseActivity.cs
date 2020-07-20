@@ -30,6 +30,7 @@ using Iyzipay.Request.V2.Subscription;
 using SOSI.WebServicee;
 using SOSI.OdemePaketleri;
 using static SOSI.YeniSablonOlustur.TebriklerSablonGonderildiBaseActivity;
+using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 
 namespace SOSI.YeniSablonOlustur
 {
@@ -43,7 +44,7 @@ namespace SOSI.YeniSablonOlustur
         GorselYukleRecyclerViewAdapter mViewAdapter;
         List<SablonDTO> SablonDTO1 = new List<SablonDTO>();
         Button GonderButton;
-        protected Options options;
+        //protected Options options;
         public static class App
         {
             public static Java.IO.File _file;
@@ -114,13 +115,13 @@ namespace SOSI.YeniSablonOlustur
                         switch (BenimkileriFiltrele.packageName)
                         {
                             case "SILVER":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.SilverUrunCode;
                                 break;
                             case "GOLD":
-                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.GoldUrunCode;
                                 break;
                             case "PLATINUM":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.PlatinumUrunCode;
                                 break;
                             default:
                                 break;
@@ -164,7 +165,7 @@ namespace SOSI.YeniSablonOlustur
         }
         void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
         {
-            Initializee();
+            //Initializee();
             SearchSubscriptionRequest request = new SearchSubscriptionRequest
             {
                 Locale = Locale.TR.ToString(),
@@ -176,7 +177,7 @@ namespace SOSI.YeniSablonOlustur
                 PricingPlanReferenceCode = pricingPlanReferenceCode
             };
 
-            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, Contento_Resources_Helper.options);
             if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
             {
                 GonderimiBaslat();
@@ -192,13 +193,13 @@ namespace SOSI.YeniSablonOlustur
                 this.Finish();
             }
         }
-        public void Initializee()
-        {
-            options = new Options();
-            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
-            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
-            options.BaseUrl = "https://sandbox-api.iyzipay.com";
-        }
+        //public void Initializee()
+        //{
+        //    options = new Options();
+        //    options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+        //    options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+        //    options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        //}
 
         void GonderimiBaslat()
         {

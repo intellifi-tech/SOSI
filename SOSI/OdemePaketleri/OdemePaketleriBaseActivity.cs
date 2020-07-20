@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.WebServicee;
+using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 using static SOSI.MainPage.MainPageBaseActivity;
 //using SOSI.IyziPayHelper;
 
@@ -30,7 +31,7 @@ namespace SOSI.OdemePaketleri
     [Activity(Label = "Contento",MainLauncher =false)]
     public class OdemePaketleriBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
-        protected Options options;
+        
         LinearLayout Paket1, Paket2, Paket3;
         ImageButton Geri;
 
@@ -97,7 +98,7 @@ namespace SOSI.OdemePaketleri
         }
         public void Should_Cancel_Subscription()
         {
-            Initializee();
+           // Initializee();
             CancelSubscriptionRequest request = new CancelSubscriptionRequest
             {
                 Locale = Locale.TR.ToString(),
@@ -105,7 +106,7 @@ namespace SOSI.OdemePaketleri
                 SubscriptionReferenceCode = AktifAbonelikKodu
             };
 
-            IyzipayResourceV2 response = Subscription.Cancel(request, options);
+            IyzipayResourceV2 response = Subscription.Cancel(request, Contento_Resources_Helper.options);
             if (response.Status=="success")
             {
                 Toast.MakeText(this, "Aboneliğiniz İptal Edildi.", ToastLength.Long).Show();
@@ -129,7 +130,7 @@ namespace SOSI.OdemePaketleri
         private void Paket3_Click(object sender, EventArgs e)
         {
             OdemePaketleriBaseActivity_Helper.OdemePaketleriBaseActivity1 = this;
-            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = "e98e298b-756f-488a-912f-493f07f40273";
+            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = Contento_Resources_Helper.PlatinumUrunCode;
             OdemePaketleriBaseActivity_Helper.PackageName = "PLATINUM";
             StartActivity(typeof(OdemeFormBaseActivity));
 
@@ -138,7 +139,7 @@ namespace SOSI.OdemePaketleri
         private void Paket2_Click(object sender, EventArgs e)
         {
             OdemePaketleriBaseActivity_Helper.OdemePaketleriBaseActivity1 = this;
-            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = Contento_Resources_Helper.GoldUrunCode;
             OdemePaketleriBaseActivity_Helper.PackageName = "GOLD";
             StartActivity(typeof(OdemeFormBaseActivity));
         }
@@ -146,7 +147,7 @@ namespace SOSI.OdemePaketleri
         private void Paket1_Click(object sender, EventArgs e)
         {
             OdemePaketleriBaseActivity_Helper.OdemePaketleriBaseActivity1 = this;
-            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+            OdemePaketleriBaseActivity_Helper.PricingPlanReferenceCode = Contento_Resources_Helper.SilverUrunCode;
             OdemePaketleriBaseActivity_Helper.PackageName = "SILVER";
             StartActivity(typeof(OdemeFormBaseActivity));
         }
@@ -183,15 +184,15 @@ namespace SOSI.OdemePaketleri
                         switch (BenimkileriFiltrele.packageName)
                         {
                             case "SILVER":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.SilverUrunCode;
                                 AktifPaketAi = "SILVER";
                                 break;
                             case "GOLD":
-                                pricingPlanReferenceCode = "8fa202ba-3ed3-4856-ae62-0282182d28d2";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.GoldUrunCode;
                                 AktifPaketAi = "GOLD";
                                 break;
                             case "PLATINUM":
-                                pricingPlanReferenceCode = "adb65336-ae25-40bf-b579-c9f20529bec6";
+                                pricingPlanReferenceCode = Contento_Resources_Helper.PlatinumUrunCode;
                                 AktifPaketAi = "PLATINUM";
                                 break;
                             default:
@@ -209,7 +210,7 @@ namespace SOSI.OdemePaketleri
         
         void Should_Search_Subscription(string referanscode, string pricingPlanReferenceCode, string packageName)
         {
-            Initializee();
+           // Initializee();
             SearchSubscriptionRequest request = new SearchSubscriptionRequest
             {
                 Locale = Locale.TR.ToString(),
@@ -221,7 +222,7 @@ namespace SOSI.OdemePaketleri
                 PricingPlanReferenceCode = pricingPlanReferenceCode
             };
 
-            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, options);
+            ResponsePagingData<SubscriptionResource> response = Subscription.Search(request, Contento_Resources_Helper.options);
             if (response.Data.Items[response.Data.Items.Count - 1].SubscriptionStatus == "ACTIVE")
             {
                 AktifAbonelikKodu = response.Data.Items[response.Data.Items.Count - 1].ReferenceCode;
@@ -233,13 +234,13 @@ namespace SOSI.OdemePaketleri
             }
             
         }
-        public void Initializee()
-        {
-            options = new Options();
-            options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
-            options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
-            options.BaseUrl = "https://sandbox-api.iyzipay.com";
-        }
+        //public void Initializee()
+        //{
+        //    options = new Options();
+        //    options.ApiKey = "sandbox-S8fBp3d3O6g2v4iLlweEymY7jRkFBQnV";
+        //    options.SecretKey = "sandbox-trdXadVcZmdSN8GFnf6Cmb5pzGr8JIYE";
+        //    options.BaseUrl = "https://sandbox-api.iyzipay.com";
+        //}
 
         #endregion
 

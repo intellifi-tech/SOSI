@@ -121,7 +121,7 @@
                         android:id="@+id/button1" />
                 </RelativeLayout>
             </LinearLayout>
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
@@ -281,8 +281,8 @@
                             android:id="@+id/textView2" />
                     </LinearLayout>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
@@ -443,8 +443,8 @@
                             android:id="@+id/textView2" />
                     </LinearLayout>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
@@ -602,7 +602,7 @@
                             android:id="@+id/textView2" />
                     </LinearLayout>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

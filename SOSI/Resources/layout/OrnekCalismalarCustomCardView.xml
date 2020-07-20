@@ -7,7 +7,7 @@
     android:padding="10dp"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
-	<android.support.v7.widget.CardView
+	<androidx.cardview.widget.CardView
         app:cardBackgroundColor="#fff"
 		android:id="@+id/card_view"
 		android:layout_width="match_parent"
@@ -38,13 +38,13 @@
                 app:arrowVisibility="true"
                 app:delimiterWidth="3dp"
                 app:touchMode="delimiter"
-                app:drawableLeft="@mipmap/pizzaimg2"
-                app:drawableRight="@mipmap/pizzaimg3"
+                app:drawableLeft="@mipmap/logononbg"
+                app:drawableRight="@mipmap/logononbg"
                 app:leftText="before"
                 app:rightText="after"
                 app:textColor="@android:color/transparent"
                 app:textSize="20sp"
                 app:delimiterPadding="20dp"/>
 		</RelativeLayout>
-	</android.support.v7.widget.CardView>
+	</androidx.cardview.widget.CardView>
 </LinearLayout>

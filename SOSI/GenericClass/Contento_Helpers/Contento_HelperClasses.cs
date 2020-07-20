@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Bumptech.Glide;
 using Com.Bumptech.Glide.Request;
+using Iyzipay;
 using SOSI.DataBasee;
 
 namespace SOSI.GenericClass.Contento_Helpers
@@ -53,6 +54,19 @@ namespace SOSI.GenericClass.Contento_Helpers
                 {
                 }
             }
+        }
+
+        public static class Contento_Resources_Helper
+        {
+            public static string PlatinumUrunCode = "ffbf616c-b05a-4da8-99f5-da52a9da650a";
+            public static string GoldUrunCode = "7a30471f-d262-467d-aaf2-f34a0be105e5";
+            public static string SilverUrunCode = "ac3d918c-d63f-4486-a248-8a9ab05c5246";
+            public static Options options = new Options()
+            {
+                ApiKey = "Gh7cJiCT6yExAmkAYDL6IP5wIDhKWPk7",
+                SecretKey= "vUvBeTAvjrm4QJfoFOCy0qbwsWgaSYp5",
+                BaseUrl = "https://api.iyzipay.com"
+            };
         }
     }
 }
