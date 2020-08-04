@@ -256,7 +256,7 @@ namespace SOSI.GirisKayit
                 Icerik.password = PassWord;
 
                 DataBase.MEMBER_DATA_EKLE(Icerik);
-
+                GetCompanyInfo(Icerik.id);
                 return true;
             }
             else
@@ -271,6 +271,17 @@ namespace SOSI.GirisKayit
         void GetCompanyInfo(string UserID)
         {
             WebService webService = new WebService();
+            var Donus = webService.OkuGetir("company-informations/user/" + UserID);
+            if (Donus!=null)
+            {
+                var aaa = Donus.ToString();
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<COMPANY_INFORMATION>(Donus.ToString());
+                if (Icerik!=null)
+                {
+                    DataBase.COMPANY_INFORMATION_TEMIZLE();
+                    DataBase.COMPANY_INFORMATION_EKLE(Icerik);
+                }
+            }
         }
 
         bool BosVarmi()
@@ -330,6 +341,42 @@ namespace SOSI.GirisKayit
             public string Width { get; set; }
         }
         #endregion
+
+
+
+        #region CompanyInfo
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+        public class PaymentHistoryDTOList
+        {
+            public DateTime date { get; set; }
+            public string id { get; set; }
+            public string packageId { get; set; }
+            public string packageName { get; set; }
+            public string userId { get; set; }
+            public string userName { get; set; }
+        }
+
+        public class Root
+        {
+            public string companyColor { get; set; }
+            public string id { get; set; }
+            public string logoPath { get; set; }
+            public string name { get; set; }
+            public string other { get; set; }
+            //public List<PaymentHistoryDTOList> paymentHistoryDTOList { get; set; }
+            public string sectorId { get; set; }
+            public string sectorName { get; set; }
+            public string serviceAreaId { get; set; }
+            public string serviceAreaName { get; set; }
+            //public List<TemplateDTOList> templateDTOList { get; set; }
+            //public List<TemplateMediaDTOList> templateMediaDTOList { get; set; }
+            public string userId { get; set; }
+        }
+
+
+        #endregion
+
+
 
         #endregion
     }

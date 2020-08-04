@@ -81,7 +81,11 @@ namespace SOSI.YeniSablonOlustur
                 var HepsiOkeymi = SablonDTO1.FindAll(item => item.MediaUri == null);
                 if (HepsiOkeymi.Count > 0)
                 {
-                    Toast.MakeText(this, "Lütfen tüm içerik alanlarını doldurun", ToastLength.Long).Show();
+                    this.RunOnUiThread(delegate ()
+                    {
+                        Toast.MakeText(this, "Lütfen tüm içerik alanlarını doldurun", ToastLength.Long).Show();
+                        ShowLoading.Hide();
+                    });
                     return;
                 }
                 else
@@ -205,8 +209,7 @@ namespace SOSI.YeniSablonOlustur
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
-                StopService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
-                StartService(new Android.Content.Intent(this, typeof(MediaUploaderService)));
+                new MediaUploaderService().Init(this);
             })).Start();
         }
 

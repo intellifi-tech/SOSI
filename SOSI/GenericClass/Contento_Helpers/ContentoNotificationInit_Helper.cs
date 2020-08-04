@@ -51,7 +51,10 @@ namespace SOSI.GenericClass.Contento_Helpers
                     {
                         if (!string.IsNullOrEmpty(sablonIcerikleriDTOs[i].shareDateTime))
                         {
-                            Hatirlatma(Convert.ToDateTime(sablonIcerikleriDTOs[i].shareDateTime), i.ToString());
+                            if (Convert.ToDateTime(sablonIcerikleriDTOs[i].shareDateTime) > DateTime.Now)
+                            {
+                                Hatirlatma(Convert.ToDateTime(sablonIcerikleriDTOs[i].shareDateTime), i.ToString());
+                            }
                         }
                     }
                 }

@@ -140,6 +140,7 @@
     <Compile Include="YeniSablonOlustur\Bilgilendirme\OrnekCalisma\OrnekCalismaBaseActivity.cs" />
     <Compile Include="YeniSablonOlustur\GorselYukleRecyclerviewAdepter.cs" />
     <Compile Include="YeniSablonOlustur\TebriklerSablonGonderildiBaseActivity.cs" />
+    <Compile Include="YeniSablonOlustur\MedyaUploadServiceDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\YeniPaylasimMetinDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\PaylasimSayisiDialogFragment.cs" />
     <Compile Include="YeniSablonOlustur\YeniSablonOlusturBaseActivity.cs" />
@@ -2176,6 +2177,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\TebriklerSablonGonderildiBaseActivity.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MediaUploadLoading.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

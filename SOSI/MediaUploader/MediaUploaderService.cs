@@ -16,17 +16,25 @@ using Android.Support.V4.App;
 using Newtonsoft.Json;
 using SOSI.DataBasee;
 using SOSI.WebServicee;
+using SOSI.YeniSablonOlustur;
 
 namespace SOSI.MediaUploader
 {
-    [Service]
-    class MediaUploaderService : Service
+ 
+    class MediaUploaderService 
     {
         MEMBER_DATA MeId;
         GUNCEL_SABLON GuncelSablon;
-        public override void OnCreate()
+        YeniSablonOlusturBaseActivity GleenBase2;
+
+        MedyaUploadServiceDialogFragment MedyaUploadServiceDialogFragment1;
+
+        public void Init(YeniSablonOlusturBaseActivity GleenBase1)
         {
-            base.OnCreate();
+            GleenBase2 = GleenBase1;
+            MedyaUploadServiceDialogFragment1 = new MedyaUploadServiceDialogFragment(GleenBase2, GetMediaCount());
+          
+
             MeId = DataBase.MEMBER_DATA_GETIR()[0];
             SablonKontrol();
             if (GuncelSablon!=null)
@@ -42,6 +50,11 @@ namespace SOSI.MediaUploader
                 var YuklenmeyenVarmi = YuklenecekMedialar.FindAll(item => item.isUploaded == false);
                 if (YuklenmeyenVarmi.Count > 0)
                 {
+                    GleenBase2.RunOnUiThread(delegate ()
+                    {
+                        MedyaUploadServiceDialogFragment1.Cancelable = false;
+                        MedyaUploadServiceDialogFragment1.Show(GleenBase2.SupportFragmentManager, "MedyaUploadServiceDialogFragment1");
+                    });
                     for (int i = 0; i < YuklenecekMedialar.Count; i++)
                     {
                         if (!YuklenecekMedialar[i].isUploaded)
@@ -61,7 +74,15 @@ namespace SOSI.MediaUploader
                                 type="POST"
                             };
                             var bytess = ConvertImageToByte(YuklenecekMedialar[i].MediaUri);
-                            UploadWebService(mediaUploadDTO, bytess, YuklenecekMedialar[i]);
+                            UploadWebService(mediaUploadDTO, bytess, YuklenecekMedialar[i],i+1);
+                        }
+                        else
+                        {
+                            GleenBase2.RunOnUiThread(delegate ()
+                            {
+
+                                MedyaUploadServiceDialogFragment1.UploadProgress(i + 1);
+                            });
                         }
                     }
 
@@ -135,7 +156,7 @@ namespace SOSI.MediaUploader
             }
         }
 
-        void UploadWebService(MediaUploadDTO MediaUploadDTO1,byte[] mediabyte, YUKLENECEK_SABLON GuncellenecekSablon)
+        void UploadWebService(MediaUploadDTO MediaUploadDTO1,byte[] mediabyte, YUKLENECEK_SABLON GuncellenecekSablon,int count)
         {
             string jsonString = JsonConvert.SerializeObject(MediaUploadDTO1);
             string uzanti = ".png";
@@ -174,6 +195,10 @@ namespace SOSI.MediaUploader
             {
                 GuncellenecekSablon.isUploaded = true;
                 DataBase.YUKLENECEK_SABLON_Guncelle(GuncellenecekSablon);
+                GleenBase2.RunOnUiThread(delegate ()
+                {
+                    MedyaUploadServiceDialogFragment1.UploadProgress(count + 1);
+                });
             }
         }
 
@@ -191,16 +216,5 @@ namespace SOSI.MediaUploader
             public string userId { get; set; }
             public bool video { get; set; }
         }
-
-        [return: GeneratedEnum]
-        public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
-        {
-            return StartCommandResult.Sticky;
-        }
-        public override IBinder OnBind(Intent intent)
-        {
-            return null;
-        }
-
     }
 }
