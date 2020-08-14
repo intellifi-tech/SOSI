@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Airbnb.Lottie;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
+using Firebase.Iid;
 using SOSI.GenericClass;
 using SOSI.GirisKayit;
 
@@ -45,10 +46,13 @@ namespace SOSI.AppIntro
             ((CirclePageIndicator)_indicator).FillColor = Color.Transparent;
             ((CirclePageIndicator)_indicator).StrokeColor = Color.White;
             ((CirclePageIndicator)_indicator).StrokeWidth = 2f;
-
+            CreateFireBaseMessageTokenAndUpdate();
             //BaslangicIslemleri();
         }
-
+        void CreateFireBaseMessageTokenAndUpdate()
+        {
+            var MyToken = FirebaseInstanceId.Instance.Token;
+        }
 
         Android.Support.V4.App.Fragment[] fragments;
         void viepageratama()

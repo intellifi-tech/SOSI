@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "171971956218",
+    "firebase_url": "https://contento-584d9.firebaseio.com",
+    "project_id": "contento-584d9",
+    "storage_bucket": "contento-584d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171971956218:android:7a2d981263321728b02843",
+        "android_client_info": {
+          "package_name": "co.contentoapp.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171971956218-5ktnie2djdsaq4ejk3kd2g9kk4jj4s0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRozA7Ikgvtkz0bISEq9rhgC0Dhi3LY-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171971956218-5ktnie2djdsaq4ejk3kd2g9kk4jj4s0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

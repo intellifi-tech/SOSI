@@ -12,6 +12,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Firebase.Iid;
 using Newtonsoft.Json;
 using SOSI.AppIntro;
 using SOSI.DataBasee;
@@ -19,6 +20,7 @@ using SOSI.GenericClass;
 using SOSI.GirisKayit;
 using SOSI.IsletmeProfiliOlustur;
 using SOSI.MainPage;
+using SOSI.TamamlanmisSablonlar.SablonDetay;
 using SOSI.WebServicee;
 
 namespace SOSI.Splashh
@@ -26,6 +28,7 @@ namespace SOSI.Splashh
     [Activity(Label = "Contento",MainLauncher =true)]
     public class Splash : Android.Support.V7.App.AppCompatActivity
     {
+        string OpenSablonDetayID;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,10 +36,14 @@ namespace SOSI.Splashh
             dinamikStatusBarColor.SetFullScreen(this);
             new DataBase();
             SetContentView(Resource.Layout.Splash);
+            
+            OpenSablonDetayID =  Intent.GetStringExtra("sablonID");
         }
         protected override void OnResume()
         {
             base.OnResume();
+          
+
             Task startupWork = new Task(() => { SimulateStartup(); });
             startupWork.Start();
         }
@@ -44,7 +51,6 @@ namespace SOSI.Splashh
         {
             await Task.Delay(2000);
             HazirlikYap();
-            
         }
         void HazirlikYap()
         {

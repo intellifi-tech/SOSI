@@ -14,6 +14,7 @@ using Android.Widget;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
 using SOSI.GenericUI;
+using SOSI.WebServicee;
 using static SOSI.GenericClass.Contento_Helpers.Contento_HelperClasses;
 using static SOSI.TamamlanmisSablonlar.SablonIcerikleri.SablonIcerikleriBaseActivity;
 
@@ -31,13 +32,14 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
         Button PaylasButton;
         MediaController mediaController;
         IDownloader downloader = new Downloader();
-        MEMBER_DATA Me = DataBase.MEMBER_DATA_GETIR()[0];
+        MEMBER_DATA Me;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.TamamlanmisSablonDetayBaseActivity);
             DinamikStatusBarColor dinamikStatusBarColor = new DinamikStatusBarColor();
             dinamikStatusBarColor.SetFullScreen(this);
+            Me = DataBase.MEMBER_DATA_GETIR()[0];
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             PostTipiText = FindViewById<TextView>(Resource.Id.textView2);
             PostTarihiTet = FindViewById<TextView>(Resource.Id.textView3);
@@ -48,6 +50,24 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
             VideoyaBaslaButton = FindViewById<ImageView>(Resource.Id.baslabutton);
             PaylasButton = FindViewById<Button>(Resource.Id.paylasbutton);
             PaylasButton.Click += PaylasButton_Click;
+
+
+            string sablonId = Intent.GetStringExtra("sablonID");
+            if (!string.IsNullOrEmpty(sablonId))
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("template-medias/" + sablonId);
+                if (Donus!=null)
+                {
+                    SecilenSablonDTO.SecilenSablon = Newtonsoft.Json.JsonConvert.DeserializeObject<SablonIcerikleriDTO>(Donus.ToString());
+                    if (SecilenSablonDTO.SecilenSablon==null)
+                    {
+                        Toast.MakeText(this, "Bir sorun oluştu.", ToastLength.Long).Show();
+                        this.Finish();
+                    }
+                }
+            }
+
             PostTipiText.Text = SecilenSablonDTO.SecilenSablon.type;
             mediaController = new MediaController(this);
             PostVideoView.SetMediaController(mediaController);
@@ -92,7 +112,6 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
             })).Start();
             
         }
-
 
         #region Paylas
         void InstagramPaylas()
@@ -167,10 +186,6 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
         }
 
         #endregion
-
-
-
-
 
         private void VideoyaBaslaButton_Click(object sender, EventArgs e)
         {

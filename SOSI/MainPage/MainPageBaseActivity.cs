@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
+using Firebase.Iid;
 using Iyzipay;
 using Iyzipay.Model;
 using Iyzipay.Model.V2;
@@ -55,6 +56,7 @@ namespace SOSI.MainPage
             HazirSablonlar.Click += HazirSablonlar_Click;
             YeniSablonOlustur.Click += YeniSablonOlustur_Click;
             MainPageBaseActivity_Helper.MainPageBaseActivity1 = this;
+            
         }
 
         private void PaketAl_Click(object sender, EventArgs e)
@@ -237,12 +239,20 @@ namespace SOSI.MainPage
             SablonKontrol();
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
-                new ContentoNotificationInit_Helper(this).Init();
+                UpdateFireBaseToken();
+              //  new ContentoNotificationInit_Helper(this).Init();
             })).Start();
             
         }
 
-       
+        void UpdateFireBaseToken()
+        {
+            var MyToken = FirebaseInstanceId.Instance.Token;
+            if (!string.IsNullOrEmpty(MyToken))
+            {
+                //Kullanıcı bilgilerini Güncelle
+            }
+        }
 
         void SablonKontrol()
         {

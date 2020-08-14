@@ -262,7 +262,10 @@ namespace SOSI.GirisKayit
             else
             {
                 ShowLoading.Hide();
-                Toast.MakeText(this, "Giriş Yapılamadı.", ToastLength.Long).Show();
+
+                this.RunOnUiThread(delegate {
+                    Toast.MakeText(this, "Giriş Yapılamadı.", ToastLength.Long).Show();
+                });
                 //AlertHelper.AlertGoster("Giriş Yapılamadı!", this);
                 return false;
             }

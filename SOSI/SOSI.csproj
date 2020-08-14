@@ -77,6 +77,8 @@
     <Compile Include="AppIntro\AppIntroBaseActivity.cs" />
     <Compile Include="DataBasee\DataBase.cs" />
     <Compile Include="DataBasee\DataModel.cs" />
+    <Compile Include="FireBaseClasses\FCMClient.cs" />
+    <Compile Include="FireBaseClasses\MyFirebaseMessagingService.cs" />
     <Compile Include="GenericClass\AlarmReceiver.cs" />
     <Compile Include="GenericClass\AuthenticationState.cs" />
     <Compile Include="GenericClass\BitmapHelpers.cs" />
@@ -172,6 +174,7 @@
     <AndroidAsset Include="Assets\appintro3.json" />
     <AndroidAsset Include="Assets\appintro_2.json" />
     <AndroidAsset Include="Assets\appintro_1.json" />
+    <GoogleServicesJson Include="google-services.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -273,9 +276,15 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.0.0.1" />
+    <PackageReference Include="Xamarin.Firebase.Messaging">
+      <Version>71.1740.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.1" />
     <PackageReference Include="Xamarin.AndroidX.Preference" Version="1.1.0.1" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Base">
+      <Version>71.1610.4</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Integers.xml" />
