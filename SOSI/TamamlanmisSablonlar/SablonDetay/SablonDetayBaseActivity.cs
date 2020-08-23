@@ -167,12 +167,23 @@ namespace SOSI.TamamlanmisSablonlar.SablonDetay
                 this.GrantUriPermission("com.instagram.android", uri, ActivityFlags.GrantReadUriPermission);
 
                 //shareIntent.PutExtra(Intent.ExtraText, SecilenSablonDTO.SecilenSablon.postText);
-                shareIntent.SetPackage("com.instagram.android");
-                this.StartActivity(shareIntent);
-                this.RunOnUiThread(delegate () {
+                try
+                {
+                    shareIntent.SetPackage("com.instagram.android");
+                    this.StartActivity(shareIntent);
+                    this.RunOnUiThread(delegate () {
 
-                    Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
-                });
+                        Toast.MakeText(this, "Paylaşım metni panayo kopyalandı! Paylaşım esnasında yapıştırmayı unutmayın.", ToastLength.Long).Show();
+                    });
+                }
+                catch 
+                {
+                    this.RunOnUiThread(delegate () {
+
+                        Toast.MakeText(this, "Instagram uygulaması cihazınızda yüklü değil!", ToastLength.Long).Show();
+                    });
+                }
+
                 
 
             }

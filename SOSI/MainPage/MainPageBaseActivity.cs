@@ -17,6 +17,7 @@ using Iyzipay.Model;
 using Iyzipay.Model.V2;
 using Iyzipay.Model.V2.Subscription;
 using Iyzipay.Request.V2.Subscription;
+using Newtonsoft.Json;
 using Refractored.Controls;
 using SOSI.DataBasee;
 using SOSI.GenericClass;
@@ -250,10 +251,30 @@ namespace SOSI.MainPage
             var MyToken = FirebaseInstanceId.Instance.Token;
             if (!string.IsNullOrEmpty(MyToken))
             {
-                //Kullanıcı bilgilerini Güncelle
+                UpdateUserFireBaseToken(MyToken);
             }
         }
-
+        void UpdateUserFireBaseToken(string tokenn)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                var MeData = DataBase.MEMBER_DATA_GETIR()[0];
+                WebService webService = new WebService();
+                var JSONData = webService.OkuGetir("account");
+                if (JSONData != null)
+                {
+                    var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<UserDTOForUpdate>(JSONData.ToString());
+                    Icerik.firebaseToken = tokenn;
+                    string jsonString = JsonConvert.SerializeObject(Icerik);
+                    var Donus4 = webService.ServisIslem("users", jsonString, Method: "PUT");
+                    if (Donus4 != null)
+                    {
+                        MeData.firebaseToken = tokenn;
+                        DataBase.MEMBER_DATA_Guncelle(MeData);
+                    }
+                }
+            })).Start();
+        }
         void SablonKontrol()
         {
             WebService webService = new WebService();
@@ -341,6 +362,26 @@ namespace SOSI.MainPage
             public string userId { get; set; }
             public string userName { get; set; }
         }
+
+        public class UserDTOForUpdate
+        {
+            public string id { get; set; }
+            public string login { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
+            public string imageUrl { get; set; }
+            public bool activated { get; set; }
+            public string langKey { get; set; }
+            public string createdBy { get; set; }
+            public string createdDate { get; set; }
+            public string lastModifiedBy { get; set; }
+            public string lastModifiedDate { get; set; }
+            public List<string> authorities { get; set; }
+            public string firebaseToken { get; set; }
+
+        }
+
 
         public static class MainPageBaseActivity_Helper
         {

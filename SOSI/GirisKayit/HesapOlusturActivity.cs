@@ -66,7 +66,7 @@ namespace SOSI.GirisKayit
                         password = SifreText.Text,
                         login = inputmail.Text,
                         email = inputmail.Text,
-                        authorities = new List<string>() { "ROLE_USER" }
+                        authorities = new List<string>() { "ROLE_USER" }//ROLE_USER
                     };
                     string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
                     var Responsee = webService.ServisIslem("register", jsonString, true);
